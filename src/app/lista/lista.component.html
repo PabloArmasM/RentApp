@@ -31,9 +31,7 @@
   </div>
 </div>
 
-<div class="d-flex justify-content-center">
 
-  <div *ngIf="ready">
     <!--<table class="table">
       <thead>
         <tr>
@@ -55,23 +53,24 @@
         </tr>
       </tbody>
     </table>-->
-<mat-form-field>
+
+
+<mat-form-field *ngIf="ready">
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 </mat-form-field>
 
-<div class="example-container mat-elevation-z8">
+<div class="example-container mat-elevation-z8" *ngIf="ready">
 
-  <table mat-table [dataSource]="print" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="print">
 
     <ng-container *ngFor="let col of head" [matColumnDef]="col">
-      <th class="header" mat-header-cell *matHeaderCellDef mat-sort-header> {{col}} </th>
+      <th class="header" mat-header-cell *matHeaderCellDef> {{col}} </th>
       <td mat-cell *matCellDef="let element"> {{element[col]}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="head; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: head;"></tr>
   </table>
-</div>
 
 
 
@@ -104,5 +103,5 @@
 </div>-->
 
 
-  </div>
+  <!--</div>-->
 </div>

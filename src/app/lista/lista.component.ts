@@ -27,6 +27,7 @@ export class ListaComponent implements OnInit {
 
   ngOnInit() {
     this.print.sort = this.sort;
+    this.activate("clientes");
   }
 
   setTable(print, header, search){
@@ -38,6 +39,8 @@ export class ListaComponent implements OnInit {
   }
 
   activate(search){
+    this.head = [];
+    this.print = new MatTableDataSource();
     var toSearch = {};
     if(search === "contratos" || search === "reservas"){
       var time = new Date();
