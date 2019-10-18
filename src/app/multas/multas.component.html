@@ -1,0 +1,29 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+      <h2> Multas </h2>
+    </div>
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+          <form [formGroup]="login" (ngSubmit) = "onClickSubmit(login.value)" >
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <label>Matrícula</label>
+                <input #inputs class="form-control" type = "text" formControlName="matricula" placeholder = "Matrícula" (keyup.enter)="keytab(1)">
+              </div>
+
+              <div class="col-sm-6">
+                <label>Fecha</label>
+                <input #inputs class="form-control" type = "datetime-local" formControlName="fecha" placeholder = "Fecha" (keyup.enter)="onClickSubmit()">
+              </div>
+
+            </div>
+          </form>
+          <button type = "submit" class="btn btn-primary btn-block" (click)="onClickSubmit()"> Crear </button>
+
+    </div>
+    <div *ngIf="recibe">
+        <br/>
+        {{inputs.nombre}} {{inputs.apellidos}} {{inputs.direccion}} {{inputs.telefono}} {{inputs.email}}
+    </div>
+  </div>
+</div>

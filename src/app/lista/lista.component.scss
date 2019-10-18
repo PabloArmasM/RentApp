@@ -1,0 +1,23 @@
+.example-container {
+  height: 70%;
+  overflow: auto;
+}
+
+table {
+  width: 90%;
+}
+
+
+mat-cell, .mat-cell {
+  padding-right: 5%;
+}
+
+
+.mat-form-field {
+  font-size: 14px;
+  width: 90%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}

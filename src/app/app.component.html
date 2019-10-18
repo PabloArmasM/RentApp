@@ -1,0 +1,40 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="side" opened="false" class="sidenav">
+    <mat-nav-list>
+      <a mat-list-item  [routerLink]="'/clientes'" (click)="sidenav.toggle()"> Clientes </a>
+      <a mat-list-item  [routerLink]="'/multas'" (click)="sidenav.toggle()"> Multas </a>
+      <a mat-list-item  [routerLink]="'/intermediarios'" (click)="sidenav.toggle()"> Intermediarios </a>
+      <a mat-list-item  [routerLink]="'/operadores'" (click)="sidenav.toggle()"> Operadores </a>
+      <a mat-list-item  [routerLink]="'/contratos'" (click)="sidenav.toggle()"> Contratos </a>
+      <a mat-list-item  [routerLink]="'/prolongar'" (click)="sidenav.toggle()"> Prolongar contrato </a>
+      <a mat-list-item  [routerLink]="'/reservas'" (click)="sidenav.toggle()">Reservas</a>
+      <a mat-list-item  [routerLink]="'/vehiculos'" (click)="sidenav.toggle()"> Vehíclulos </a>
+      <a mat-list-item  [routerLink]="'/flota'" (click)="sidenav.toggle()">Flota</a>
+      <a mat-list-item  [routerLink]="'/listas'" (click)="sidenav.toggle()">Listas</a>
+      <a mat-list-item  [routerLink]="'/contabilidad'" (click)="sidenav.toggle()">Contabilidad</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <button mat-icon-button>
+          <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+        </button>
+
+        <span class="menu-spacer"></span>
+        <div>
+          <h1><a class="home" routerLink="/" >Home</a></h1>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div style="height: 88vh;">
+
+      <!--OUTLET POR AQUI PARA NO DESPISTARME-->
+      <router-outlet></router-outlet>
+      <!--OUTLET POR AQUI PARA NO DESPISTARME-->
+
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

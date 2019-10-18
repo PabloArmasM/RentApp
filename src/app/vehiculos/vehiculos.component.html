@@ -1,0 +1,146 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <h2> Vehículos </h2>
+  </div>
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+
+          <!--BLOQUE DE BUSQUEDA-->
+
+
+            <div *ngIf="search" class="border-bottom border-dark" >
+
+              <span class="m-5">
+                <button type="button" class="close" aria-label="Close" (click) = "search = false">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </span>
+
+              <form [formGroup]="searchForm" class="m-3">
+
+                <div class="form-group row">
+
+                  <div class="col-sm-6">
+                    <label>ID</label>
+                    <input #searchs class="form-control" type="text" formControlName="_id" placeholder="ID" ngModel (keyup.enter)="keytabSearch(1)">
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label>Matrícula</label>
+                    <input #searchs class="form-control" type="text" formControlName="matricula" placeholder="Matrícula" (keyup.enter)="keytabSearch(2)" ngModel>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label>Grupo</label>
+                    <input #searchs class="form-control" type="text" formControlName="grupo" placeholder="grupo" (keyup.enter)="keytabSearch(3)" ngModel>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label>Modelo</label>
+                    <input #searchs class="form-control" type="text" formControlName="modelo" placeholder="Modelo" (keyup.enter)="onClickSearch()" ngModel>
+                  </div>
+
+                </div>
+              </form>
+
+
+            </div>
+
+            <div class="mt-2">
+              <button type="button" class="btn btn-secondary btn-block" (click)="showSearch()">Buscar</button>
+              <br/>
+            </div>
+
+
+            <!--FIN BLOQUE DE BUSQUEDA-->
+
+          <div *ngIf="delete">
+                <button type="button" class="btn btn-danger btn-block" (click)="deleteElement()">Borrar</button>
+                <br/>
+          </div>
+
+          <form [formGroup]="login" (ngSubmit) = "onClickSubmit(login.value)" >
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <label>ID</label>
+              <input #inputs class="form-control" type="text" formControlName="_id" placeholder="ID" ngModel (keyup.enter)="keytab(1)">
+              </div>
+
+              <div class="col-sm-6">
+                <label>Matrícula</label>
+              <input #inputs class="form-control" type="text" formControlName="matricula" placeholder="Matrícula" (keyup.enter)="keytab(2)" ngModel>
+              </div>
+
+              <div class="col-sm-6">
+                <label>Grupo</label>
+              <input #inputs class="form-control" type="text" formControlName="grupo" placeholder="grupo" (keyup.enter)="keytab(3)" ngModel>
+              </div>
+
+              <div class="col-sm-6">
+                <label>Modelo</label>
+              <input #inputs class="form-control" type="text" formControlName="modelo" placeholder="Modelo" (keyup.enter)="keytab(4)" ngModel>
+              </div>
+
+              <div class="col-sm-6">
+                <label>Color</label>
+              <input #inputs class="form-control" type="text" formControlName="color" placeholder="Color" (keyup.enter)="keytab(5)" ngModel>
+              </div>
+
+              <div class="col-sm-6">
+                <label>Bastidor</label>
+              <input #inputs class="form-control" type="text" formControlName="bastidor" placeholder="Bastidor" (keyup.enter)="keytab(6)" ngModel>
+              </div>
+
+              <div class="col-sm-6">
+                <label>Propietario</label>
+              <input #inputs class="form-control" type="text" formControlName="propietario" placeholder="Propietario" (keyup.enter)="keytab(7)" ngModel>
+              </div>
+
+              <div class="col-sm-6">
+                <label>Situación actual</label>
+              <input #inputs class="form-control" type="text" formControlName="situacion" placeholder="Situación actual" (keyup.enter)="keytab(8)" ngModel>
+              </div>
+
+              <div class="col-sm-6">
+                <label>Fecha de alta</label>
+              <input #inputs class="form-control" type="date" formControlName="fecha" placeholder="Fecha de alta" (keyup.enter)="keytab(9)" ngModel>
+              </div>
+
+              <div class="col-sm-6">
+                <label>Gasolina</label>
+              <input #inputs class="form-control" type="text" formControlName="gasolina" placeholder="Gasolina" (keyup.enter)="keytab(10)" ngModel>
+              </div>
+            </div>
+            <div id="radioIn">
+              <label>
+                <input #inputs class="rdo" type="radio" ng-model="cambio" name="cambio" value="manual" (change)="cambio('manual')" (keyup.enter)="keytab(11)" [checked]="true">
+                Manual
+              </label><br/>
+              <label>
+                <input #inputs class="rdo" type="radio" ng-model="cambio" name="cambio" value="automatico" (change)="cambio('automatico')" (keyup.enter)="onClickSubmit()" ng-value="tarjeta">
+                Automático
+              </label><br/>
+            </div>
+          </form>
+
+          <!-- Botones Guardar - limpar-->
+          <div class="row">
+            <div class="col-sm-6">
+              <button type = "submit" class="btn btn-primary btn-block" (click)="onClickSubmit()"> Guardar </button>
+            </div>
+            <div class="col-sm-6">
+              <button type = "submit" class="btn btn-secondary btn-block" (click)="login.reset()"> Limpiar </button>
+            </div>
+          </div>
+          <!-- FIN Botones Guardar - limpar-->
+
+      </div>
+</div>
+
+<div *ngIf="recibe">
+  <div *ngFor="let inputs of db; let i = index" class="list-group list-group-flush">
+    <div (click)="select(i)">
+      {{inputs._id}} {{inputs.matricula}} {{inputs.grupo}} {{inputs.modelo}} {{inputs.blanco}}
+    </div>
+  </div>
+</div>

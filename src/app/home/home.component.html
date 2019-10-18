@@ -1,0 +1,149 @@
+
+<div id="main">
+  <mat-grid-list cols="4" rowHeight="2:1">
+    <mat-grid-tile class="matti" (click)="amonos('/clientes')">Clientes</mat-grid-tile>
+    <mat-grid-tile class="matti" (click)="amonos('/multas')">Multas</mat-grid-tile>
+    <mat-grid-tile class="matti" (click)="amonos('/intermediarios')">Intermediarios</mat-grid-tile>
+    <mat-grid-tile class="matti" (click)="amonos('/operadores')">Operadores</mat-grid-tile>
+    <mat-grid-tile class="matti" (click)="amonos('/contratos')">Contratos</mat-grid-tile>
+    <mat-grid-tile class="matti" (click)="amonos('/prolongar')">Prolongar contrato</mat-grid-tile>
+
+    <mat-grid-tile class="matti" (click)="amonos('/reservas')">Reservas</mat-grid-tile>
+
+    <mat-grid-tile class="matti" (click)="amonos('/vehiculos')">Vehículos</mat-grid-tile>
+    <mat-grid-tile class="matti" (click)="amonos('/flota')">Flota</mat-grid-tile>
+    <mat-grid-tile class="matti" (click)="amonos('/listas')">Listas</mat-grid-tile>
+
+    <mat-grid-tile class="matti" (click)="amonos('/contabilidad')">Contabilidad</mat-grid-tile>
+
+  </mat-grid-list>
+</div>
+
+<div class="container">
+    <div class="row">
+      <div *ngFor="let dias of semana1 | keyvalue">
+        <div class="col">
+          {{dias.key | date:"dd"}}
+          <div *ngFor="let status of dias.value | keyvalue">
+            <div *ngIf="status.value == 1" class="p-3 mb-2 bg-danger text-white">
+              {{status.key}}
+              <br/>
+            </div>
+            <div *ngIf="status.value == 0" class="p-3 mb-2 bg-success text-white">
+              {{status.key}}
+              <br/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-100"></div>
+
+      <div *ngFor="let dias of semana2 | keyvalue">
+        <div class="col">
+          {{dias.key | date:"dd"}}
+          <div *ngFor="let status of dias.value | keyvalue:ascOrder">
+            <div *ngIf="status.value == 1" class="p-3 mb-2 bg-danger text-white">
+              {{status.key}}
+              <br/>
+            </div>
+            <div *ngIf="status.value == 0" class="p-3 mb-2 bg-success text-white">
+              {{status.key}}
+              <br/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-100"></div>
+
+      <div *ngFor="let dias of semana3 | keyvalue">
+        <div class="col">
+          {{dias.key | date:"dd"}}
+          <div *ngFor="let status of dias.value | keyvalue:ascOrder">
+            <div *ngIf="status.value == 1" class="p-3 mb-2 bg-danger text-white">
+              {{status.key}}
+              <br/>
+            </div>
+            <div *ngIf="status.value == 0" class="p-3 mb-2 bg-success text-white">
+              {{status.key}}
+              <br/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-100"></div>
+
+      <div *ngFor="let dias of semana4 | keyvalue">
+        <div class="col">
+          {{dias.key | date:"dd"}}
+          <div *ngFor="let status of dias.value | keyvalue:ascOrder">
+            <div *ngIf="status.value == 1" class="p-3 mb-2 bg-danger text-white">
+              {{status.key}}
+              <br/>
+            </div>
+            <div *ngIf="status.value == 0" class="p-3 mb-2 bg-success text-white">
+              {{status.key}}
+              <br/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-100"></div>
+
+      <div *ngFor="let dias of semana5 | keyvalue">
+        <div class="col">
+          {{dias.key | date:"dd"}}
+          <div *ngFor="let status of dias.value | keyvalue:ascOrder">
+            <div *ngIf="status.value == 1" class="p-3 mb-2 bg-danger text-white">
+              {{status.key}}
+              <br/>
+            </div>
+            <div *ngIf="status.value == 0" class="p-3 mb-2 bg-success text-white">
+              {{status.key}}
+              <br/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-100"></div>
+
+      <div *ngFor="let dias of semana6 | keyvalue">
+        <div class="col">
+          {{dias.key | date:"dd"}}
+          <div *ngFor="let status of dias.value | keyvalue:ascOrder">
+            <div *ngIf="status.value == 1" class="p-3 mb-2 bg-danger text-white">
+              {{status.key}}
+              <br/>
+            </div>
+            <div *ngIf="status.value == 0" class="p-3 mb-2 bg-success text-white">
+              {{status.key}}
+              <br/>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<!--<div id="calendar" class="container">
+    <div class="row">
+      <div *ngFor="let dias of (count | sliceObject)">
+        <div class="col">
+          {{dias.key | date:"dd"}} <br/>
+          <div *ngFor="let status of dias.value | keyvalue:ascOrder">
+            <div *ngIf="status.value == 1" class="p-3 mb-2 bg-danger text-white">
+              {{status.key}}
+              <br/>
+            </div>
+            <div *ngIf="status.value == 0" class="p-3 mb-2 bg-success text-white">
+              {{status.key}}
+              <br/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>-->
