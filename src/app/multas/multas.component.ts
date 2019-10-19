@@ -30,7 +30,7 @@ export class MultasComponent implements OnInit {
     elements[pos].nativeElement.focus();
   }
 
-  onClickSubmit(formData){
+  onClickSubmit(){
     var formData = this.login.value;
     formData.fecha = new Date(formData.fecha).getTime();
     this.data.searchMulta(formData).subscribe(res =>{

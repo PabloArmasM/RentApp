@@ -27,6 +27,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate([url]);
   }
 
+  newWindow(url){
+    var newWindow = window.open(url);  
+  }
+
   async ngOnInit() {
     //this.calendar.showTime();
     this.mes = await this.calendar.create(new Date());

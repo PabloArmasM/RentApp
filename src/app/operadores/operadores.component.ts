@@ -12,10 +12,15 @@ export class OperadoresComponent implements OnInit {
 
   @ViewChildren('inputs') questions: QueryList<'inputs'>;
 
+  login: FormGroup;
 
-  constructor(private data: DatProviderService) { }
+  constructor(private data: DatProviderService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.login = this.formBuilder.group({
+            _id: [''],
+            name: [''],
+        });
   }
 
   keytab(pos){
@@ -23,8 +28,8 @@ export class OperadoresComponent implements OnInit {
     elements[pos].nativeElement.focus();
   }
 
-  onClickSubmit(formData){//Editar
-    //var formData = this.login.value;
+  onClickSubmit(){//Editar
+    var formData = this.login.value;
     formData.tabla = "operadores";
     this.data.addData(JSON.stringify(formData));
   }

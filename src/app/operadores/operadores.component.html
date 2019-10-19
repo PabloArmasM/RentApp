@@ -3,9 +3,9 @@
   <div class="row justify-content-center">
     <h2> Operadores </h2>
   </div>
-<form #login = "ngForm" (ngSubmit) = "onClickSubmit(login.value)" >
+<form #login = "ngForm" (ngSubmit) = "onClickSubmit()" >
 
-  <input #inputs class="form-control" type="text" name="code" placeholder="Código" (keyup.enter)="keytab(1)" ngModel>
+  <input #inputs class="form-control" type="text" name="_id" placeholder="Código" (keyup.enter)="keytab(1)" ngModel>
   <br/>
 
   <input #inputs class="form-control" type="text" name="name" placeholder="Nombre" (keyup.enter)="onClickSubmit()" ngModel>
