@@ -27,7 +27,7 @@ export class ListaComponent implements OnInit {
 
   ngOnInit() {
     this.print.sort = this.sort;
-    this.activate("clientes");
+    //this.activate("clientes");
   }
 
   setTable(print, header, search){

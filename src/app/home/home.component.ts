@@ -20,15 +20,17 @@ export class HomeComponent implements OnInit {
   semana5 = {};
   semana6 = {};
 
-
-  constructor(private router: Router, private calendar : BuilderCalendarService) { }
+  constructor( private router: Router, private calendar : BuilderCalendarService) {}
 
   amonos(url){
     this.router.navigate([url]);
   }
 
+
+
   newWindow(url){
-    var newWindow = window.open(url);  
+    //this._ipc.send('/lista');
+    var newWindow = window.open('file://'+__dirname+'/index.html#/listas');
   }
 
   async ngOnInit() {
