@@ -19,8 +19,11 @@ export class HomeComponent implements OnInit {
   semana4 = {};
   semana5 = {};
   semana6 = {};
+  //guindol : any;
+
 
   constructor( private router: Router, private calendar : BuilderCalendarService) {}
+
 
   amonos(url){
     this.router.navigate([url]);
@@ -28,10 +31,12 @@ export class HomeComponent implements OnInit {
 
 
 
-  newWindow(url){
+  /*newWindow(url){
     //this._ipc.send('/lista');
-    var newWindow = window.open('file://'+__dirname+'/index.html#/listas');
-  }
+    VERSION ELECTRON
+    //this.guindol = window.open('file://'+__dirname+'/index.html#/listas');
+    this.guindol = window.open('http://localhost:4200/#/listas');
+  }*/
 
   async ngOnInit() {
     //this.calendar.showTime();
@@ -43,6 +48,10 @@ export class HomeComponent implements OnInit {
     this.semana5 = this.semanas(this.mes, 28, 35);
     this.semana6 = this.semanas(this.mes, 35);
   }
+
+  /*ngOnDestroy() {
+    this.guindol.close();
+  }*/
 
 
 semanas(datos: any, first:number, last?:number){
