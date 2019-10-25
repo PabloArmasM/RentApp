@@ -13,6 +13,7 @@ import { ContabilidadComponent } from './contabilidad/contabilidad.component';
 import { ListaComponent } from './lista/lista.component';
 import { ReservasComponent } from './reservas/reservas.component';
 import { ProlongarComponent } from './prolongar/prolongar.component';
+import { ListaContratoComponent } from './lista-contrato/lista-contrato.component';
 
 
 const routes: Routes = [
@@ -74,6 +75,11 @@ const routes: Routes = [
     path: 'prolongar',
     pathMatch: 'full',
     component: ProlongarComponent
+  },
+  {
+    path:'listaContrato',
+    pathMatch: 'full',
+    component: ListaContratoComponent
   },
   {
     path: '**',

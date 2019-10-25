@@ -42,6 +42,7 @@ import { ListaComponent } from './lista/lista.component';
 import { ReservasComponent } from './reservas/reservas.component';
 import { ProlongarComponent } from './prolongar/prolongar.component';
 import { ListaContratoComponent } from './lista-contrato/lista-contrato.component';
+import {MultiWindowModule} from 'ngx-multi-window';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -74,6 +75,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatInputModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MultiWindowModule,
+    MultiWindowModule.forRoot({ heartbeat: 542 }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

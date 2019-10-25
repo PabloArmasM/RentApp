@@ -35,7 +35,6 @@ export class ListaComponent implements OnInit {
     this.head = header;
     this.ready = true;
     this.search = search;
-    debugger;
   }
 
   activate(search){
@@ -47,13 +46,13 @@ export class ListaComponent implements OnInit {
       var day = new Date(time.getFullYear(), time.getMonth(), time.getDate());
       toSearch = {tabla : search, fechaEntrada : day.getTime()};
       this.dat.getData(JSON.stringify(toSearch)).subscribe(res => {
+        debugger;
         this.setTable(res, Object.keys(res[0]), search);
-      })
+      });
     }else{
       toSearch = {tabla : search};
       this.dat.getData(JSON.stringify(toSearch)).subscribe(res =>{
         this.setTable(res, Object.keys(res[0]), search);
-        debugger;
       });
     }
 
