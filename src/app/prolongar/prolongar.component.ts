@@ -156,52 +156,34 @@ export class ProlongarComponent implements OnInit {
       this.onClickSearch();
   }
 
+  prepareData(data){
+    this.delete = true;
+    this.readyToPrint = true;
+    this.updateCar = true;
+    var info = data;
+    info.fechaSalida = this.formatDate(new Date(info.fechaSalida));
+    info.fechaEntrada = this.formatDate(new Date(info.fechaEntrada));
+
+    this.login.patchValue(info);
+
+    var inputs = info.inputs;
+    info.inputs.forEach(elementos => {
+      console.log(elementos);
+    });
+    for(var i = 0; i< info.inputs.length; i++){
+      debugger;
+      this.t.push(this.formBuilder.group({
+                      name: [inputs[i].name, Validators.required],
+                  }));
+    }
+  }
 
   onClickSearch(){
     var info = this.cache.clean(this.searchForm.value);
     info.tabla = "contratos";
     this.search = false;
 
-
-    this.data.getData(JSON.stringify(info)).subscribe(res => {
-      if(res.length > 1){
-        this.recibe = true;
-        console.log(res);
-        //this.cache.setContrato(res);
-        res.forEach(son =>{
-          this.db.push(son);
-        });
-        //this.db = JSON.parse(res);
-      }else if(res.length == 1){
-        this.delete = true;
-        this.readyToPrint = true;
-        this.updateCar = true;
-        var info = res[0];
-        info.fechaSalida = this.formatDate(new Date(info.fechaSalida));
-        info.fechaEntrada = this.formatDate(new Date(info.fechaEntrada));
-
-        this.login.patchValue(info);
-
-        var inputs = info.inputs;
-        info.inputs.forEach(elementos => {
-          console.log(elementos);
-        })
-        for(var i = 0; i< info.inputs.length; i++){
-          debugger;
-          this.t.push(this.formBuilder.group({
-                          name: [inputs[i].name, Validators.required],
-                      }));
-        }
-        /*Object.keys(res[0]).forEach(keys => {
-          if(log.hasOwnProperty(keys)){
-            debugger;
-            this.login.patchValue({codigo: "aaaaaa"});
-          }
-        });*/
-      }
-    });
-
-
+    this.guindol.postMessage(info, "*");
   }
 
   select(index){
@@ -252,7 +234,7 @@ export class ProlongarComponent implements OnInit {
     formData.fechaEntrada = new Date(formData.fechaEntrada).getTime();
     formData.fechaSalida = new Date(formData.fechaSalida).getTime();
 
-    if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
+    if(!("_id" in formData) || formData._id == '' || formData._id == undefined && this.delete){
       console.log("Se supone que esta vacio");
       var inputs = this.login.value.inputs;
       delete formData.inputs;
@@ -294,6 +276,29 @@ export class ProlongarComponent implements OnInit {
   }
 
 
+  next(){
+    if(this.delete){
+      var contrato = this.login.value;
+      this.nuevo = true;
+      this.login.reset();
+      this.login.patchValue({
+        clientCode: contrato['clientCode'],
+        grupo: contrato['grupo'],
+        numHotel: contrato['numHotel'],
+        bono: contrato['bono'],
+        operador: contrato['operador'],
+        intermediario: contrato['intermediario'],
+        matricula: contrato['matricula'],
+        fechaSalida: contrato['fechaEntrada'],
+        telefono: contrato['telefono'],
+        conexion : contrato['numFactura'],
+        inputs: contrato['inputs']
+      });
+    }
+  }
+
+
+
   receiveMessage(event)
 {
   // Do we trust the sender of this message?  (might be
@@ -303,7 +308,8 @@ export class ProlongarComponent implements OnInit {
 
   if(event.data.hasOwnProperty('_id')){
     this.counterSub.unsubscribe();
-    this.login.patchValue(event.data);
+    this.prepareData(event.data);
+    this.nuevo = false;
   }
 
   console.log(event);

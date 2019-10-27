@@ -41,8 +41,12 @@ export class ListaContratoComponent implements OnInit {
     var time = new Date();
     var day = new Date(time.getFullYear(), time.getMonth(), time.getDate());
     var toSearch = {tabla : "contratos"};
-    this.dat.getData(JSON.stringify(toSearch)).subscribe(res => {
-      debugger;
+    this.chargeData(toSearch);
+
+  }
+
+  chargeData(data){
+      this.dat.getData(JSON.stringify(data)).subscribe(res => {
       this.setTable(res, Object.keys(res[0]));
       this.ready = true;
     });
@@ -52,9 +56,13 @@ export class ListaContratoComponent implements OnInit {
 {
   // Do we trust the sender of this message?  (might be
   // different from what we originally opened, for example).
-  debugger;
   /*if (event.origin !== "http://localhost:4200")
     return;*/
+
+    if(event.data.hasOwnProperty('_id') || event.data.hasOwnProperty('clientCode') || event.data.hasOwnProperty('numFactura')
+      || event.data.hasOwnProperty('telefono'))
+      this.chargeData(event.data);
+
 
   console.log(event.data);
   this.mainSource = event.source;
