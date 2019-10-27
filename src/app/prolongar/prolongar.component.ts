@@ -168,14 +168,10 @@ export class ProlongarComponent implements OnInit {
 
     var inputs = info.inputs;
     info.inputs.forEach(elementos => {
-      console.log(elementos);
-    });
-    for(var i = 0; i< info.inputs.length; i++){
-      debugger;
       this.t.push(this.formBuilder.group({
-                      name: [inputs[i].name, Validators.required],
+                      name: [elementos, Validators.required],
                   }));
-    }
+    });
   }
 
   onClickSearch(){

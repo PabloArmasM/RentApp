@@ -151,14 +151,16 @@ export class ContratosComponent implements OnInit {
 
         var inputs = info.inputs;
         info.inputs.forEach(elementos => {
-          console.log(elementos);
-        })
-        for(var i = 0; i< info.inputs.length; i++){
+          this.t.push(this.formBuilder.group({
+                          name: [elementos, Validators.required],
+                      }));
+        });
+        /*for(var i = 0; i< info.inputs.length; i++){
           debugger;
           this.t.push(this.formBuilder.group({
                           name: [inputs[i].name, Validators.required],
                       }));
-        }
+        }*/
         /*Object.keys(res[0]).forEach(keys => {
           if(log.hasOwnProperty(keys)){
             debugger;
