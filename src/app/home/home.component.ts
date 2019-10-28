@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   semana4 = {};
   semana5 = {};
   semana6 = {};
+  sortMat = [];
   //guindol : any;
 
 
@@ -41,6 +42,7 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     //this.calendar.showTime();
     this.mes = await this.calendar.create(new Date());
+    this.prepareOrder();
     this.semana1 = this.semanas(this.mes, 0, 7);
     this.semana2 = this.semanas(this.mes, 7, 14);
     this.semana3 = this.semanas(this.mes, 14, 21);
@@ -52,6 +54,22 @@ export class HomeComponent implements OnInit {
   /*ngOnDestroy() {
     this.guindol.close();
   }*/
+
+  compare(B){
+    B.forEach(element => {
+      console.log(this.sortMat.includes(element));
+      if(!this.sortMat.includes(element)){
+        this.sortMat.push(element);
+      }
+    });
+  }
+
+  prepareOrder(){
+    var keys = Object.keys(this.mes);
+    keys.forEach(key => {
+      this.compare(Object.keys(this.mes[key]));
+    });
+  }
 
 
 semanas(datos: any, first:number, last?:number){

@@ -19,7 +19,181 @@
   </mat-grid-list>
 </div>
 
-<div class="container">
+<div class="row">
+
+  <div class="col">
+    <div class="asideHead"><br/></div>
+    <div class="asideHead" *ngFor="let mat of sortMat">
+      {{ mat }}
+    </div>
+  </div>
+
+  <ng-container *ngFor="let dias of semana1 | keyvalue">
+    <div class="col">
+        <div class="element">{{dias.key | date:"dd"}}</div>
+        <div class="element" *ngFor="let status of sortMat">
+          <!--{{status}}
+          {{dias.value[status]}}-->
+
+          <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+          <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+        </div>
+    </div>
+  </ng-container>
+
+  <div class="w-100"></div>
+
+  <div class="col">
+    <div class="asideHead"><br/></div>
+    <div class="asideHead" *ngFor="let mat of sortMat">
+      {{ mat }}
+    </div>
+  </div>
+
+  <ng-container *ngFor="let dias of semana2 | keyvalue">
+    <div class="col">
+        <div class="element">{{dias.key | date:"dd"}}</div>
+        <div class="element" *ngFor="let status of sortMat">
+          <!--{{status}}
+          {{dias.value[status]}}-->
+
+          <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+          <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+        </div>
+    </div>
+  </ng-container>
+
+  <div class="w-100"></div>
+
+  <div class="col">
+    <div class="asideHead"><br/></div>
+    <div class="asideHead" *ngFor="let mat of sortMat">
+      {{ mat }}
+    </div>
+  </div>
+
+  <ng-container *ngFor="let dias of semana3 | keyvalue">
+    <div class="col">
+        <div class="element">{{dias.key | date:"dd"}}</div>
+        <div class="element" *ngFor="let status of sortMat">
+          <!--{{status}}
+          {{dias.value[status]}}-->
+
+          <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+          <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+        </div>
+    </div>
+  </ng-container>
+
+  <div class="w-100"></div>
+
+  <div class="col">
+    <div class="asideHead"><br/></div>
+    <div class="asideHead" *ngFor="let mat of sortMat">
+      {{ mat }}
+    </div>
+  </div>
+
+  <ng-container *ngFor="let dias of semana4 | keyvalue">
+    <div class="col">
+        <div class="element">{{dias.key | date:"dd"}}</div>
+        <div class="element" *ngFor="let status of sortMat">
+          <!--{{status}}
+          {{dias.value[status]}}-->
+
+          <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+          <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+        </div>
+    </div>
+  </ng-container>
+
+  <div class="w-100"></div>
+
+  <div class="col">
+    <div class="asideHead"><br/></div>
+    <div class="asideHead" *ngFor="let mat of sortMat">
+      {{ mat }}
+    </div>
+  </div>
+
+
+  <ng-container *ngFor="let dias of semana5 | keyvalue">
+    <div class="col">
+        <div class="element">{{dias.key | date:"dd"}}</div>
+        <div class="element" *ngFor="let status of sortMat">
+          <!--{{status}}
+          {{dias.value[status]}}-->
+
+          <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+          <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+        </div>
+    </div>
+  </ng-container>
+
+  <div class="w-100"></div>
+
+  <div class="col">
+    <div class="asideHead"><br/></div>
+    <div class="asideHead" *ngFor="let mat of sortMat">
+      {{ mat }}
+    </div>
+  </div>
+
+  <ng-container *ngFor="let dias of semana6 | keyvalue">
+    <div class="col">
+        <div class="element">{{dias.key | date:"dd"}}</div>
+        <div class="element" *ngFor="let status of sortMat">
+          <!--{{status}}
+          {{dias.value[status]}}-->
+
+          <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+          <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
+            <!--{{status}}
+            <br/>-->
+          </div>
+        </div>
+    </div>
+  </ng-container>
+
+
+</div>
+
+
+
+<!--<div class="container">
     <div class="row">
       <div *ngFor="let dias of semana1 | keyvalue">
         <div class="col">
