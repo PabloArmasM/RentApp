@@ -1,0 +1,27 @@
+<div class="table-responsive-sm eso">
+  <table class="table table-sm container">
+    <ng-container *ngFor="let semana of semanasV">
+      <thead>
+        <tr>
+           <th scope="col"> Día </th>
+            <th class="dias" scope="col" *ngFor="let dias of semana | keyvalue">
+              {{ dias.key | date:"dd"}}
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of sortMat">
+          <th scope="row">
+            {{ element }}
+          </th>
+          <td class="coulorines" *ngFor="let col of semana | keyvalue">
+            <div *ngIf="col.value[element] == 1" class="p-3 mb-2 bg-danger text-white">
+            </div>
+            <div *ngIf="col.value[element] == 0" class="p-3 mb-2 bg-success text-white">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+  </table>
+</div>

@@ -43,6 +43,7 @@ import { ReservasComponent } from './reservas/reservas.component';
 import { ProlongarComponent } from './prolongar/prolongar.component';
 import { ListaContratoComponent } from './lista-contrato/lista-contrato.component';
 import {MultiWindowModule} from 'ngx-multi-window';
+import { CalendarioComponent } from './calendario/calendario.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -51,7 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 
 @NgModule({
-  declarations: [AppComponent, ClientesComponent, MultasComponent, IntermediariosComponent, OperadoresComponent, ContratosComponent, VehiculosComponent, FlotaComponent, ContabilidadComponent, ListaComponent, ReservasComponent, ProlongarComponent, ListaContratoComponent],
+  declarations: [AppComponent, ClientesComponent, MultasComponent, IntermediariosComponent, OperadoresComponent, ContratosComponent, VehiculosComponent, FlotaComponent, ContabilidadComponent, ListaComponent, ReservasComponent, ProlongarComponent, ListaContratoComponent, CalendarioComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

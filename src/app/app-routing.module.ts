@@ -14,6 +14,7 @@ import { ListaComponent } from './lista/lista.component';
 import { ReservasComponent } from './reservas/reservas.component';
 import { ProlongarComponent } from './prolongar/prolongar.component';
 import { ListaContratoComponent } from './lista-contrato/lista-contrato.component';
+import { CalendarioComponent } from './calendario/calendario.component';
 
 
 const routes: Routes = [
@@ -80,6 +81,10 @@ const routes: Routes = [
     path:'listaContrato',
     pathMatch: 'full',
     component: ListaContratoComponent
+  },{
+    path:'calendario',
+    pathMatch: 'full',
+    component: CalendarioComponent
   },
   {
     path: '**',

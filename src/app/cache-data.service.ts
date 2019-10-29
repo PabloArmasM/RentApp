@@ -7,6 +7,7 @@ export class CacheDataService {
 
   static clientId : number;
   static contr : any;
+  static open : boolean = false;
 
 
   constructor() { }
@@ -35,6 +36,14 @@ export class CacheDataService {
 
   static getContrato(){
     return this.contr;
+  }
+
+  static itsOpen(){
+    return this.open;
+  }
+
+  static opening(){
+    this.open = true;
   }
 
 }
