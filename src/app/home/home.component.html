@@ -19,7 +19,35 @@
   </mat-grid-list>
 </div>
 
-<div class="row">
+<div class="table-responsive-sm">
+  <table class="table table-sm container">
+    <ng-container *ngFor="let semana of semanasV">
+      <thead>
+        <tr>
+           <th scope="col"> Día </th>
+            <th class="dias" scope="col" *ngFor="let dias of semana | keyvalue">
+              {{ dias.key | date:"dd"}}
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of sortMat">
+          <th scope="row">
+            {{ element }}
+          </th>
+          <td class="coulorines" *ngFor="let col of semana | keyvalue">
+            <div *ngIf="col.value[element] == 1" class="p-3 mb-2 bg-danger text-white">
+            </div>
+            <div *ngIf="col.value[element] == 0" class="p-3 mb-2 bg-success text-white">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+  </table>
+</div>
+
+<!--<div class="row">
 
   <div class="col">
     <div class="asideHead"><br/></div>
@@ -32,16 +60,10 @@
     <div class="col">
         <div class="element">{{dias.key | date:"dd"}}</div>
         <div class="element" *ngFor="let status of sortMat">
-          <!--{{status}}
-          {{dias.value[status]}}-->
 
           <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
           <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
         </div>
     </div>
@@ -60,16 +82,10 @@
     <div class="col">
         <div class="element">{{dias.key | date:"dd"}}</div>
         <div class="element" *ngFor="let status of sortMat">
-          <!--{{status}}
-          {{dias.value[status]}}-->
 
           <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
           <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
         </div>
     </div>
@@ -88,16 +104,10 @@
     <div class="col">
         <div class="element">{{dias.key | date:"dd"}}</div>
         <div class="element" *ngFor="let status of sortMat">
-          <!--{{status}}
-          {{dias.value[status]}}-->
 
           <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
           <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
         </div>
     </div>
@@ -116,16 +126,10 @@
     <div class="col">
         <div class="element">{{dias.key | date:"dd"}}</div>
         <div class="element" *ngFor="let status of sortMat">
-          <!--{{status}}
-          {{dias.value[status]}}-->
 
           <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
           <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
         </div>
     </div>
@@ -145,16 +149,10 @@
     <div class="col">
         <div class="element">{{dias.key | date:"dd"}}</div>
         <div class="element" *ngFor="let status of sortMat">
-          <!--{{status}}
-          {{dias.value[status]}}-->
 
           <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
           <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
         </div>
     </div>
@@ -173,23 +171,17 @@
     <div class="col">
         <div class="element">{{dias.key | date:"dd"}}</div>
         <div class="element" *ngFor="let status of sortMat">
-          <!--{{status}}
-          {{dias.value[status]}}-->
 
           <div *ngIf="dias.value[status] == 1" class="p-3 mb-2 bg-danger text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
           <div *ngIf="dias.value[status] == 0" class="p-3 mb-2 bg-success text-white">
-            <!--{{status}}
-            <br/>-->
           </div>
         </div>
     </div>
   </ng-container>
 
 
-</div>
+</div>-->
 
 
 

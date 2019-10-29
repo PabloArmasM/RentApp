@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BuilderCalendarService } from '../builder-calendar.service';
+import {MatTableDataSource} from '@angular/material/table';
+
 
 
 
@@ -13,6 +15,7 @@ export class HomeComponent implements OnInit {
 
   count : number = 1;
   mes = {};
+  semanasV = [];
   semana1 = {};
   semana2 = {};
   semana3 = {};
@@ -43,12 +46,12 @@ export class HomeComponent implements OnInit {
     //this.calendar.showTime();
     this.mes = await this.calendar.create(new Date());
     this.prepareOrder();
-    this.semana1 = this.semanas(this.mes, 0, 7);
-    this.semana2 = this.semanas(this.mes, 7, 14);
-    this.semana3 = this.semanas(this.mes, 14, 21);
-    this.semana4 = this.semanas(this.mes, 21, 28);
-    this.semana5 = this.semanas(this.mes, 28, 35);
-    this.semana6 = this.semanas(this.mes, 35);
+    this.semanasV.push(this.semanas(this.mes, 0, 7));
+    this.semanasV.push(this.semanas(this.mes, 7, 14));
+    this.semanasV.push(this.semanas(this.mes, 14, 21));
+    this.semanasV.push(this.semanas(this.mes, 21, 28));
+    this.semanasV.push(this.semanas(this.mes, 28, 35));
+    this.semanasV.push(this.semanas(this.mes, 35));
   }
 
   /*ngOnDestroy() {
@@ -77,7 +80,11 @@ semanas(datos: any, first:number, last?:number){
   var claves = Object.keys(datos).sort();
 
   for(var i = first; i < (isNaN(last) ? claves.length: last); i++){
-    objeto[claves[i]] = datos[claves[i]];
+    var matriculas = {};
+    this.sortMat.forEach(mat =>{
+      matriculas[mat] = Object.keys(datos[claves[i]]).includes(mat) ? datos[claves[i]][mat] : -1;
+    });
+    objeto[claves[i]] = matriculas;
   }
   return objeto;
 }
