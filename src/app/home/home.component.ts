@@ -27,8 +27,11 @@ export class HomeComponent implements OnInit {
     this.router.navigate([url]);
   }
 
-  ngOnInit(){
-    if(CacheDataService.itsOpen()){
+  ngOnInit(){}
+
+  ngAfterViewInit(){
+    if(!CacheDataService.itsOpen()){
+      //window.open('file://'+__dirname+'/index.html#/calendario');
       window.open('http://localhost:4200/#/calendario');
       CacheDataService.opening();
     }

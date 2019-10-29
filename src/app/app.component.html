@@ -1,6 +1,6 @@
 
   <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="side" opened="false" class="sidenav" *ngIf="header">
+    <mat-sidenav #sidenav mode="side" opened="false" class="sidenav">
       <mat-nav-list>
         <a mat-list-item  [routerLink]="'/clientes'" (click)="sidenav.toggle()"> Clientes </a>
         <a mat-list-item  [routerLink]="'/multas'" (click)="sidenav.toggle()"> Multas </a>
