@@ -28,8 +28,13 @@
           <div>
             <h1 *ngIf="header"><a class="home" routerLink="/" >Home</a></h1>
             <h1 *ngIf="!header"><a class="home">Home</a></h1>
-
           </div>
+
+           <span class="example-spacer"></span>
+
+          <button mat-icon-button>
+            <mat-icon class="example-icon" *ngIf="header" (click)="tryOpen()">calendar_today</mat-icon>
+          </button>
         </mat-toolbar-row>
       </mat-toolbar>
       <div style="height: 88vh;">

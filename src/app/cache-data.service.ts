@@ -8,7 +8,7 @@ export class CacheDataService {
   static clientId : number;
   static contr : any;
   static open : boolean = false;
-
+  static guindol : any;
 
   constructor() { }
 
@@ -43,7 +43,18 @@ export class CacheDataService {
   }
 
   static opening(){
+    this.guindol = window.open('http://localhost:4200/#/calendario');
     this.open = true;
   }
 
+
+  static closing(){
+    this.open = false;
+  }
+
+  static couldOpen(){
+    console.log(this.guindol.closed);
+    if(this.guindol.closed)
+      this.guindol = window.open('http://localhost:4200/#/calendario');
+  }
 }

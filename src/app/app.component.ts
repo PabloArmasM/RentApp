@@ -3,6 +3,7 @@ import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
 import {Router, NavigationEnd} from "@angular/router";
+import { CacheDataService } from "./cache-data.service";
 
 
 @Component({
@@ -34,6 +35,10 @@ export class AppComponent {
 
   ngOnInit() {
    this.activeRoute.events.subscribe(this.onUrlChange.bind(this))
+ }
+
+ tryOpen(){
+   CacheDataService.couldOpen();
  }
 
   onUrlChange(ev) {

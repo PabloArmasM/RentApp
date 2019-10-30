@@ -1,3 +1,11 @@
+
+<div class="container">
+  <form [formGroup]="login">
+    <label>Fecha</label>
+    <input #inputs class="form-control" type = "date" formControlName="fecha" (change)="changeMonth()">
+  </form>
+</div>
+
 <div class="table-responsive-sm eso">
   <table class="table table-sm container">
     <ng-container *ngFor="let semana of semanasV">
