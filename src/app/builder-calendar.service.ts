@@ -50,7 +50,7 @@ export class BuilderCalendarService {
   }
 
 
-  async create(fecha){
+  async create(fecha, grupo){
     var mes: Array<any> = [];
 
     console.log("Primer dia segun el calendario occidental");
@@ -80,7 +80,7 @@ export class BuilderCalendarService {
 
     var myPromise = (fechaIni, fechaFin) => {
        return new Promise((resolve, reject) => {
-            this.data.getVehicleStatus({grupo : "A", fechaInicial : fechaIni, fechaFinal : fechaFin}).subscribe(res=>{
+            this.data.getVehicleStatus({grupo : grupo, fechaInicial : fechaIni, fechaFinal : fechaFin}).subscribe(res=>{
               if(res < 0 ) reject(0);
               resolve(res);
               console.log("Primeee")});

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 
 
 
+
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.component.html',
@@ -18,7 +19,9 @@ export class CalendarioComponent implements OnInit {
   semanasV = [];
   sortMat = [];
   login: FormGroup;
-
+  grupos = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+  fecha = new Date();
+  grupo  = "A";
 
   constructor(private formBuilder: FormBuilder, private calendar : BuilderCalendarService) { }
 
@@ -26,8 +29,7 @@ export class CalendarioComponent implements OnInit {
     this.login = this.formBuilder.group({
             fecha : ['']
         });
-
-    this.createCalendar(new Date());
+    this.createCalendar(this.fecha, this.grupo);
   }
 
   ngAfterViewInit(){
@@ -44,13 +46,31 @@ export class CalendarioComponent implements OnInit {
     return (year + "-" + month + "-" + day);
   }
 
-  changeMonth(){
-    this.semanasV = [];
-    this.createCalendar(new Date(this.login.value.fecha));
+  updateMonth(update){
+      if(update == 0)
+        this.fecha = new Date();
+      else
+        this.fecha = new Date(this.fecha.getFullYear(), this.fecha.getMonth()+update, 1);
+      this.semanasV=[];
+      this.login.patchValue({fecha : this.formatDate(this.fecha)});
+      this.createCalendar(this.fecha, this.grupo);
   }
 
-  async createCalendar(date){
-    this.mes = await this.calendar.create(date);
+
+  changeMonth(){
+    this.fecha = new Date(this.login.value.fecha)
+    this.semanasV = [];
+    this.createCalendar(this.fecha, this.grupo);
+  }
+
+  changeGroup(event){
+    this.semanasV = [];
+    this.grupo = event.value;
+    this.createCalendar(this.fecha, this.grupo);
+  }
+
+  async createCalendar(date, grupo){
+    this.mes = await this.calendar.create(date, grupo);
     this.prepareOrder();
     this.semanasV.push(this.semanas(this.mes, 0, 7));
     this.semanasV.push(this.semanas(this.mes, 7, 14));

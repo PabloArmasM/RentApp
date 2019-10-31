@@ -11,7 +11,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule } from  '@angular/material';
-import {MatInputModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule } from '@angular/material';
+import { MatInputModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule, MatNativeDateModule  } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ThermalPrintModule } from 'ng-thermal-print';
 
 // NG Translates
@@ -76,8 +78,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatInputModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MultiWindowModule,
-    MultiWindowModule.forRoot({ heartbeat: 542 }),
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -88,7 +91,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [ DatProviderService,
     CacheDataService,
-    BuilderCalendarService
+    BuilderCalendarService,
+    MatDatepickerModule,
    ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]

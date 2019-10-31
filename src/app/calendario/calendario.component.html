@@ -1,9 +1,53 @@
 
-<div class="container">
-  <form [formGroup]="login">
-    <label>Fecha</label>
-    <input #inputs class="form-control" type = "date" formControlName="fecha" (change)="changeMonth()">
-  </form>
+<div class="container group">
+  <div class="row">
+    <div class="col-5">
+      <form [formGroup]="login">
+        <label>Fecha</label>
+        <input #inputs class="form-control" type = "date" formControlName="fecha" (change)="changeMonth()">
+      </form>
+    </div>
+
+  <!--  <div class="col-5">
+
+    <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Input & change events"
+           (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>-->
+    <div class="col-5 col-2 align-self-end">
+      <label>Grupos</label>
+      <select (change)="changeGroup($event.target)">
+        <option *ngFor="let grupo of grupos">{{grupo}}</option>
+      </select>
+      <!--<mat-form-field>
+        <mat-label>Grupo</mat-label>
+        <mat-select (selectionChange)="changeGroup($event)">
+          <mat-option *ngFor="let grupo of grupos" [value]="grupo">
+            {{grupo}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>-->
+    </div>
+
+    <div class="col-2 align-self-end">
+      <button mat-icon-button (click)="updateMonth(-1)">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+
+      <span class="centro">
+        <button mat-icon-button (click)="updateMonth(0)">
+          <mat-icon>brightness_1</mat-icon>
+        </button>
+      </span>
+
+      <button mat-icon-button (click)="updateMonth(1)"> 
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>
 
 <div class="table-responsive-sm eso">
