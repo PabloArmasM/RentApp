@@ -15,7 +15,8 @@ export class ListaContratoComponent implements OnInit {
 
   print = new MatTableDataSource();
 
-  head : any[] = [];
+  head = {_id:'Código', clientCode:'Código del cliente',	/*grupo,	numHotel,	bono,	precio,*/	numFactura:'Número de la factura',	/*operador,	intermediario,*/	matricula: 'Matrícula',	/*lugar,	*/	fechaSalida : "Fecha de salida", fechaEntrada:"Fecha de entrada",	/*posVehiculo,	posFinalVehiculo,*/	telefono : "Teléfono",	/*gasolina,	inputs*/};
+  displayColumns = Object.keys(this.head);
   ready = false;
 
   mainSource : any;
@@ -28,7 +29,7 @@ export class ListaContratoComponent implements OnInit {
 
   setTable(print, header){
     this.print = new MatTableDataSource(print);
-    this.head = header;
+    //this.head = header;
     this.ready = true;
   }
 
@@ -75,5 +76,9 @@ export class ListaContratoComponent implements OnInit {
   // event.source is popup
   // event.data is "hi there yourself!  the secret response is: rheeeeet!"
 }
+
+applyFilter(filterValue: string) {
+    this.print.filter = filterValue.trim().toLowerCase();
+  }
 
 }
