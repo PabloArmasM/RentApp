@@ -177,7 +177,7 @@ export class ProlongarComponent implements OnInit {
   onClickSearch(){
     var info = this.cache.clean(this.searchForm.value);
     info.tabla = "contratos";
-    this.search = false;
+    this.closeSearch();
 
     this.guindol.postMessage(info, "*");
   }

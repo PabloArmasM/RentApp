@@ -12,8 +12,17 @@
 
             <div *ngIf="search" class="border-bottom border-dark" >
 
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active" (click)="cambioSearch('contratos')">
+                  <input type="radio" name="options" id="option1" autocomplete="off" checked> Contrato
+                </label>
+                <label class="btn btn-secondary" (click)="cambioSearch('clientes')">
+                  <input type="radio" name="options" id="option2" autocomplete="off"> Cliente
+                </label>
+              </div>
+
               <span class="m-5">
-                <button type="button" class="close" aria-label="Close" (click) = "search = false">
+                <button type="button" class="close" aria-label="Close" (click) = "closeSearch()">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </span>
@@ -71,10 +80,6 @@
                 <br/>
           </div>
 
-          <div *ngIf="updateCar">
-              <button class="btn btn-secondary btn-block" (click)="updateTerms()" >Reprobar contrato</button>
-              <br/>
-          </div>
           <!-- FIN Bloque de botones -->
 
 
