@@ -5,6 +5,7 @@ import { DatProviderService } from '../dat-provider.service';
 import { CacheDataService } from '../cache-data.service';
 import { ThermalPrinterService } from '../thermal-printer.service';
 import { interval } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 
 
@@ -34,6 +35,7 @@ export class ContratosComponent implements OnInit {
   readyToPrint = false;
 
   secondsCounter = interval(1000);
+  takeFourNumbers = this.secondsCounter.pipe(take(100));
   counterSub : any;
 
 
@@ -135,7 +137,7 @@ export class ContratosComponent implements OnInit {
       this.guindol = window.open('http://localhost:4200/#/listaContrato');
       this.guindol.postMessage("hello baby", "*");
 
-      this.counterSub = this.secondsCounter.subscribe(n =>{
+      this.counterSub = this.takeFourNumbers.subscribe(n =>{
         this.guindol.postMessage(0, '*');
         console.log("Mensaje enviado");
         if(n>100){
@@ -150,7 +152,7 @@ export class ContratosComponent implements OnInit {
   onClickSearch(){
     var info = this.cache.clean(this.searchForm.value);
     info.tabla = this.listaPor;
-    this.search = false;
+    //this.search = false;
 
     this.guindol.postMessage(info, "*");
   }
@@ -286,9 +288,7 @@ export class ContratosComponent implements OnInit {
   // different from what we originally opened, for example).
   /*if (event.origin !== "http://localhost:4200")
     return;*/
-  debugger;
   if(event.data.hasOwnProperty('_id')){
-    debugger;
     this.counterSub.unsubscribe();
     this.prepareData(event.data);
     this.nuevo = false;

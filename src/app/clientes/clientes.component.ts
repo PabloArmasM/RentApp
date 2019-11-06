@@ -83,34 +83,10 @@ export class ClientesComponent implements OnInit {
 
   onClickSearch(){
     var info = this.cache.clean(this.searchForm.value);
-    this.search = false;
-    info["tabla"] = "clientes";
+    info.tabla = "clientes";
+    //this.closeSearch();
 
-    this.data.getData(JSON.stringify(info)).subscribe(res => {
-      if(res.length > 1){
-        this.recibe = true;
-        console.log(res);
-        res.forEach(son =>{
-          this.db.push(son);
-        });
-      }else if(res.length == 1){
-        this.delete = true;
-        CacheDataService.setClientId(res[0]._id);
-        var date = new Date(res[0].fecha);
-        var year = date.getFullYear();
-        var month = ("0" + (date.getMonth() + 1)).slice(-2);
-        var day = ("0" + date.getDate()).slice(-2);
-        res[0].fecha = year + "-" + month + "-" + day;
-        this.login.patchValue(res[0]);
-        /*Object.keys(res[0]).forEach(keys => {
-          if(log.hasOwnProperty(keys)){
-            debugger;
-            this.login.patchValue({codigo: "aaaaaa"});
-          }
-        });*/
-      }
-    });
-
+    this.guindol.postMessage(info, "*");
   }
 
   deleteElement(){

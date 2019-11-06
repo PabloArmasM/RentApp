@@ -4,6 +4,9 @@ import { FormsModule, FormArray } from '@angular/forms';
 import { DatProviderService } from '../dat-provider.service';
 import { CacheDataService } from '../cache-data.service';
 import { ThermalPrinterService } from '../thermal-printer.service';
+import { interval } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 
 
 @Component({
@@ -21,6 +24,7 @@ export class ReservasComponent implements OnInit {
   searchForm : FormGroup;
   submitted = false;
   tipoPago = "efectivo";
+  listaPor = "reservas";
 
   file = "";
   search = false;
@@ -29,10 +33,19 @@ export class ReservasComponent implements OnInit {
   delete = false;
   readyToPrint = false;
 
+
   db: any[] = [];
 
-  constructor(private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
+  guindol : any;
 
+  secondsCounter = interval(1000);
+  takeFourNumbers = this.secondsCounter.pipe(take(100));
+  counterSub : any;
+
+
+
+  constructor(private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
+    window.addEventListener("message", this.receiveMessage.bind(this), false);
   }
 
   ngOnInit() {
@@ -62,7 +75,9 @@ export class ReservasComponent implements OnInit {
 
     var date = new Date();
     var fecha = this.formatDate(date);
-    this.login.patchValue({fechaEntrada : fecha});
+    this.login.patchValue({fechaSalida : fecha});
+    this.login.patchValue({fechaReserva : fecha});
+
 
     console.log(fecha);
     this.login.patchValue({clientCode : CacheDataService.getClientId()});
@@ -109,9 +124,24 @@ export class ReservasComponent implements OnInit {
   }
 
   showSearch(){
-    if(!this.search)
+    if(!this.search){
       this.search = true;
-    else
+      this.guindol = window.open('http://localhost:4200/#/listaContrato');
+      var info = {tabla : this.listaPor};
+      this.guindol.postMessage(info, "*");
+
+      this.counterSub = this.takeFourNumbers.subscribe(n =>{
+        this.guindol.postMessage(n, '*');
+        console.log("Mensaje enviado");
+        if(n < 1){
+          this.guindol.postMessage(info, "*");
+        }
+        if(n>100){
+          console.log(n);
+          this.counterSub.unsubscribe();
+        }
+      });
+    }else
       this.onClickSearch();
   }
 
@@ -119,47 +149,9 @@ export class ReservasComponent implements OnInit {
   onClickSearch(){
     var info = this.cache.clean(this.searchForm.value);
     info.tabla = "reservas";
-    this.search = false;
+    //this.search = false;
 
-
-    this.data.getData(JSON.stringify(info)).subscribe(res => {
-      if(res.length > 1){
-        this.recibe = true;
-        console.log(res);
-        res.forEach(son =>{
-          this.db.push(son);
-        });
-        //this.db = JSON.parse(res);
-      }else if(res.length == 1){
-        this.delete = true;
-        this.readyToPrint = true;
-        this.updateCar = true;
-        var info = res[0];
-        info.fechaSalida = this.formatDate(new Date(info.fechaSalida));
-        info.fechaEntrada = this.formatDate(new Date(info.fechaEntrada));
-
-        this.login.patchValue(info);
-
-        var inputs = info.inputs;
-        info.inputs.forEach(elementos => {
-          console.log(elementos);
-        })
-        for(var i = 0; i< info.inputs.length; i++){
-          debugger;
-          this.t.push(this.formBuilder.group({
-                          name: [inputs[i].name, Validators.required],
-                      }));
-        }
-        /*Object.keys(res[0]).forEach(keys => {
-          if(log.hasOwnProperty(keys)){
-            debugger;
-            this.login.patchValue({codigo: "aaaaaa"});
-          }
-        });*/
-      }
-    });
-
-
+    this.guindol.postMessage(info, "*");
   }
 
   select(index){
@@ -211,21 +203,13 @@ export class ReservasComponent implements OnInit {
     formData.fechaSalida = new Date(formData.fechaSalida).getTime();
 
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
-      console.log("Se supone que esta vacio");
-      var inputs = this.login.value.inputs;
-      delete formData.inputs;
-      var element: any[] = [];
-      for(var i = 0; i < inputs.length; i++){
-        element.push(inputs[i].name);
-      }
-      formData.inputs = element;
       this.data.addData(JSON.stringify(formData)).subscribe(res =>{
         this.login.patchValue(res);
         this.readyToPrint = true;
-        this.data.updateState({matricula : this.login.value.matricula, fechaSalida : formData.fechaSalida,
+        /*this.data.updateState({matricula : this.login.value.matricula, fechaSalida : formData.fechaSalida,
                               fechaEntrada : formData.fechaEntrada, grupo: this.login.value.grupo, status: 1}).subscribe(res=>{
           console.log(res);
-        });
+        });*/
       });
     }else{
       console.log(formData);
@@ -241,6 +225,63 @@ export class ReservasComponent implements OnInit {
     this.printer.requestUsb();
     this.printer.print();
   }
+
+  cambioSearch(value){
+    this.listaPor = value;
+    var info = {tabla : value};
+    this.guindol.postMessage(info, "*");
+
+  }
+
+  closeSearch(){
+    this.search = false;
+    try{
+      this.guindol.close();
+      this.counterSub.unsubscribe();
+    }catch(err){
+      console.log("Ya se ha cerrado");
+    }
+  }
+
+
+  ngOnDestroy() {
+    try{
+      this.guindol.close();
+      this.counterSub.unsubscribe();
+    }catch(err){
+      console.log("Ya se ha cerrado");
+    }
+  }
+
+  prepareData(data){
+    this.delete = true;
+    this.readyToPrint = true;
+    this.updateCar = true;
+    var info = data;
+    info.fechaSalida = this.formatDate(new Date(info.fechaSalida));
+    info.fechaEntrada = this.formatDate(new Date(info.fechaEntrada));
+
+    this.login.patchValue(info);
+  }
+
+  receiveMessage(event)
+{
+  // Do we trust the sender of this message?  (might be
+  // different from what we originally opened, for example).
+  /*if (event.origin !== "http://localhost:4200")
+    return;*/
+  if(event.data.hasOwnProperty('_id')){
+    this.counterSub.unsubscribe();
+    this.prepareData(event.data);
+    this.nuevo = false;
+  }
+
+  console.log(event);
+
+
+  // event.source is popup
+  // event.data is "hi there yourself!  the secret response is: rheeeeet!"
+}
 
 
 }

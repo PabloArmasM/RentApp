@@ -5,6 +5,8 @@ import { DatProviderService } from '../dat-provider.service';
 import { CacheDataService } from '../cache-data.service';
 import { ThermalPrinterService } from '../thermal-printer.service';
 import { interval } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 
 
 @Component({
@@ -38,7 +40,7 @@ export class ProlongarComponent implements OnInit {
   nuevo = false;
 
   secondsCounter = interval(1000);
-
+  takeFourNumbers = this.secondsCounter.pipe(take(100));
   counterSub : any;
 
 
@@ -83,7 +85,7 @@ export class ProlongarComponent implements OnInit {
 
         // Create an Observable that will publish a value on an interval
         // Subscribe to begin publishing values
-        this.counterSub = this.secondsCounter.subscribe(n =>{
+        this.counterSub = this.takeFourNumbers.subscribe(n =>{
           this.guindol.postMessage(0, '*');
           console.log("Mensaje enviado");
           if(n>100){
@@ -177,7 +179,7 @@ export class ProlongarComponent implements OnInit {
   onClickSearch(){
     var info = this.cache.clean(this.searchForm.value);
     info.tabla = "contratos";
-    this.closeSearch();
+    //this.closeSearch();
 
     this.guindol.postMessage(info, "*");
   }

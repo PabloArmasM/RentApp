@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { DatProviderService } from '../dat-provider.service';
 import { CacheDataService } from '../cache-data.service';
+import { interval } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 
 
@@ -29,7 +31,15 @@ export class VehiculosComponent implements OnInit {
   login: FormGroup;
   searchForm : FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private data: DatProviderService, private cache: CacheDataService) { }
+  guindol : any;
+
+  secondsCounter = interval(1000);
+  takeFourNumbers = this.secondsCounter.pipe(take(100));
+  counterSub : any;
+
+  constructor(private formBuilder: FormBuilder, private data: DatProviderService, private cache: CacheDataService) {
+    window.addEventListener("message", this.receiveMessage.bind(this), false);
+  }
 
   ngOnInit() {
     this.login = this.formBuilder.group({
@@ -66,36 +76,9 @@ export class VehiculosComponent implements OnInit {
   onClickSearch(){
     var info = this.cache.clean(this.searchForm.value);
     info.tabla = "vehiculos";
-    this.search = false;
+    //this.closeSearch();
 
-    this.data.getData(JSON.stringify(info)).subscribe(res => {
-      if(res.length > 1){
-        this.recibe = true;
-        console.log(res);
-        res.forEach(son =>{
-          this.db.push(son);
-        });
-        //this.db = JSON.parse(res);
-      }else if(res.length == 1){
-        //this.updateCar = true;
-        this.delete = true;
-        var info = res[0];
-        var date = new Date(res[0].fecha);
-        var year = date.getFullYear();
-        var month = ("0" + (date.getMonth() + 1)).slice(-2);
-        var day = ("0" + date.getDate()).slice(-2);
-        res[0].fecha = year + "-" + month + "-" + day;
-        this.login.patchValue(info);
-        /*Object.keys(res[0]).forEach(keys => {
-          if(log.hasOwnProperty(keys)){
-            debugger;
-            this.login.patchValue({codigo: "aaaaaa"});
-          }
-        });*/
-      }
-    });
-
-
+    this.guindol.postMessage(info, "*");
   }
 
   deleteElement(){
@@ -118,13 +101,6 @@ export class VehiculosComponent implements OnInit {
     this.login.patchValue(this.db[index]);
   }
 
-  showSearch(){
-    if(!this.search)
-      this.search = true;
-    else
-      this.onClickSearch();
-  }
-
   onClickSubmit(){
     var formData = this.login.value;
     formData.tabla = "vehiculos";
@@ -142,5 +118,92 @@ export class VehiculosComponent implements OnInit {
       });
     }
   }
+
+
+  formatDate(date){
+    var year = date.getFullYear();
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+    var hours = ("0" + date.getHours()).slice(-2);
+    var minutes = ("0" + date.getMinutes()).slice(-2);
+    var seconds = ("0" + date.getSeconds()).slice(-2);
+
+
+
+    return (year + "-" + month + "-" + day +"T"+hours+":"+minutes);
+  }
+
+  showSearch(){
+    if(!this.search){
+      this.search = true;
+      this.guindol = window.open('http://localhost:4200/#/listaContrato');
+      var info = {tabla : 'vehiculos'};
+      this.guindol.postMessage(info, "*");
+
+      this.counterSub = this.takeFourNumbers.subscribe(n =>{
+        this.guindol.postMessage(n, '*');
+        console.log("Mensaje enviado");
+        if(n < 1){
+          this.guindol.postMessage(info, "*");
+        }
+        if(n>100){
+          console.log(n);
+          this.counterSub.unsubscribe();
+        }
+      });
+    }else
+      this.onClickSearch();
+  }
+
+
+  closeSearch(){
+    this.search = false;
+    try{
+      this.guindol.close();
+      this.counterSub.unsubscribe();
+    }catch(err){
+      console.log("Ya se ha cerrado");
+    }
+  }
+
+
+  ngOnDestroy() {
+    try{
+      this.guindol.close();
+      this.counterSub.unsubscribe();
+    }catch(err){
+      console.log("Ya se ha cerrado");
+    }
+  }
+
+  prepareData(data){
+    this.delete = true;
+    this.readyToPrint = true;
+    this.updateCar = true;
+    var info = data;
+    info.fechaSalida = this.formatDate(new Date(info.fechaSalida));
+    info.fechaEntrada = this.formatDate(new Date(info.fechaEntrada));
+
+    this.login.patchValue(info);
+  }
+
+  receiveMessage(event)
+{
+  // Do we trust the sender of this message?  (might be
+  // different from what we originally opened, for example).
+  /*if (event.origin !== "http://localhost:4200")
+    return;*/
+  if(event.data.hasOwnProperty('_id')){
+    this.counterSub.unsubscribe();
+    this.prepareData(event.data);
+    this.nuevo = false;
+  }
+
+  console.log(event);
+
+
+  // event.source is popup
+  // event.data is "hi there yourself!  the secret response is: rheeeeet!"
+}
 
 }

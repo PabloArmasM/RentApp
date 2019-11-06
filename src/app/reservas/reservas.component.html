@@ -12,6 +12,15 @@
 
             <div *ngIf="search" class="border-bottom border-dark" >
 
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active" (click)="cambioSearch('reservas')">
+                  <input type="radio" name="options" id="option1" autocomplete="off" checked> Reservas
+                </label>
+                <label class="btn btn-secondary" (click)="cambioSearch('clientes')">
+                  <input type="radio" name="options" id="option2" autocomplete="off"> Clientes
+                </label>
+              </div>
+
               <span class="m-5">
                 <button type="button" class="close" aria-label="Close" (click) = "search = false">
                   <span aria-hidden="true">&times;</span>
