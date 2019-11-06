@@ -45,6 +45,8 @@ export class ContratosComponent implements OnInit {
 
   db: any[] = [];
 
+  allPrices : any;
+
   constructor(private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
     window.addEventListener("message", this.receiveMessage.bind(this), false);
   }
@@ -68,6 +70,9 @@ export class ContratosComponent implements OnInit {
             posFinalVehiculo: [''],
             telefono: [''],
             gasolina: [''],
+            igic: [''],
+            tarifa: [''],
+            seguro: [''],
             inputs: new FormArray([])
         });
         this.searchForm = this.formBuilder.group({
@@ -85,10 +90,19 @@ export class ContratosComponent implements OnInit {
 
     var date = new Date();
     var fecha = this.formatDate(date);
-    this.login.patchValue({fechaEntrada : fecha});
+    this.login.patchValue({fechaSalida : fecha});
 
     console.log(fecha);
     this.login.patchValue({clientCode : CacheDataService.getClientId()});
+
+    this.data.getData(JSON.stringify({tabla : 'tarifas'})).subscribe(res => {
+      console.log(res);
+      this.allPrices = res[0];
+      this.login.patchValue(
+        {seguro: res[0].seguros,
+        igic : res[0].igic}
+      );
+    });
 
 
   }
@@ -177,9 +191,10 @@ export class ContratosComponent implements OnInit {
 
   calculatePrice(){
     var dias = (1000*60*60*24);
-    var entrada = new Date(this.login.value.fechaEntrada).getTime();
-    var salida = new Date(this.login.value.fechaSalida).getTime();
-    var aCobrar = Math.round(Math.abs(salida - entrada)/dias)*28;
+    var entrada = new Date(this.login.value.fechaSalida).getTime();
+    var salida = new Date(this.login.value.fechaEntrada).getTime();
+    var aCobrar = Math.round(Math.abs(salida - entrada)/dias)*this.login.value.tarifa + this.login.value.seguro ;
+    aCobrar = aCobrar + (aCobrar * (this.login.value.igic/100));
     this.login.patchValue({precio : aCobrar});
   }
 
@@ -244,6 +259,12 @@ export class ContratosComponent implements OnInit {
     this.printer.print();
   }
 
+  setTarifaGrupo(){
+    debugger;
+    var group = this.login.value["grupo"].toUpperCase();
+    if(this.allPrices.hasOwnProperty(group))
+      this.login.patchValue({tarifa : this.allPrices[group]})
+  }
 
   closeSearch(){
     this.search = false;
