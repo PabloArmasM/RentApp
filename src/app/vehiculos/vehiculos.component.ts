@@ -178,8 +178,8 @@ export class VehiculosComponent implements OnInit {
 
   prepareData(data){
     this.delete = true;
-    this.readyToPrint = true;
-    this.updateCar = true;
+    //this.readyToPrint = true;
+    //this.updateCar = true;
     var info = data;
     info.fechaSalida = this.formatDate(new Date(info.fechaSalida));
     info.fechaEntrada = this.formatDate(new Date(info.fechaEntrada));
@@ -196,7 +196,7 @@ export class VehiculosComponent implements OnInit {
   if(event.data.hasOwnProperty('_id')){
     this.counterSub.unsubscribe();
     this.prepareData(event.data);
-    this.nuevo = false;
+    //this.nuevo = false;
   }
 
   console.log(event);

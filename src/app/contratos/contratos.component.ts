@@ -291,7 +291,7 @@ export class ContratosComponent implements OnInit {
   if(event.data.hasOwnProperty('_id')){
     this.counterSub.unsubscribe();
     this.prepareData(event.data);
-    this.nuevo = false;
+    //this.nuevo = false;
   }
 
   console.log(event);
