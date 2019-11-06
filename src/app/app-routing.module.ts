@@ -15,6 +15,7 @@ import { ReservasComponent } from './reservas/reservas.component';
 import { ProlongarComponent } from './prolongar/prolongar.component';
 import { ListaContratoComponent } from './lista-contrato/lista-contrato.component';
 import { CalendarioComponent } from './calendario/calendario.component';
+import { TarifasComponent } from './tarifas/tarifas.component';
 
 
 const routes: Routes = [
@@ -85,6 +86,10 @@ const routes: Routes = [
     path:'calendario',
     pathMatch: 'full',
     component: CalendarioComponent
+  },{
+    path:'tarifas',
+    pathMatch: 'full',
+    component: TarifasComponent
   },
   {
     path: '**',
