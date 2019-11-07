@@ -211,6 +211,8 @@ export class ContratosComponent implements OnInit {
   }
 
   deleteElement(){
+    if(!confirm("Confirma eliminarlo"))
+      return;
     this.delete = false;
     this.readyToPrint = false;
     var info = { tabla : "contratos",
@@ -222,6 +224,9 @@ export class ContratosComponent implements OnInit {
 
   onClickSubmit(){
     //this.printData();
+    if(!confirm("Se va a guardar la información"))
+      return;
+    console.log("paso");
     var formData = this.login.value;
     formData.tabla = "contratos";
     formData.fechaEntrada = new Date(formData.fechaEntrada).getTime();

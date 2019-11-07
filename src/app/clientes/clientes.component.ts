@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewChildren,  QueryList } from '@angular/core';
+import { Input, Component, OnInit, ViewChild, ElementRef, ViewChildren,  QueryList } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { DatProviderService } from '../dat-provider.service';
 import { CacheDataService } from '../cache-data.service';
 import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
+
+
+
 
 @Component({
   selector: 'app-clientes',
@@ -27,15 +30,20 @@ export class ClientesComponent implements OnInit {
   search = false;
   recibe = false;
   delete = false;
-  db: any[] = [];
+  activate = false;
+  message = {type: 'success',
+                    message: 'La información se ha actualizado satisfactoriamente'};
 
-  secondsCounter = interval(1000);
-  takeFourNumbers = this.secondsCounter.pipe(take(100));
+
   counterSub : any;
 
 
 
   guindol : any;
+
+  secondsCounter = interval(1000);
+  takeFourNumbers = this.secondsCounter.pipe(take(100));
+
 
 
   constructor(private formBuilder: FormBuilder, private data: DatProviderService, private cache: CacheDataService) {
@@ -76,6 +84,15 @@ export class ClientesComponent implements OnInit {
 
 
   //@ViewChild('license') licenseForm: ElementRef;
+  addAlert(type, message){
+    debugger;
+    this.activate = true;
+    this.message = {
+          type: type,
+          message: message,
+        };
+  }
+
 
   keytab(pos){
     var elements : Array<any> = this.questions.toArray();
@@ -96,22 +113,20 @@ export class ClientesComponent implements OnInit {
   }
 
   deleteElement(){
+    if(!confirm("¿Está seguro de que desea eliminarlo?"))
+      return;
     this.delete = false;
     var info = { tabla : "clientes",
       _id : this.login.value._id};
     this.data.delete(info).subscribe(res =>{
-      this.login.patchValue(res);
+      this.addAlert('success', 'La información se ha eliminado satifactoriamente');
     });
   }
 
 
-  select(index){
-    this.delete = true;
-    this.login.patchValue(this.db[index]);
-    CacheDataService.setClientId(this.db[index]._id);
-  }
-
   onClickSubmit(){
+    if(!confirm("Se va a guardar la información"))
+      return;
     var formData = this.login.value;
     formData.tabla = "clientes";
     formData.fecha = new Date(formData.fecha).getTime();
@@ -122,12 +137,13 @@ export class ClientesComponent implements OnInit {
         //console.log(res._id);
         CacheDataService.setClientId(res._id);
         this.login.patchValue(res);
+        this.addAlert('success', 'La información se ha guardado satisfactoriamente');
       });
     }else{
       console.log(formData);
       this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
         CacheDataService.setClientId(res._id);
-        this.login.patchValue(res);
+        this.addAlert('success', 'La información se ha actualizado satisfactoriamente');
       });
     }
   }
@@ -198,6 +214,10 @@ export class ClientesComponent implements OnInit {
     info.fecha = this.formatDate(new Date(info.fecha));
 
     this.login.patchValue(info);
+  }
+
+  close() {
+    this.activate = false;
   }
 
   receiveMessage(event)

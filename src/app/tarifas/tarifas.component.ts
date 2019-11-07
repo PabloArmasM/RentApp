@@ -42,7 +42,6 @@ export class TarifasComponent implements OnInit {
       console.log(res);
       this.login.patchValue(res[0]);
       this._id = res[0]._id;
-      this.ready = true;
     });
   }
 
@@ -57,6 +56,8 @@ export class TarifasComponent implements OnInit {
   }
 
   onClickSubmit(){
+    if(!confirm("Se va a guardar la información"))
+      return;
     //this.printData();
     if(this.login.valid){
       var formData = this.login.value;

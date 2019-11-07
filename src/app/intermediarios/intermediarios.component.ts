@@ -87,6 +87,8 @@ export class IntermediariosComponent implements OnInit {
   }
 
   deleteElement(){
+    if(!confirm("Confirma eliminarlo"))
+      return;
     this.delete = false;
     var info = { tabla : "intermediarios",
       _id : this.login.value._id};
@@ -96,6 +98,8 @@ export class IntermediariosComponent implements OnInit {
   }
 
   onClickSubmit(){
+    if(!confirm("Se va a guardar la información"))
+      return;
     var formData = this.login.value;
     formData.tabla = "intermediarios";
 

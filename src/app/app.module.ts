@@ -47,6 +47,8 @@ import { ListaContratoComponent } from './lista-contrato/lista-contrato.componen
 import {MultiWindowModule} from 'ngx-multi-window';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { TarifasComponent } from './tarifas/tarifas.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -82,6 +84,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgbModule,
+    NgbPaginationModule,
+    NgbAlertModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -1,13 +1,16 @@
-
-
-
 <div class="container py-5">
+
     <div class="row justify-content-center">
       <h2> Clientes </h2>
     </div>
+
+    <p *ngIf="activate">
+      <ngb-alert [type]="message.type" (close)="close(alert)">{{ message.message }}</ngb-alert>
+    </p>
+
+
     <div class="row">
         <div class="col-md-10 mx-auto">
-
 
 
         <!--BLOQUE DE BUSQUEDA-->
@@ -16,7 +19,7 @@
           <div *ngIf="search" class="border-bottom border-dark" >
 
             <span class="m-5">
-              <button type="button" class="close" aria-label="Close" (click) = "search = false">
+              <button type="button" class="close" aria-label="Close" (click) = "closeSearch()">
                 <span aria-hidden="true">&times;</span>
               </button>
             </span>
@@ -161,15 +164,6 @@
           </div>
           <!-- FIN Botones Guardar - limpar-->
 
-    </div>
-  </div>
-</div>
-
-
-<div *ngIf="recibe">
-  <div *ngFor="let inputs of db; let i = index" class="list-group list-group-flush">
-    <div (click)="select(i)">
-      {{inputs._id}} {{inputs.nombre}} {{inputs.apellidos}} {{inputs.direccion}} {{inputs.dni}} {{inputs.nacionalidad}} {{inputs.fecha}} {{inputs.email}}
     </div>
   </div>
 </div>

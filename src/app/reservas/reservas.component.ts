@@ -186,6 +186,8 @@ export class ReservasComponent implements OnInit {
   }
 
   deleteElement(){
+    if(!confirm("Confirma eliminarlo"))
+      return;
     this.delete = false;
     this.readyToPrint = false;
     var info = { tabla : "reservas",
@@ -196,6 +198,8 @@ export class ReservasComponent implements OnInit {
   }
 
   onClickSubmit(){
+    if(!confirm("Se va a guardar la información"))
+      return;
     //this.printData();
     var formData = this.login.value;
     formData.tabla = "reservas";
