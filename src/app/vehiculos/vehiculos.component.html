@@ -2,6 +2,11 @@
   <div class="row justify-content-center">
     <h2> Vehículos </h2>
   </div>
+
+  <p *ngIf="activate">
+    <ngb-alert [type]="message.type" (close)="close(alert)">{{ message.message }}</ngb-alert>
+  </p>
+
     <div class="row">
         <div class="col-md-10 mx-auto">
 

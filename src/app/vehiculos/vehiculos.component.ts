@@ -32,6 +32,9 @@ export class VehiculosComponent implements OnInit {
   searchForm : FormGroup;
 
   guindol : any;
+  activate = false;
+  message = {type: 'success',
+                    message: 'La información se ha actualizado satisfactoriamente'};
 
   secondsCounter = interval(1000);
   takeFourNumbers = this.secondsCounter.pipe(take(100));
@@ -62,6 +65,11 @@ export class VehiculosComponent implements OnInit {
       });
   }
 
+  addAlert(message){
+    this.activate = true;
+    this.message = message;
+  }
+
   keytab(pos){
     var elements : Array<any> = this.questions.toArray();
     elements[pos].nativeElement.focus();
@@ -86,7 +94,7 @@ export class VehiculosComponent implements OnInit {
     var info = { tabla : "vehiculos",
       _id : this.login.value._id};
     this.data.delete(info).subscribe(res =>{
-      this.login.patchValue(res);
+      this.addAlert(res);
     });
   }
 
@@ -109,12 +117,14 @@ export class VehiculosComponent implements OnInit {
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined || formData._id == -1){
       this.data.addData(JSON.stringify(formData)).subscribe(res =>{
         this.data.addVehiculeRutine(JSON.stringify({grupo: this.login.value.grupo, matricula : this.login.value.matricula, fecha: this.login.value.fecha})).subscribe(res =>{});
-        this.login.patchValue(res);
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
       });
     }else{
       console.log(formData);
       this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
-        this.login.patchValue(res);
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
       });
     }
   }

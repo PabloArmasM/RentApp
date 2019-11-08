@@ -13,6 +13,9 @@ export class OperadoresComponent implements OnInit {
   @ViewChildren('inputs') questions: QueryList<'inputs'>;
 
   login: FormGroup;
+  activate = false;
+  message = {type: 'success',
+                    message: 'La información se ha actualizado satisfactoriamente'};
 
   constructor(private data: DatProviderService, private formBuilder: FormBuilder) { }
 
@@ -23,6 +26,11 @@ export class OperadoresComponent implements OnInit {
         });
   }
 
+  addAlert(message){
+    this.activate = true;
+    this.message = message;
+  }
+
   keytab(pos){
     var elements : Array<any> = this.questions.toArray();
     elements[pos].nativeElement.focus();
@@ -31,6 +39,9 @@ export class OperadoresComponent implements OnInit {
   onClickSubmit(){//Editar
     var formData = this.login.value;
     formData.tabla = "operadores";
-    this.data.addData(JSON.stringify(formData));
+    this.data.addData(JSON.stringify(formData)).subscribe(res =>{
+      this.login.patchValue({_id : res._id});
+      this.addAlert(res.message);
+    });;
   }
 }

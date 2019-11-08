@@ -34,6 +34,9 @@ export class ProlongarComponent implements OnInit {
   delete = false;
   readyToPrint = false;
   guindol : any;
+  activate = false;
+  message = {type: 'success',
+                    message: 'La información se ha actualizado satisfactoriamente'};
 
   db: any[] = [];
 
@@ -96,6 +99,10 @@ export class ProlongarComponent implements OnInit {
         //this.guindol = window.open('file://'+__dirname+'/index.html#/listas');
   }
 
+  addAlert(message){
+    this.activate = true;
+    this.message = message;
+  }
 
   caca(){
     this.guindol.postMessage("Fuerte loco", '*');
@@ -223,7 +230,7 @@ export class ProlongarComponent implements OnInit {
     var info = { tabla : "contratos",
       _id : this.login.value._id};
     this.data.delete(info).subscribe(res =>{
-      this.login.patchValue(res);
+      this.addAlert(res);
     });
   }
 
@@ -246,7 +253,8 @@ export class ProlongarComponent implements OnInit {
       }
       formData.inputs = element;
       this.data.addData(JSON.stringify(formData)).subscribe(res =>{
-        this.login.patchValue(res);
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
         this.readyToPrint = true;
         this.data.updateState({matricula : this.login.value.matricula, fechaSalida : formData.fechaSalida,
                               fechaEntrada : formData.fechaEntrada, grupo: this.login.value.grupo, status: 1}).subscribe(res=>{
@@ -256,7 +264,8 @@ export class ProlongarComponent implements OnInit {
     }else{
       console.log(formData);
       this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
-        this.login.patchValue(res);
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
       });
     }
   }

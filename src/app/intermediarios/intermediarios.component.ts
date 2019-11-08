@@ -26,6 +26,9 @@ export class IntermediariosComponent implements OnInit {
 
   searchForm : FormGroup;
   login: FormGroup;
+  activate = false;
+  message = {type: 'success',
+                    message: 'La información se ha actualizado satisfactoriamente'};
 
   guindol : any;
 
@@ -46,6 +49,12 @@ export class IntermediariosComponent implements OnInit {
   keytab(pos){
     var elements : Array<any> = this.questions.toArray();
     elements[pos].nativeElement.focus();
+  }
+
+  addAlert(message){
+    debugger;
+    this.activate = true;
+    this.message = message;
   }
 
   ngOnInit() {
@@ -93,7 +102,7 @@ export class IntermediariosComponent implements OnInit {
     var info = { tabla : "intermediarios",
       _id : this.login.value._id};
     this.data.delete(info).subscribe(res =>{
-      this.login.patchValue(res);
+      this.addAlert(res);
     });
   }
 
@@ -105,12 +114,14 @@ export class IntermediariosComponent implements OnInit {
 
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
       this.data.addData(JSON.stringify(formData)).subscribe(res =>{
-        this.login.patchValue(res);
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
       });
     }else{
       console.log(formData);
       this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
-        this.login.patchValue(res);
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
       });
     }
   }

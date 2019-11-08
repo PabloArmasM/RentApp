@@ -14,6 +14,9 @@ export class MultasComponent implements OnInit {
   login: FormGroup;
   recibe = false;
   inputs: any;
+  activate = false;
+  message = {type: 'success',
+                    message: 'La información se ha actualizado satisfactoriamente'};
 
 
   constructor(private formBuilder: FormBuilder, private data : DatProviderService) { }
@@ -30,10 +33,19 @@ export class MultasComponent implements OnInit {
     elements[pos].nativeElement.focus();
   }
 
+  addAlert(message){
+    this.activate = true;
+    this.message = message;
+  }
+
   onClickSubmit(){
     var formData = this.login.value;
     formData.fecha = new Date(formData.fecha).getTime();
     this.data.searchMulta(formData).subscribe(res =>{
+      if(res.hasOwnProperty('type')){
+        this.addAlert(res);
+        return;
+      }
       this.recibe = true;
       this.inputs = res;
       console.log(res);

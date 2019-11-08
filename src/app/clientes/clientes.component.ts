@@ -84,13 +84,9 @@ export class ClientesComponent implements OnInit {
 
 
   //@ViewChild('license') licenseForm: ElementRef;
-  addAlert(type, message){
-    debugger;
+  addAlert(message){
     this.activate = true;
-    this.message = {
-          type: type,
-          message: message,
-        };
+    this.message = message;
   }
 
 
@@ -119,7 +115,7 @@ export class ClientesComponent implements OnInit {
     var info = { tabla : "clientes",
       _id : this.login.value._id};
     this.data.delete(info).subscribe(res =>{
-      this.addAlert('success', 'La información se ha eliminado satifactoriamente');
+      this.addAlert(res);
     });
   }
 
@@ -136,14 +132,15 @@ export class ClientesComponent implements OnInit {
       this.data.addData(JSON.stringify(formData)).subscribe(res =>{
         //console.log(res._id);
         CacheDataService.setClientId(res._id);
-        this.login.patchValue(res);
-        this.addAlert('success', 'La información se ha guardado satisfactoriamente');
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
       });
     }else{
       console.log(formData);
       this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
         CacheDataService.setClientId(res._id);
-        this.addAlert('success', 'La información se ha actualizado satisfactoriamente');
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
       });
     }
   }
@@ -165,7 +162,7 @@ export class ClientesComponent implements OnInit {
     if(!this.search){
       this.search = true;
       this.guindol = window.open('http://localhost:4200/#/listaContrato');
-      var info = {tabla : 'intermediarios'};
+      var info = {tabla : 'clientes'};
       this.guindol.postMessage(info, "*");
 
       this.counterSub = this.takeFourNumbers.subscribe(n =>{

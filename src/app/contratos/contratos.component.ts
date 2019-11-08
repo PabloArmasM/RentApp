@@ -33,6 +33,9 @@ export class ContratosComponent implements OnInit {
   updateCar = false;
   delete = false;
   readyToPrint = false;
+  activate = false;
+  message = {type: 'success',
+                    message: 'La información se ha actualizado satisfactoriamente'};
 
   secondsCounter = interval(1000);
   takeFourNumbers = this.secondsCounter.pipe(take(100));
@@ -218,7 +221,7 @@ export class ContratosComponent implements OnInit {
     var info = { tabla : "contratos",
       _id : this.login.value._id};
     this.data.delete(info).subscribe(res =>{
-      this.login.patchValue(res);
+        this.addAlert(res);
     });
   }
 
@@ -242,7 +245,8 @@ export class ContratosComponent implements OnInit {
       }
       formData.inputs = element;
       this.data.addData(JSON.stringify(formData)).subscribe(res =>{
-        this.login.patchValue(res);
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
         this.readyToPrint = true;
         this.data.updateState({matricula : this.login.value.matricula, fechaSalida : formData.fechaSalida,
                               fechaEntrada : formData.fechaEntrada, grupo: this.login.value.grupo, status: 1}).subscribe(res=>{
@@ -252,7 +256,8 @@ export class ContratosComponent implements OnInit {
     }else{
       console.log(formData);
       this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
-        this.login.patchValue(res);
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
       });
     }
   }
@@ -306,6 +311,12 @@ export class ContratosComponent implements OnInit {
                       name: [elementos, Validators.required],
                   }));
     });
+  }
+
+  addAlert(message){
+    debugger;
+    this.activate = true;
+    this.message = message;
   }
 
   receiveMessage(event)

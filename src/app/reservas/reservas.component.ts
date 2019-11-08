@@ -42,6 +42,9 @@ export class ReservasComponent implements OnInit {
   takeFourNumbers = this.secondsCounter.pipe(take(100));
   counterSub : any;
 
+  activate = false;
+  message = {type: 'success',
+                    message: 'La información se ha actualizado satisfactoriamente'};
 
 
   constructor(private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
@@ -83,6 +86,11 @@ export class ReservasComponent implements OnInit {
     this.login.patchValue({clientCode : CacheDataService.getClientId()});
 
 
+  }
+
+  addAlert(message){
+    this.activate = true;
+    this.message = message;
   }
 
   keytab(pos, extra = 0){
@@ -193,7 +201,7 @@ export class ReservasComponent implements OnInit {
     var info = { tabla : "reservas",
       _id : this.login.value._id};
     this.data.delete(info).subscribe(res =>{
-      this.login.patchValue(res);
+      this.addAlert(res);
     });
   }
 
@@ -208,7 +216,8 @@ export class ReservasComponent implements OnInit {
 
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
       this.data.addData(JSON.stringify(formData)).subscribe(res =>{
-        this.login.patchValue(res);
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
         this.readyToPrint = true;
         /*this.data.updateState({matricula : this.login.value.matricula, fechaSalida : formData.fechaSalida,
                               fechaEntrada : formData.fechaEntrada, grupo: this.login.value.grupo, status: 1}).subscribe(res=>{
@@ -218,7 +227,8 @@ export class ReservasComponent implements OnInit {
     }else{
       console.log(formData);
       this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
-        this.login.patchValue(res);
+        this.login.patchValue({_id : res._id});
+        this.addAlert(res.message);
       });
     }
   }

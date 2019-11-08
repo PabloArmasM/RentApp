@@ -3,6 +3,11 @@
   <div class="row justify-content-center">
     <h2> Operadores </h2>
   </div>
+
+  <p *ngIf="activate">
+    <ngb-alert [type]="message.type" (close)="close(alert)">{{ message.message }}</ngb-alert>
+  </p>
+
 <form #login = "ngForm" (ngSubmit) = "onClickSubmit()" >
 
   <input #inputs class="form-control" type="text" name="_id" placeholder="Código" (keyup.enter)="keytab(1)" ngModel>
