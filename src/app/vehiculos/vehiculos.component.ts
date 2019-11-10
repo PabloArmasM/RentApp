@@ -197,6 +197,10 @@ export class VehiculosComponent implements OnInit {
     this.login.patchValue(info);
   }
 
+  close() {
+    this.activate = false;
+  }
+
   receiveMessage(event)
 {
   // Do we trust the sender of this message?  (might be

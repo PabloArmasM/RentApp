@@ -70,14 +70,17 @@ export class CalendarioComponent implements OnInit {
   }
 
   async createCalendar(date, grupo){
+    //El mes tiene que ser no por el resultado sino por las fechas.....
     this.mes = await this.calendar.create(date, grupo);
+    var diasMes = this.calendar.getDays();
     this.prepareOrder();
-    this.semanasV.push(this.semanas(this.mes, 0, 7));
-    this.semanasV.push(this.semanas(this.mes, 7, 14));
-    this.semanasV.push(this.semanas(this.mes, 14, 21));
-    this.semanasV.push(this.semanas(this.mes, 21, 28));
-    this.semanasV.push(this.semanas(this.mes, 28, 35));
-    this.semanasV.push(this.semanas(this.mes, 35));
+    this.semanasV.push(this.semanas(diasMes, this.mes, 0, 7));
+    this.semanasV.push(this.semanas(diasMes, this.mes, 7, 14));
+    this.semanasV.push(this.semanas(diasMes, this.mes, 14, 21));
+    this.semanasV.push(this.semanas(diasMes, this.mes, 21, 28));
+    this.semanasV.push(this.semanas(diasMes, this.mes, 28, 35));
+    if(new Date(diasMes[35]).getDate() >= 28 || (diasMes[35].getDate() == 29 && diasMes[35].getMonth() == 1))
+      this.semanasV.push(this.semanas(diasMes, this.mes, 35));
   }
 
   /*ngOnDestroy() {
@@ -86,7 +89,6 @@ export class CalendarioComponent implements OnInit {
 
   compare(B){
     B.forEach(element => {
-      console.log(this.sortMat.includes(element));
       if(!this.sortMat.includes(element)){
         this.sortMat.push(element);
       }
@@ -101,16 +103,20 @@ export class CalendarioComponent implements OnInit {
   }
 
 
-semanas(datos: any, first:number, last?:number){
+semanas(dias: any, datos: any, first:number, last?:number){
   var objeto = {};
   var claves = Object.keys(datos).sort();
 
   for(var i = first; i < (isNaN(last) ? claves.length: last); i++){
     var matriculas = {};
     this.sortMat.forEach(mat =>{
-      matriculas[mat] = Object.keys(datos[claves[i]]).includes(mat) ? datos[claves[i]][mat] : -1;
+      if(!datos[dias[i]]){
+        matriculas[mat] = -1;
+        return;
+      }
+      matriculas[mat] = Object.keys(datos[dias[i]]).includes(mat) ? datos[dias[i]][mat] : -1;
     });
-    objeto[claves[i]] = matriculas;
+    objeto[dias[i]] = matriculas;
   }
   return objeto;
 }

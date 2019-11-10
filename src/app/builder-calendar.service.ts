@@ -9,6 +9,9 @@ import {Observable} from 'rxjs/Observable'
 })
 export class BuilderCalendarService {
 
+  firstDay : Date;
+  lastDay : Date;
+
   constructor(private data : DatProviderService) { }
 
   showTime(){
@@ -47,6 +50,30 @@ export class BuilderCalendarService {
     console.log("El último día cayó un:");
     console.log((new Date(2019, 8 + 1,  0)).getDay());
 
+  }
+
+  formatMonth(date){
+
+      var month = ("0" + ((date.getMonth()) + 1)).slice(-2);
+      var day = ("0" + ((date.getDate()))).slice(-2);
+
+      return(new Date(date.getFullYear()+"-"+month+"-"+day));
+
+
+    }
+
+  getDays(){
+    console.log(this.firstDay);
+    console.log(this.lastDay);
+    var allDays = [];
+
+    var loopDay = this.firstDay;
+
+    while(loopDay.getTime() <= this.lastDay.getTime()){
+      allDays.push(loopDay.getTime());
+      loopDay = this.formatMonth(new Date(loopDay.getFullYear(), loopDay.getMonth(), loopDay.getDate() + 1));
+    }
+    return allDays;
   }
 
 
@@ -90,6 +117,8 @@ export class BuilderCalendarService {
 
     //while(empieza.getTime() < termina.getTime()){
       //empieza = new Date(year, mesStart, diaStart + i++);
+      this.firstDay = empieza;
+      this.lastDay = termina;
       var result = await myPromise(empieza.getTime(), termina.getTime());
       /*while(empieza.getTime() < termina.getTime()){
         var middle = {};

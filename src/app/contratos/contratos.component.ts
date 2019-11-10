@@ -270,7 +270,6 @@ export class ContratosComponent implements OnInit {
   }
 
   setTarifaGrupo(){
-    debugger;
     var group = this.login.value["grupo"].toUpperCase();
     if(this.allPrices.hasOwnProperty(group))
       this.login.patchValue({tarifa : this.allPrices[group]})
@@ -295,6 +294,11 @@ export class ContratosComponent implements OnInit {
     }
   }
 
+  close() {
+    this.activate = false;
+  }
+
+
   prepareData(data){
     this.delete = true;
     this.readyToPrint = true;
@@ -314,7 +318,6 @@ export class ContratosComponent implements OnInit {
   }
 
   addAlert(message){
-    debugger;
     this.activate = true;
     this.message = message;
   }
