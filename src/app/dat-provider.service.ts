@@ -25,9 +25,21 @@ export class DatProviderService {
       return this.http.post<any>(this.uri+'/search/', info, httpOptions);
     }
 
+
+    addOp(data) {
+      console.log("addData");
+      return this.http.post<any>(this.uri+'/addOP', data, httpOptions);
+    }
+
+
     addData(data) {
       console.log("addData");
       return this.http.post<any>(this.uri+'/add', data, httpOptions);
+    }
+
+    updateOp(data) {
+      console.log("updateData");
+      return this.http.post<any>(this.uri+'/updateOP', data, httpOptions);
     }
 
     updateData(data) {

@@ -8,16 +8,50 @@
     <ngb-alert [type]="message.type" (close)="close(alert)">{{ message.message }}</ngb-alert>
   </p>
 
-<form #login = "ngForm" (ngSubmit) = "onClickSubmit()" >
+<div class="row">
+  <div class="col-sm-6">
 
-  <input #inputs class="form-control" type="text" name="_id" placeholder="Código" (keyup.enter)="keytab(1)" ngModel>
-  <br/>
 
-  <input #inputs class="form-control" type="text" name="name" placeholder="Nombre" (keyup.enter)="onClickSubmit()" ngModel>
-  <br/>
-</form>
-<button type = "submit" class="btn btn-primary btn-block" (click)="onClickSubmit()"> Crear </button>
+    <div *ngIf="delete">
+          <button type="button" class="btn btn-danger btn-block" (click)="deleteElement()">Borrar</button>
+          <br/>
+    </div>
 
-<div class="container py-5">
+    <form [formGroup]="login" (ngSubmit) = "onClickSubmit()" >
+          <label>ID</label>
+        <input #inputs class="form-control" type="text" formControlName="_id" placeholder="ID" (keyup.enter)="keytab(1)" ngModel>
+
+          <label>Nombre</label>
+        <input #inputs class="form-control" type="text" formControlName="name" placeholder="Nombre" (keyup.enter)="onClickSubmit()" ngModel>
+    </form>
+    <div>
+      <br/>
+      <button type = "submit" class="btn btn-primary btn-block" (click)="onClickSubmit()"> Guardar </button>
+    </div>
+  </div>
+  <div class="col-sm-6">
+
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+
+    <div class="example-container mat-elevation-z8">
+      <table mat-table [dataSource]="print">
+        <ng-container *ngFor="let col of head | keyvalue" [matColumnDef]="col.key">
+          <th class="header" mat-header-cell *matHeaderCellDef> {{col.value}} </th>
+          <td mat-cell *matCellDef="let element; let i = index" (click)="caca(i)">
+              {{element[col.key]}}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colNames; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: colNames;"></tr>
+      </table>
+
+      </div>
+
+
+  </div>
+</div>
 
 <!--Licencia de conducir, Nombre, Direccion (con poblacion), Direccion local. dni, nacionalidad y fecha de nacimiento (sucursal), codigo primary key-->
