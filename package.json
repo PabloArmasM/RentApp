@@ -96,6 +96,7 @@
     "angular-font-awesome": "^3.1.2",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.5.0",
+    "escpos": "^2.5.2",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
     "jquery": "^3.4.1",
@@ -104,6 +105,7 @@
     "ng-thermal-print": "^0.1.3",
     "ngx-multi-window": "^0.3.2",
     "popper.js": "^1.15.0",
-    "rxjs-compat": "^6.5.3"
+    "rxjs-compat": "^6.5.3",
+    "serialport": "^8.0.5"
   }
 }

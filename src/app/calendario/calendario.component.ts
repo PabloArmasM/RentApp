@@ -79,7 +79,7 @@ export class CalendarioComponent implements OnInit {
     this.semanasV.push(this.semanas(diasMes, this.mes, 14, 21));
     this.semanasV.push(this.semanas(diasMes, this.mes, 21, 28));
     this.semanasV.push(this.semanas(diasMes, this.mes, 28, 35));
-    if(new Date(diasMes[35]).getDate() >= 28 || (diasMes[35].getDate() == 29 && diasMes[35].getMonth() == 1))
+    if(new Date(diasMes[35]).getDate() >= 28 || (new Date(diasMes[35]).getDate() == 29 && diasMes[35].getMonth() == 1))
       this.semanasV.push(this.semanas(diasMes, this.mes, 35));
   }
 

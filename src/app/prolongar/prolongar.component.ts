@@ -81,9 +81,9 @@ export class ProlongarComponent implements OnInit {
           telefono: ['']
         });
 
-        //this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
+        this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
 
-        this.guindol = window.open('http://localhost:4200/#/listaContrato');
+        //this.guindol = window.open('http://localhost:4200/#/listaContrato');
         this.guindol.postMessage("hello baby", "*");
 
         // Create an Observable that will publish a value on an interval

@@ -23,7 +23,8 @@ export class TarifasComponent implements OnInit {
   ngOnInit() {
     this.login = this.formBuilder.group({
             igic: ['', Validators.required],
-            seguros: ['', Validators.required],
+            seguroCoche: ['', Validators.required],
+            seguroPersonal: ['', Validators.required],
             A: ['', Validators.required],
             B: ['', Validators.required],
             C: ['', Validators.required],

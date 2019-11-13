@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { PrintService, UsbDriver, WebPrintDriver } from 'ng-thermal-print';
 import { PrintDriver } from 'ng-thermal-print/lib/drivers/PrintDriver';
 
+
 @Injectable({
   providedIn: 'root'
 })

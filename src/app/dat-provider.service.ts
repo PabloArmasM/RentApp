@@ -14,8 +14,8 @@ const httpOptions = {
 })
 export class DatProviderService {
 
-
   uri = 'http://localhost:3000';
+  //uri = 'http://192.168.1.44:3000';
 
     constructor(private http: HttpClient) { }
 

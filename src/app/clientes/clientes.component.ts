@@ -161,7 +161,8 @@ export class ClientesComponent implements OnInit {
   showSearch(){
     if(!this.search){
       this.search = true;
-      this.guindol = window.open('http://localhost:4200/#/listaContrato');
+      this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
+      //this.guindol = window.open('http://localhost:4200/#/listaContrato');
       var info = {tabla : 'clientes'};
       this.guindol.postMessage(info, "*");
 

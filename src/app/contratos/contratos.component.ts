@@ -57,25 +57,24 @@ export class ContratosComponent implements OnInit {
   ngOnInit() {
     this.login = this.formBuilder.group({
             _id: [''],
-            clientCode: [''],
-            grupo: [''],
+            clientCode: ['', Validators.required],
+            grupo: ['', Validators.required],
             numHotel: [''],
-            bono: [''],
             precio: [''],
-            numFactura: [''],
-            operador: [''],
+            operador: ['', Validators.required],
             intermediario: [''],
-            matricula: [''],
-            lugar: [''],
-            fechaEntrada: [''],
+            matricula: ['', Validators.required],
+            lugar: ['', Validators.required],
+            fechaEntrada: ['', Validators.required],
             fechaSalida: [''],
-            posVehiculo: [''],
-            posFinalVehiculo: [''],
+            posVehiculo: ['', Validators.required],
+            posFinalVehiculo: ['', Validators.required],
             telefono: [''],
             gasolina: [''],
-            igic: [''],
-            tarifa: [''],
-            seguro: [''],
+            igic: ['', Validators.required],
+            tarifa: ['', Validators.required],
+            seguroCoche: ['', Validators.required],
+            seguroPersonal: ['',Validators.required],
             inputs: new FormArray([])
         });
         this.searchForm = this.formBuilder.group({
@@ -102,7 +101,8 @@ export class ContratosComponent implements OnInit {
       console.log(res);
       this.allPrices = res[0];
       this.login.patchValue(
-        {seguro: res[0].seguros,
+        {seguroCoche: res[0].seguroCoche,
+          seguroPersonal : res[0].seguroPersonal,
         igic : res[0].igic}
       );
     });
@@ -145,12 +145,14 @@ export class ContratosComponent implements OnInit {
   onClickAdd(){
     this.t.push(this.formBuilder.group({
                     name: ['', Validators.required],
+                    license: ['', Validators.required],
                 }));
   }
 
   showSearch(){
     if(!this.search){
       this.search = true;
+      //this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
       this.guindol = window.open('http://localhost:4200/#/listaContrato');
       this.guindol.postMessage("hello baby", "*");
 
@@ -196,8 +198,13 @@ export class ContratosComponent implements OnInit {
     var dias = (1000*60*60*24);
     var entrada = new Date(this.login.value.fechaSalida).getTime();
     var salida = new Date(this.login.value.fechaEntrada).getTime();
-    var aCobrar = Math.round(Math.abs(salida - entrada)/dias)*this.login.value.tarifa + this.login.value.seguro ;
+    dias = Math.round(Math.abs(salida - entrada)/dias)
+    var aCobrar = dias*this.login.value.tarifa;
     aCobrar = aCobrar + (aCobrar * (this.login.value.igic/100));
+    aCobrar = aCobrar + (dias * this.login.value.seguroCoche) + (dias * this.login.value.seguroPersonal);
+
+    //var aCobrar = Math.round(Math.abs(salida - entrada)/dias)*this.login.value.tarifa + this.login.value.seguro ;
+    //aCobrar = aCobrar + (aCobrar * (this.login.value.igic/100));
     this.login.patchValue({precio : aCobrar});
   }
 
@@ -227,6 +234,11 @@ export class ContratosComponent implements OnInit {
 
   onClickSubmit(){
     //this.printData();
+    if(!this.login.valid || this.login.value.fechaSalida == ''){
+      this.addAlert({type: 'warning',
+                        message: 'Alguno de los campos esta vacio'});
+      return;
+    }
     if(!confirm("Se va a guardar la información"))
       return;
     console.log("paso");
@@ -237,13 +249,15 @@ export class ContratosComponent implements OnInit {
 
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
       console.log("Se supone que esta vacio");
-      var inputs = this.login.value.inputs;
+      /*var inputs = this.login.value.inputs;
       delete formData.inputs;
-      var element: any[] = [];
+      var element: any;
+      debugger;
       for(var i = 0; i < inputs.length; i++){
-        element.push(inputs[i].name);
+        element.push(inputs[i]);
       }
-      formData.inputs = element;
+      formData.inputs = element;*/
+      debugger;
       this.data.addData(JSON.stringify(formData)).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
@@ -312,7 +326,8 @@ export class ContratosComponent implements OnInit {
     var inputs = info.inputs;
     info.inputs.forEach(elementos => {
       this.t.push(this.formBuilder.group({
-                      name: [elementos, Validators.required],
+                      name: [elementos.name, Validators.required],
+                      license : [elementos.license, Validators.required]
                   }));
     });
   }
