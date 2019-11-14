@@ -86,7 +86,6 @@ export class OperadoresComponent implements OnInit {
   onClickSubmit(){//Editar
     var formData = this.login.value;
     formData.tabla = "operadores";
-    debugger;
     if(Object.keys(this.print.data).includes(''+this.login.value._id)){
       this.data.updateOp(JSON.stringify(formData)).subscribe(res =>{
         debugger;

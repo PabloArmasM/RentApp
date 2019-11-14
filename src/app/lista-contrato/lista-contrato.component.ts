@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DatProviderService } from '../dat-provider.service';
 import { CacheDataService } from '../cache-data.service';
 import {MatTableDataSource} from '@angular/material/table';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -70,6 +72,10 @@ export class ListaContratoComponent implements OnInit {
       posVehiculo: 'Lugar de entrega',
       //posFinalVehiculo: '',
       //observaciones: '',
+    },
+    operadores : {
+      _id : "ID",
+      name : "Nombre"
     }
 
   };
@@ -77,13 +83,49 @@ export class ListaContratoComponent implements OnInit {
   head = {};
   displayColumns = [];
   ready = false;
+  search = "contratos";
 
   mainSource : any;
   originSource : any;
+  login: FormGroup;
 
-  constructor(private dat : DatProviderService, private cache : CacheDataService) {
+  prolongar = true;
+  selectedTable = "contratos";
+
+  constructor(private formBuilder: FormBuilder, private dat : DatProviderService, private cache : CacheDataService) {
     window.addEventListener("message", this.receiveMessage.bind(this), false);
-
+    this.login = this.formBuilder.group({
+            _id: [''],
+            license: [''],
+            nombre: [''],
+            apellidos: [''],
+            direccion: [''],
+            email: [''],
+            dni: [''],
+            nacionalidad: [''],
+            fecha: [''],
+            telefono: [''],
+            sucursal: [''],
+            operador: [''],
+            bisni : [''],
+            comision : [''],
+            observaciones : [''],
+            operacionesAnuales : [''],
+            clientCode : [''],
+            grupo : [''],
+            fechaReserva: [''],
+            fechaEntrada: [''],
+            fechaSalida: [''],
+            posVehiculo: [''],
+            matricula : [''],
+            modelo : [''],
+            color : [''],
+            bastidor : [''],
+            propietario : [''],
+            situacion : [''],
+            gasolina : [''],
+            tipo : ['']
+        });
   }
 
   setTable(print){
@@ -91,6 +133,13 @@ export class ListaContratoComponent implements OnInit {
     this.print = new MatTableDataSource(print);
     //this.head = header;
     this.ready = true;
+  }
+
+  changeTable(table){
+    debugger;
+    this.selectedTable = table;
+    var toSearch = {tabla : "prolongar"};
+    this.chargeData(toSearch);
   }
 
   caca(i){
@@ -102,16 +151,36 @@ export class ListaContratoComponent implements OnInit {
   ngOnInit() {
     var time = new Date();
     var day = new Date(time.getFullYear(), time.getMonth(), time.getDate());
-    var toSearch = {tabla : "contratos"};
+    var toSearch = {tabla : "prolongar"};
     this.chargeData(toSearch);
 
   }
 
   chargeData(data){
     //this.displayColumns = Object.keys(this.head);
+    if(data.tabla == "prolongar"){
+      data.tabla = this.selectedTable;
+    }else{
+      this.prolongar = false;
+    }
     this.print = new MatTableDataSource();
     this.displayColumns = Object.keys(this.allHeads[data.tabla]);
+    this.search = data.tabla;
     this.head = this.allHeads[data.tabla];
+    this.dat.getData(JSON.stringify(data)).subscribe(res => {
+      console.log(res);
+      this.setTable(res);
+      this.ready = true;
+    });
+  }
+
+
+  searchData(){
+    var data = this.cache.clean(this.login.value);
+    data.tabla = this.search;
+    this.print = new MatTableDataSource();
+    this.displayColumns = Object.keys(this.allHeads[this.search]);
+    this.head = this.allHeads[this.search];
     this.dat.getData(JSON.stringify(data)).subscribe(res => {
       console.log(res);
       this.setTable(res);

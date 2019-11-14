@@ -132,7 +132,7 @@ export class ReservasComponent implements OnInit {
   }
 
   showSearch(){
-    if(!this.search){
+    if(!this.search || this.guindol.closed){
       this.search = true;
       //this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
       this.guindol = window.open('http://localhost:4200/#/listaContrato');
@@ -150,8 +150,8 @@ export class ReservasComponent implements OnInit {
           this.counterSub.unsubscribe();
         }
       });
-    }else
-      this.onClickSearch();
+    }/*else
+      this.onClickSearch();*/
   }
 
 

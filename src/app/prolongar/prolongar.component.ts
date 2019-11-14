@@ -81,9 +81,9 @@ export class ProlongarComponent implements OnInit {
           telefono: ['']
         });
 
-        this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
+        //this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
 
-        //this.guindol = window.open('http://localhost:4200/#/listaContrato');
+        this.guindol = window.open('http://localhost:4200/#/listaContrato');
         this.guindol.postMessage("hello baby", "*");
 
         // Create an Observable that will publish a value on an interval
@@ -161,8 +161,11 @@ export class ProlongarComponent implements OnInit {
   showSearch(){
     if(!this.search)
       this.search = true;
-    else
-      this.onClickSearch();
+    else if(this.guindol.closed){
+      this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
+    }
+    /*else
+      this.onClickSearch();*/
   }
 
   prepareData(data){
@@ -185,7 +188,7 @@ export class ProlongarComponent implements OnInit {
 
   onClickSearch(){
     var info = this.cache.clean(this.searchForm.value);
-    info.tabla = "contratos";
+    info.tabla = "prolongar";
     //this.closeSearch();
 
     this.guindol.postMessage(info, "*");
