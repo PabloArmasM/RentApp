@@ -16,6 +16,9 @@ export class DatProviderService {
 
   uri = 'http://localhost:3000';
   //uri = 'http://192.168.1.44:3000';
+  //uri = 'http://192.168.165.44:3000';
+  printUri = 'http://localhost:8000';
+
 
     constructor(private http: HttpClient) { }
 
@@ -67,5 +70,13 @@ export class DatProviderService {
 
     getVehicleStatus(data){
       return this.http.post<any>(this.uri+'/getVehicleStatus', data, httpOptions);
+    }
+
+    dayRange(data){
+      return this.http.post<any>(this.uri+'/dayRange', data, httpOptions);
+    }
+
+    printMulta(data){
+      return this.http.get<any>(this.printUri+'/multa', data);
     }
 }

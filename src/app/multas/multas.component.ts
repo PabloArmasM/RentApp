@@ -38,6 +38,13 @@ export class MultasComponent implements OnInit {
     this.message = message;
   }
 
+  amos(){
+    var data = {hola : "que fue bandido?"};
+    this.data.printMulta(JSON.stringify(data)).subscribe(res => {
+      console.log(res);
+    });
+  }
+
   onClickSubmit(){
     var formData = this.login.value;
     formData.fecha = new Date(formData.fecha).getTime();

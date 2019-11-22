@@ -1,1 +1,79 @@
-<p>contabilidad works!</p>
+<div class="container bajaPaBajo">
+  <div class="row">
+    <div class="col-sm" (click) = "selector='car'">
+      Vehículos
+    </div>
+    <div class="col-sm" (click) = "selector='day'; chachoPuto();">
+      Caja diaria
+    </div>
+    <div class="col-sm" (click) = "selector='three'">
+      Caja trimestral
+    </div>
+  </div>
+</div>
+
+<div class="container bajaPaBajo">
+  <div *ngIf="selector == 'car'" class="">
+    <form [formGroup]="login" class="m-3">
+      <label>Matrícula</label>
+      <input #inputs class="form-control" type = "text" formControlName="matricula" placeholder = "Matricula" (keyup.enter)="search(1)">
+    </form>
+    <br/>
+    <div class="text-center">
+      <button type="button" class="btn btn-secondary" (click)="search(1)">Buscar</button>
+    </div>
+
+    <div class="text-center">
+      <table class="table">
+  <thead>
+    <tr>
+      <th>Cantidad de contratos</th>
+      <th>Dinero recaudado</th>
+      <th>Días en servicio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{contratos}}</td>
+      <td>{{money}}</td>
+      <td>{{dias}}</td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+  </div>
+
+  <div *ngIf="selector == 'day'" class="">
+    <form [formGroup]="login" class="m-3">
+      <label>Fecha</label>
+      <input #inputs class="form-control" type="date" formControlName="fechaSalida" placeholder="Fecha" (keyup.enter)="search(2)">
+    </form>
+    <br/>
+    <div class="text-center">
+      <button type="button" class="btn btn-secondary" (click)="search(2)">Buscar</button>
+
+
+    </div>
+
+    <div class="text-center bajaPaBajo">
+      <table class="table">
+        <thead>
+          <tr>
+            <th *ngFor="let col of head | keyvalue">{{col.value}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let element of list">
+            <td *ngFor="let col of head | keyvalue">{{element[col.key]}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+
+  <div *ngIf="selector == 'three'" class="">
+    La caja trimestrallljopaj
+  </div>
+</div>
