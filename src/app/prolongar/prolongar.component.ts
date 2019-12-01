@@ -322,12 +322,16 @@ export class ProlongarComponent implements OnInit {
   /*if (event.origin !== "http://localhost:4200")
     return;*/
 
-  if(event.data.hasOwnProperty('_id')){
-    this.counterSub.unsubscribe();
-    this.prepareData(event.data);
-    this.nuevo = false;
-  }
-
+    if(event.data.hasOwnProperty('_id')){
+      this.counterSub.unsubscribe();
+      if(!event.data.hasOwnProperty('clientCode')){
+        this.login.patchValue({
+          clientCode : event.data["_id"]
+        });
+      }else{
+        this.prepareData(event.data);
+      }
+    }
   console.log(event);
 
 
