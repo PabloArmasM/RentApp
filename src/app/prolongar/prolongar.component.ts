@@ -55,22 +55,24 @@ export class ProlongarComponent implements OnInit {
   ngOnInit() {
     this.login = this.formBuilder.group({
             _id: [''],
-            clientCode: [''],
-            grupo: [''],
+            clientCode: ['', Validators.required],
+            grupo: ['', Validators.required],
             numHotel: [''],
-            bono: [''],
             precio: [''],
-            numFactura: [''],
-            operador: [''],
+            operador: ['', Validators.required],
             intermediario: [''],
-            matricula: [''],
-            lugar: [''],
-            fechaEntrada: [''],
+            matricula: ['', Validators.required],
+            lugar: ['', Validators.required],
+            fechaEntrada: ['', Validators.required],
             fechaSalida: [''],
-            posVehiculo: [''],
-            posFinalVehiculo: [''],
+            posVehiculo: ['', Validators.required],
+            posFinalVehiculo: ['', Validators.required],
             telefono: [''],
             gasolina: [''],
+            igic: ['', Validators.required],
+            tarifa: ['', Validators.required],
+            seguroCoche: ['', Validators.required],
+            seguroPersonal: ['',Validators.required],
             conexion : [''],
             inputs: new FormArray([])
         });
@@ -255,7 +257,7 @@ export class ProlongarComponent implements OnInit {
         element.push(inputs[i].name);
       }
       formData.inputs = element;
-      this.data.addData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.addData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
         this.readyToPrint = true;
@@ -266,7 +268,7 @@ export class ProlongarComponent implements OnInit {
       });
     }else{
       console.log(formData);
-      this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.updateData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
       });

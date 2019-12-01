@@ -22,8 +22,15 @@ export class CalendarioComponent implements OnInit {
   grupos = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
   fecha = new Date();
   grupo  = "A";
+  siete = true;
 
   constructor(private formBuilder: FormBuilder, private calendar : BuilderCalendarService) { }
+
+  aSieteDias(){
+    this.siete = (this.siete == true)?false : true;
+    this.semanasV = [];
+    this.createCalendar(this.fecha, this.grupo);
+  }
 
   ngOnInit() {
     this.login = this.formBuilder.group({
@@ -71,16 +78,25 @@ export class CalendarioComponent implements OnInit {
 
   async createCalendar(date, grupo){
     //El mes tiene que ser no por el resultado sino por las fechas.....
-    this.mes = await this.calendar.create(date, grupo);
-    var diasMes = this.calendar.getDays();
-    this.prepareOrder();
-    this.semanasV.push(this.semanas(diasMes, this.mes, 0, 7));
-    this.semanasV.push(this.semanas(diasMes, this.mes, 7, 14));
-    this.semanasV.push(this.semanas(diasMes, this.mes, 14, 21));
-    this.semanasV.push(this.semanas(diasMes, this.mes, 21, 28));
-    this.semanasV.push(this.semanas(diasMes, this.mes, 28, 35));
-    if(new Date(diasMes[35]).getDate() >= 28 || (new Date(diasMes[35]).getDate() == 29 && diasMes[35].getMonth() == 1))
-      this.semanasV.push(this.semanas(diasMes, this.mes, 35));
+    if(this.siete){
+      this.mes = await this.calendar.create(date, grupo);
+      var diasMes = this.calendar.getDays();
+      this.prepareOrder();
+      this.semanasV.push(this.semanas(diasMes, this.mes, 0, 7));
+      this.semanasV.push(this.semanas(diasMes, this.mes, 7, 14));
+      this.semanasV.push(this.semanas(diasMes, this.mes, 14, 21));
+      this.semanasV.push(this.semanas(diasMes, this.mes, 21, 28));
+      this.semanasV.push(this.semanas(diasMes, this.mes, 28, 35));
+      if(new Date(diasMes[35]).getDate() >= 28 || (new Date(diasMes[35]).getDate() == 29 && diasMes[35].getMonth() == 1))
+        this.semanasV.push(this.semanas(diasMes, this.mes, 35));
+    }else{
+      this.mes = await this.calendar.create(date, grupo);
+      var diasMes = this.calendar.getDays();
+      this.prepareOrder();
+      this.semanasV.push(this.semanas(diasMes, this.mes, 0, 14));
+      this.semanasV.push(this.semanas(diasMes, this.mes, 14, 28));
+      this.semanasV.push(this.semanas(diasMes, this.mes, 28));
+    }
   }
 
   /*ngOnDestroy() {

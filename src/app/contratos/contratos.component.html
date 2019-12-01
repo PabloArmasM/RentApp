@@ -90,12 +90,12 @@
 
               <div class="col-sm-6">
                 <label>Número de la factura</label>
-                <input #inputs class="form-control" type="text" formControlName="_id" placeholder="Número de la factura" ngModel  (keyup.enter)="keytab(1)" disabled>
+                <input #inputs class="form-control" type="number" formControlName="_id" placeholder="Número de la factura" ngModel  (keyup.enter)="keytab(1)" disabled>
               </div>
 
               <div class="col-sm-6">
                 <label>ID cliente</label>
-                <input #inputs class="form-control" type="text" formControlName="clientCode" placeholder="Código cliente" ngModel (keyup.enter)="keytab(2)">
+                <input #inputs class="form-control" type="number" formControlName="clientCode" placeholder="Código cliente" ngModel (keyup.enter)="keytab(2)">
               </div>
 
 
@@ -131,8 +131,8 @@
 
 
               <div class="col-sm-6">
-                <label>Lugar</label>
-                <input #inputs class="form-control" type="text" formControlName="lugar" placeholder="Lugar" (keyup.enter)="keytab(10)" ngModel>
+                <label>Dirección local</label>
+                <input #inputs class="form-control" type="text" formControlName="lugar" placeholder="Dirección local" (keyup.enter)="keytab(10)" ngModel>
               </div>
 
               <div class="col-sm-6">

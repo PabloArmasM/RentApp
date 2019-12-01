@@ -115,14 +115,14 @@ export class VehiculosComponent implements OnInit {
     formData.tipo = this.tipoPago;
     formData.fecha = new Date(formData.fecha).getTime();
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined || formData._id == -1){
-      this.data.addData(JSON.stringify(formData)).subscribe(res =>{
-        this.data.addVehiculeRutine(JSON.stringify({grupo: this.login.value.grupo, matricula : this.login.value.matricula, fecha: this.login.value.fecha})).subscribe(res =>{});
+      this.data.addData(formData).subscribe(res =>{
+        this.data.addVehiculeRutine({grupo: this.login.value.grupo, matricula : this.login.value.matricula, fecha: this.login.value.fecha}).subscribe(res =>{});
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
       });
     }else{
       console.log(formData);
-      this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.updateData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
       });

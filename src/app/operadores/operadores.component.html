@@ -19,7 +19,7 @@
 
     <form [formGroup]="login" (ngSubmit) = "onClickSubmit()" >
           <label>ID</label>
-        <input #inputs class="form-control" type="text" formControlName="_id" placeholder="ID" (keyup.enter)="keytab(1)" ngModel>
+        <input #inputs class="form-control" type="number" formControlName="_id" placeholder="ID" (keyup.enter)="keytab(1)" ngModel>
 
           <label>Nombre</label>
         <input #inputs class="form-control" type="text" formControlName="name" placeholder="Nombre" (keyup.enter)="onClickSubmit()" ngModel>

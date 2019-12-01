@@ -216,7 +216,7 @@ export class ReservasComponent implements OnInit {
     formData.fechaSalida = new Date(formData.fechaSalida).getTime();
 
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
-      this.data.addData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.addData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
         this.readyToPrint = true;
@@ -227,7 +227,7 @@ export class ReservasComponent implements OnInit {
       });
     }else{
       console.log(formData);
-      this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.updateData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
       });

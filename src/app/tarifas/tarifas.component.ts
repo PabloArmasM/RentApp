@@ -65,7 +65,7 @@ export class TarifasComponent implements OnInit {
       formData.tabla = "tarifas";
       formData._id = this._id;
       console.log(formData);
-      this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.updateData(formData).subscribe(res =>{
         this.login.patchValue(res);
       });
     }

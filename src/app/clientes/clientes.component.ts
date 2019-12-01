@@ -129,7 +129,7 @@ export class ClientesComponent implements OnInit {
     console.log(formData.fecha);
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
       console.log("Se supone que esta vacio");
-      this.data.addData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.addData(formData).subscribe(res =>{
         //console.log(res._id);
         CacheDataService.setClientId(res._id);
         this.login.patchValue({_id : res._id});
@@ -137,7 +137,7 @@ export class ClientesComponent implements OnInit {
       });
     }else{
       console.log(formData);
-      this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.updateData(formData).subscribe(res =>{
         CacheDataService.setClientId(res._id);
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);

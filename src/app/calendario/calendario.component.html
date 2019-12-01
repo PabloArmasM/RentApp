@@ -43,12 +43,23 @@
         </button>
       </span>
 
-      <button mat-icon-button (click)="updateMonth(1)"> 
+      <button mat-icon-button (click)="updateMonth(1)">
         <mat-icon>keyboard_arrow_right</mat-icon>
       </button>
     </div>
   </div>
 </div>
+
+<div class="container" *ngIf="siete" (click)="aSieteDias()">
+  <p>Cambiar a: 14 días</p>
+</div>
+
+
+<div class="container" *ngIf="!siete" (click)="aSieteDias()">
+  <p>Cambiar a: 7 días</p>
+</div>
+
+
 
 <div class="table-responsive-sm eso">
   <table class="table table-sm container">

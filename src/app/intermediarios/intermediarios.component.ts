@@ -113,13 +113,13 @@ export class IntermediariosComponent implements OnInit {
     formData.tabla = "intermediarios";
 
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
-      this.data.addData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.addData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
       });
     }else{
       console.log(formData);
-      this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.updateData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
       });

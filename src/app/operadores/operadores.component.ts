@@ -48,7 +48,7 @@ export class OperadoresComponent implements OnInit {
 
   refresh(){
     var toSearch = {tabla : "operadores"};
-    this.data.getData(JSON.stringify(toSearch)).subscribe(res => {
+    this.data.getData(toSearch).subscribe(res => {
       this.print = new MatTableDataSource(res);
     });
   }
@@ -87,7 +87,7 @@ export class OperadoresComponent implements OnInit {
     var formData = this.login.value;
     formData.tabla = "operadores";
     if(Object.keys(this.print.data).includes(''+this.login.value._id)){
-      this.data.updateOp(JSON.stringify(formData)).subscribe(res =>{
+      this.data.updateOp(formData).subscribe(res =>{
         debugger;
         //this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
@@ -96,12 +96,12 @@ export class OperadoresComponent implements OnInit {
       });
     }else if(this.login.value._id >= 0 && this.login.value._id != '' && this.login.value._id != null && this.login.value._id != undefined){
       debugger;
-      this.data.addOp(JSON.stringify(formData)).subscribe(res =>{
+      this.data.addOp(formData).subscribe(res =>{
         this.addAlert(res.message);
         this.refresh();
       });
     }else{
-      this.data.addData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.addData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
         this.refresh();

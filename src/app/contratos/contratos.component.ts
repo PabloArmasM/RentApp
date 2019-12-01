@@ -97,7 +97,7 @@ export class ContratosComponent implements OnInit {
     console.log(fecha);
     this.login.patchValue({clientCode : CacheDataService.getClientId()});
 
-    this.data.getData(JSON.stringify({tabla : 'tarifas'})).subscribe(res => {
+    this.data.getData({tabla : 'tarifas'}).subscribe(res => {
       console.log(res);
       this.allPrices = res[0];
       this.login.patchValue(
@@ -152,8 +152,8 @@ export class ContratosComponent implements OnInit {
   showSearch(){
     if(!this.search || this.guindol.closed){
       this.search = true;
-      this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
-      //this.guindol = window.open('http://localhost:4200/#/listaContrato');
+      //this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
+      this.guindol = window.open('http://localhost:4200/#/listaContrato');
       this.guindol.postMessage("hello baby", "*");
 
       this.counterSub = this.takeFourNumbers.subscribe(n =>{
@@ -258,7 +258,7 @@ export class ContratosComponent implements OnInit {
       }
       formData.inputs = element;*/
       debugger;
-      this.data.addData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.addData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
         this.readyToPrint = true;
@@ -269,7 +269,7 @@ export class ContratosComponent implements OnInit {
       });
     }else{
       console.log(formData);
-      this.data.updateData(JSON.stringify(formData)).subscribe(res =>{
+      this.data.updateData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
       });
@@ -345,7 +345,13 @@ export class ContratosComponent implements OnInit {
     return;*/
   if(event.data.hasOwnProperty('_id')){
     this.counterSub.unsubscribe();
-    this.prepareData(event.data);
+    if(!event.data.hasOwnProperty('clientCode')){
+      this.login.patchValue({
+        clientCode : event.data["_id"]
+      });
+    }else{
+      this.prepareData(event.data);
+    }
     //this.nuevo = false;
   }
 

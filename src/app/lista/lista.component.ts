@@ -143,7 +143,7 @@ export class ListaComponent implements OnInit {
     this.print = new MatTableDataSource();
     this.displayColumns = Object.keys(this.allHeads[data.tabla]);
     this.head = this.allHeads[data.tabla];
-    this.dat.getData(JSON.stringify(data)).subscribe(res => {
+    this.dat.getData(data).subscribe(res => {
       console.log(res);
       this.setTable(res);
       this.ready = true;
@@ -157,7 +157,7 @@ export class ListaComponent implements OnInit {
     this.print = new MatTableDataSource();
     this.displayColumns = Object.keys(this.allHeads[data.tabla]);
     this.head = this.allHeads[data.tabla];
-    this.dat.getData(JSON.stringify(data)).subscribe(res => {
+    this.dat.getData(data).subscribe(res => {
       console.log(res);
       this.setTable(res);
       this.ready = true;
