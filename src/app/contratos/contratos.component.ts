@@ -152,8 +152,8 @@ export class ContratosComponent implements OnInit {
   showSearch(){
     if(!this.search || this.guindol.closed){
       this.search = true;
-      //this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
-      this.guindol = window.open('http://localhost:4200/#/listaContrato');
+      this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
+      //this.guindol = window.open('http://localhost:4200/#/listaContrato');
       this.guindol.postMessage("hello baby", "*");
 
       this.counterSub = this.takeFourNumbers.subscribe(n =>{
@@ -199,6 +199,9 @@ export class ContratosComponent implements OnInit {
     var entrada = new Date(this.login.value.fechaSalida).getTime();
     var salida = new Date(this.login.value.fechaEntrada).getTime();
     dias = Math.round(Math.abs(salida - entrada)/dias)
+    if(dias == 0){
+      dias = 1;
+    }
     var aCobrar = dias*this.login.value.tarifa;
     aCobrar = aCobrar + (aCobrar * (this.login.value.igic/100));
     aCobrar = aCobrar + (dias * this.login.value.seguroCoche) + (dias * this.login.value.seguroPersonal);
@@ -229,6 +232,10 @@ export class ContratosComponent implements OnInit {
       _id : this.login.value._id};
     this.data.delete(info).subscribe(res =>{
         this.addAlert(res);
+    });
+    this.data.updateState({matricula : this.login.value.matricula, fechaSalida : this.login.value.fechaSalida,
+                          fechaEntrada : this.login.value.fechaEntrada, grupo: this.login.value.grupo, status: 1}).subscribe(res=>{
+      console.log(res);
     });
   }
 
@@ -278,15 +285,20 @@ export class ContratosComponent implements OnInit {
 
 
   printData(){
-    // epson LQ 500 ESC/P 2 Ver 2.0
-    this.printer.requestUsb();
-    this.printer.print();
+    // epson LQ 590 ESC/P 2 Ver 2.0
+    //this.printer.requestUsb();
+    //this.printer.print();
+    this.data.printContrato(this.login.value).subscribe(res =>{
+      console.log(res);
+    });
   }
 
   setTarifaGrupo(){
     var group = this.login.value["grupo"].toUpperCase();
     if(this.allPrices.hasOwnProperty(group))
       this.login.patchValue({tarifa : this.allPrices[group]})
+    else
+      alert("No existe el grupo");
   }
 
   closeSearch(){

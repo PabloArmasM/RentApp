@@ -16,20 +16,21 @@ export class DatProviderService {
 
   uri = 'http://localhost:3000';
   //uri = 'http://192.168.1.44:3000';
-  //uri = 'http://192.168.165.44:3000';
+  //uri = 'http://192.168.165.250:3000';
   //printUri = 'http://localhost:8000';
-  printUri = 'http://localhost:8003';
+  //printUri = '192.168.165.251';
+  printUri = 'http://localhost';
+  portPrint = 8000;
+
 
 
 
     constructor(private http: HttpClient) { }
 
     capitalizar(data){
-      debugger;
       var keys = Object.keys(data);
       keys.forEach(key =>{
         if(typeof data[key] === "string" && key != 'tabla'){
-          debugger;
           data[key] = data[key].toUpperCase();
         }
       });
@@ -91,6 +92,15 @@ export class DatProviderService {
     }
 
     printMulta(data){
-      return this.http.post<any>(this.printUri,JSON.stringify(this.capitalizar(data)), httpOptions);
+      return this.http.post<any>(this.printUri+":8000",JSON.stringify(this.capitalizar(data)), httpOptions);
+    }
+
+    printContrato(data){
+      debugger;
+      return this.http.post<any>(this.printUri+":8001",JSON.stringify(this.capitalizar(data)), httpOptions);
+    }
+
+    printReservas(data){
+      return this.http.post<any>(this.printUri+":8002", JSON.stringify(data), httpOptions);
     }
 }

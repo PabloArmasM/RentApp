@@ -39,7 +39,7 @@ export class TarifasComponent implements OnInit {
 
   ngAfterViewInit(){
     var data = {tabla : 'tarifas'}
-    this.data.getData(JSON.stringify(data)).subscribe(res => {
+    this.data.getData(data).subscribe(res => {
       console.log(res);
       this.login.patchValue(res[0]);
       this._id = res[0]._id;

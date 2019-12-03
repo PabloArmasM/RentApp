@@ -137,7 +137,6 @@ export class ListaComponent implements OnInit {
     this.ready = true;
   }
 
-
   chargeData(data){
     //this.displayColumns = Object.keys(this.head);
     this.print = new MatTableDataSource();
@@ -145,11 +144,25 @@ export class ListaComponent implements OnInit {
     this.head = this.allHeads[data.tabla];
     this.dat.getData(data).subscribe(res => {
       console.log(res);
+      if(this.search == "vehiculos"){
+        debugger;
+        res.forEach(element =>{
+          if(element.situacion != 0){
+            element.situacion = "Activo";
+          }else
+            element.situacion = "Fuera de servicio";
+        });
+      }
       this.setTable(res);
       this.ready = true;
     });
   }
 
+ toPrint(){
+   this.dat.printReservas(this.print.data).subscribe(res =>{
+     console.log(res);
+   });
+ }
 
   searchData(){
     var data = this.cache.clean(this.login.value);

@@ -169,6 +169,15 @@ export class ListaContratoComponent implements OnInit {
     this.head = this.allHeads[data.tabla];
     this.dat.getData(data).subscribe(res => {
       console.log(res);
+      if(this.search == "vehiculos"){
+        debugger;
+        res.forEach(element =>{
+          if(element.situacion != 0){
+            element.situacion = "Activo";
+          }else
+            element.situacion = "Fuera de servicio";
+        });
+      }
       this.setTable(res);
       this.ready = true;
     });

@@ -46,6 +46,7 @@ export class ProlongarComponent implements OnInit {
   takeFourNumbers = this.secondsCounter.pipe(take(100));
   counterSub : any;
 
+  allPrices : any;
 
   constructor(private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
     window.addEventListener("message", this.receiveMessage.bind(this), false);
@@ -137,6 +138,11 @@ export class ProlongarComponent implements OnInit {
     elements[pos].nativeElement.focus();
   }
 
+  setTarifaGrupo(){
+    var group = this.login.value["grupo"].toUpperCase();
+    if(this.allPrices.hasOwnProperty(group))
+      this.login.patchValue({tarifa : this.allPrices[group]})
+  }
 
   formatDate(date){
     var year = date.getFullYear();
@@ -278,8 +284,10 @@ export class ProlongarComponent implements OnInit {
 
   printData(){
     // epson LQ 500 ESC/P 2 Ver 2.0
-    this.printer.requestUsb();
-    this.printer.print();
+    //this.printer.requestUsb();
+    //this.printer.print();
+    this.data.printContrato(this.login.value);
+
   }
 
   ngOnDestroy() {

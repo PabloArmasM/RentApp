@@ -144,7 +144,7 @@ export class IntermediariosComponent implements OnInit {
     if(!this.search || this.guindol.closed){
       this.search = true;
       this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
-      //Cambiar aqui
+      //Cambiar aquia
       //this.guindol = window.open('http://localhost:4200/#/listaContrato');
       var info = {tabla : 'intermediarios'};
       this.guindol.postMessage(info, "*");
