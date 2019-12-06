@@ -1,85 +1,87 @@
-<div class="container py-5">
-    <div class="row justify-content-center">
-      <h2> Multas </h2>
-    </div>
-
-    <p *ngIf="activate">
-      <ngb-alert [type]="message.type" (close)="close(alert)">{{ message.message }}</ngb-alert>
-    </p>
-
-    <div class="row">
-        <div class="col-md-10 mx-auto">
-          <form [formGroup]="login" (ngSubmit) = "onClickSubmit()" >
-            <div class="form-group row">
-              <div class="col-sm-6">
-                <label>Matrícula</label>
-                <input #inputs class="form-control" type = "text" formControlName="matricula" placeholder = "Matrícula" (keyup.enter)="keytab(1)">
-              </div>
-
-              <div class="col-sm-6">
-                <label>Fecha</label>
-                <input #inputs class="form-control" type = "datetime-local" formControlName="fecha" placeholder = "Fecha" (keyup.enter)="onClickSubmit()">
-              </div>
-
-            </div>
-          </form>
-          <button type = "submit" class="btn btn-primary btn-block" (click)="onClickSubmit()"> Buscar </button>
-    </div>
-  </div>
-
-  <div class="bajaPaBajo" *ngIf="ready">
-    <form [formGroup]="toPrint" (ngSubmit) = "print()" >
-      <div class="form-group row">
-        <div class="col-sm-6">
-
-          <label>Expendiente</label>
-          <input #inputs class="form-control" type = "text" formControlName="expediente" placeholder = "Expendiente" (keyup.enter)="keytab(1)">
-        </div>
-
-        <div class="col-sm-6">
-          <label>Identificación</label>
-          <input #inputs class="form-control" type = "text" formControlName="dni" placeholder = "Pasaporte - Documento de identidad" (keyup.enter)="keytab(7)">
-        </div>
-
-        <div class="col-sm-6">
-          <label>Nombre</label>
-          <input #inputs class="form-control" #name type = "text" formControlName="nombre" placeholder = "Nombre" (keyup.enter)="keytab(3)">
-        </div>
-
-        <div class="col-sm-6">
-          <label>Matricula</label>
-          <input #inputs class="form-control" type = "text" formControlName="matricula" placeholder = "Matricula" (keyup.enter)="keytab(4)">
-        </div>
-
-        <div class="col-sm-6">
-          <label>Marca</label>
-          <input #inputs class="form-control" type = "text" formControlName="marca" placeholder = "Marca" (keyup.enter)="keytab(4)">
-        </div>
-
-        <div class="col-sm-6">
-          <label>Domicilio</label>
-          <input #inputs class="form-control" type = "text" formControlName="domicilio" placeholder = "Domicilio" (keyup.enter)="keytab(5)">
-        </div>
-
-        <div class="col-sm-6">
-          <label>Dirección local</label>
-          <input #inputs class="form-control" type = "text" formControlName="domLocal" placeholder = "Dirección local" (keyup.enter)="keytab(5)">
-        </div>
-
-
-        <div class="col-sm-6">
-          <label>Fecha de la multa</label>
-          <input #inputs class="form-control" type = "date" formControlName="fecha" placeholder = "Fecha de la multa" (keyup.enter)="keytab(9)">
-        </div>
-
-        <div class="col-sm-6">
-          <label>Fecha del documento</label>
-          <input #inputs class="form-control" type = "date" formControlName="fechaFoot" placeholder = "Fecha de la multa" (keyup.enter)="keytab(9)">
-        </div>
-
+<div class="full">
+  <div class="container py-5">
+      <div class="row justify-content-center">
+        <h2> Multas </h2>
       </div>
-    </form>
-    <button type = "submit" class="btn btn-primary btn-block" (click)="print()"> Imprimir </button>
 
+      <p *ngIf="activate">
+        <ngb-alert [type]="message.type" (close)="close(alert)">{{ message.message }}</ngb-alert>
+      </p>
+
+      <div class="row">
+          <div class="col-md-10 mx-auto">
+            <form [formGroup]="login" (ngSubmit) = "onClickSubmit()" >
+              <div class="form-group row">
+                <div class="col-sm-6">
+                  <label>Matrícula</label>
+                  <input #inputs class="form-control" type = "text" formControlName="matricula" placeholder = "Matrícula" (keyup.enter)="keytab(1)">
+                </div>
+
+                <div class="col-sm-6">
+                  <label>Fecha</label>
+                  <input #inputs class="form-control" type = "datetime-local" formControlName="fecha" placeholder = "Fecha" (keyup.enter)="onClickSubmit()">
+                </div>
+
+              </div>
+            </form>
+            <button type = "submit" class="btn btn-primary btn-block" (click)="onClickSubmit()"> Buscar </button>
+      </div>
+    </div>
+
+    <div class="bajaPaBajo" *ngIf="ready">
+      <form [formGroup]="toPrint" (ngSubmit) = "print()" >
+        <div class="form-group row">
+          <div class="col-sm-6">
+
+            <label>Expendiente</label>
+            <input #inputs class="form-control" type = "text" formControlName="expediente" placeholder = "Expendiente" (keyup.enter)="keytab(1)">
+          </div>
+
+          <div class="col-sm-6">
+            <label>Identificación</label>
+            <input #inputs class="form-control" type = "text" formControlName="dni" placeholder = "Pasaporte - Documento de identidad" (keyup.enter)="keytab(7)">
+          </div>
+
+          <div class="col-sm-6">
+            <label>Nombre</label>
+            <input #inputs class="form-control" #name type = "text" formControlName="nombre" placeholder = "Nombre" (keyup.enter)="keytab(3)">
+          </div>
+
+          <div class="col-sm-6">
+            <label>Matricula</label>
+            <input #inputs class="form-control" type = "text" formControlName="matricula" placeholder = "Matricula" (keyup.enter)="keytab(4)">
+          </div>
+
+          <div class="col-sm-6">
+            <label>Marca</label>
+            <input #inputs class="form-control" type = "text" formControlName="marca" placeholder = "Marca" (keyup.enter)="keytab(4)">
+          </div>
+
+          <div class="col-sm-6">
+            <label>Domicilio</label>
+            <input #inputs class="form-control" type = "text" formControlName="domicilio" placeholder = "Domicilio" (keyup.enter)="keytab(5)">
+          </div>
+
+          <div class="col-sm-6">
+            <label>Dirección local</label>
+            <input #inputs class="form-control" type = "text" formControlName="domLocal" placeholder = "Dirección local" (keyup.enter)="keytab(5)">
+          </div>
+
+
+          <div class="col-sm-6">
+            <label>Fecha de la multa</label>
+            <input #inputs class="form-control" type = "date" formControlName="fecha" placeholder = "Fecha de la multa" (keyup.enter)="keytab(9)">
+          </div>
+
+          <div class="col-sm-6">
+            <label>Fecha del documento</label>
+            <input #inputs class="form-control" type = "date" formControlName="fechaFoot" placeholder = "Fecha de la multa" (keyup.enter)="keytab(9)">
+          </div>
+
+        </div>
+      </form>
+      <button type = "submit" class="btn btn-primary btn-block" (click)="print()"> Imprimir </button>
+
+    </div>
   </div>
 </div>

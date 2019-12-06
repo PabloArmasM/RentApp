@@ -1,57 +1,59 @@
-
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <h2> Operadores </h2>
-  </div>
-
-  <p *ngIf="activate">
-    <ngb-alert [type]="message.type" (close)="close(alert)">{{ message.message }}</ngb-alert>
-  </p>
-
-<div class="row">
-  <div class="col-sm-6">
-
-
-    <div *ngIf="delete">
-          <button type="button" class="btn btn-danger btn-block" (click)="deleteElement()">Borrar</button>
-          <br/>
+<div class="full">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <h2> Operadores </h2>
     </div>
 
-    <form [formGroup]="login" (ngSubmit) = "onClickSubmit()" >
-          <label>ID</label>
-        <input #inputs class="form-control" type="number" formControlName="_id" placeholder="ID" (keyup.enter)="keytab(1)" ngModel>
+    <p *ngIf="activate">
+      <ngb-alert [type]="message.type" (close)="close(alert)">{{ message.message }}</ngb-alert>
+    </p>
 
-          <label>Nombre</label>
-        <input #inputs class="form-control" type="text" formControlName="name" placeholder="Nombre" (keyup.enter)="onClickSubmit()" ngModel>
-    </form>
-    <div>
-      <br/>
-      <button type = "submit" class="btn btn-primary btn-block" (click)="onClickSubmit()"> Guardar </button>
-    </div>
-  </div>
-  <div class="col-sm-6">
+  <div class="row">
+    <div class="col-sm-6">
 
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>
 
-    <div class="example-container mat-elevation-z8">
-      <table mat-table [dataSource]="print">
-        <ng-container *ngFor="let col of head | keyvalue" [matColumnDef]="col.key">
-          <th class="header" mat-header-cell *matHeaderCellDef> {{col.value}} </th>
-          <td mat-cell *matCellDef="let element; let i = index" (click)="caca(i)">
-              {{element[col.key]}}
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="colNames; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: colNames;"></tr>
-      </table>
-
+      <div *ngIf="delete">
+            <button type="button" class="btn btn-danger btn-block" (click)="deleteElement()">Borrar</button>
+            <br/>
       </div>
 
+      <form [formGroup]="login" (ngSubmit) = "onClickSubmit()" >
+            <label>ID</label>
+          <input #inputs class="form-control" type="number" formControlName="_id" placeholder="ID" (keyup.enter)="keytab(1)" ngModel>
 
+            <label>Nombre</label>
+          <input #inputs class="form-control" type="text" formControlName="name" placeholder="Nombre" (keyup.enter)="onClickSubmit()" ngModel>
+      </form>
+      <div>
+        <br/>
+        <button type = "submit" class="btn btn-primary btn-block" (click)="onClickSubmit()"> Guardar </button>
+      </div>
+    </div>
+    <div class="col-sm-6">
+
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+
+      <div class="example-container mat-elevation-z8">
+        <table mat-table [dataSource]="print">
+          <ng-container *ngFor="let col of head | keyvalue" [matColumnDef]="col.key">
+            <th class="header" mat-header-cell *matHeaderCellDef> {{col.value}} </th>
+            <td mat-cell *matCellDef="let element; let i = index" (click)="caca(i)">
+                {{element[col.key]}}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="colNames; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: colNames;"></tr>
+        </table>
+
+        </div>
+
+
+    </div>
+  </div>
+
+  <!--Licencia de conducir, Nombre, Direccion (con poblacion), Direccion local. dni, nacionalidad y fecha de nacimiento (sucursal), codigo primary key-->
   </div>
 </div>
-
-<!--Licencia de conducir, Nombre, Direccion (con poblacion), Direccion local. dni, nacionalidad y fecha de nacimiento (sucursal), codigo primary key-->

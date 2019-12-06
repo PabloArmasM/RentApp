@@ -44,8 +44,8 @@ export class CacheDataService {
   }
 
   static opening(){
-    this.guindol = window.open('file://'+__dirname+'/index.html#/calendario', "", "height=5000, width=5000");
-    //this.guindol = window.open('http://localhost:4200/#/calendario', "calendario", "fullscreen=yes, height=5000, width=5000");
+    //this.guindol = window.open('file://'+__dirname+'/index.html#/calendario', "", "height=5000, width=5000");
+    this.guindol = window.open('http://localhost:4200/#/calendario', "calendario", "fullscreen=yes, height=5000, width=5000");
     this.open = true;
   }
 
@@ -56,7 +56,7 @@ export class CacheDataService {
 
   static couldOpen(){
     if(this.guindol == undefined || this.guindol.closed)
-      this.guindol = window.open('file://'+__dirname+'/index.html#/calendario', "", "height=5000, width=5000");
-      //this.guindol = window.open('http://localhost:4200/#/calendario');
+      //this.guindol = window.open('file://'+__dirname+'/index.html#/calendario', "", "height=5000, width=5000");
+      this.guindol = window.open('http://localhost:4200/#/calendario');
   }
 }

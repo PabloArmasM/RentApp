@@ -1,75 +1,77 @@
-<div *ngIf="search == 'vehiculos'">
-  <br/>
-  <br/>
-  <form [formGroup]="login" class="d-flex justify-content-center">
+<div class="full">
+  <div *ngIf="search == 'vehiculos'">
+    <br/>
+    <br/>
+    <form [formGroup]="login" class="d-flex justify-content-center">
 
-    <div class="row">
-    <div class="col-sm">
-      <input matInput placeholder="Código" lass="form-control" formControlName="_id">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Matrícula" lass="form-control" formControlName="matricula">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Grupo" lass="form-control" formControlName="grupo">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Modelo" lass="form-control" formControlName="modelo">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Bastidor" lass="form-control" formControlName="Bastidor">
-    </div>
+      <div class="row">
+      <div class="col-sm">
+        <input matInput placeholder="Código" lass="form-control" formControlName="_id">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Matrícula" lass="form-control" formControlName="matricula">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Grupo" lass="form-control" formControlName="grupo">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Modelo" lass="form-control" formControlName="modelo">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Bastidor" lass="form-control" formControlName="Bastidor">
+      </div>
 
-    <div class="w-100"></div>
+      <div class="w-100"></div>
 
-    <div class="col-sm">
-      <input matInput placeholder="Propietario" lass="form-control" formControlName="propietario">
+      <div class="col-sm">
+        <input matInput placeholder="Propietario" lass="form-control" formControlName="propietario">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Situacion" lass="form-control" formControlName="situacion">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Fecha"  type="date" lass="form-control" formControlName="fecha">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Estado tanque" lass="form-control" formControlName="gasolina">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Caja de cambio" lass="form-control" formControlName="tipo">
+      </div>
     </div>
-    <div class="col-sm">
-      <input matInput placeholder="Situacion" lass="form-control" formControlName="situacion">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Fecha"  type="date" lass="form-control" formControlName="fecha">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Estado tanque" lass="form-control" formControlName="gasolina">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Caja de cambio" lass="form-control" formControlName="tipo">
+    </form>
+
+    <br/>
+    <div class="d-flex justify-content-center">
+      <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
     </div>
   </div>
-  </form>
 
-  <br/>
-  <div class="d-flex justify-content-center">
-    <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
+  <mat-form-field *ngIf="ready">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+
+  <div class="example-container mat-elevation-z8" *ngIf="ready">
+
+
+    <!--<div *ngFor="let col of head | keyvalue">Holaaa y tal capullo {{col.key}} {{col.value}}</div>-->
+
+    <table mat-table [dataSource]="print">
+
+      <ng-container *ngFor="let col of head | keyvalue" [matColumnDef]="col.key">
+        <th class="header" mat-header-cell *matHeaderCellDef> {{col.value}} </th>
+        <td mat-cell *matCellDef="let element; let i = index" (click)="caca(i)">
+          <span *ngIf="col.key == 'fecha' || col.key == 'fechaReserva' || col.key == 'fechaSalida' || col.key == 'fechaEntrada'">
+            {{element[col.key]  | date:'dd/MM/yyyy'}}
+          </span>
+          <span *ngIf="col.key != 'fecha' && col.key != 'fechaReserva' && col.key != 'fechaSalida' && col.key != 'fechaEntrada'">
+            {{element[col.key]}}
+          </span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+    </table>
   </div>
-</div>
-
-<mat-form-field *ngIf="ready">
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
-
-<div class="example-container mat-elevation-z8" *ngIf="ready">
-
-
-  <!--<div *ngFor="let col of head | keyvalue">Holaaa y tal capullo {{col.key}} {{col.value}}</div>-->
-
-  <table mat-table [dataSource]="print">
-
-    <ng-container *ngFor="let col of head | keyvalue" [matColumnDef]="col.key">
-      <th class="header" mat-header-cell *matHeaderCellDef> {{col.value}} </th>
-      <td mat-cell *matCellDef="let element; let i = index" (click)="caca(i)">
-        <span *ngIf="col.key == 'fecha' || col.key == 'fechaReserva' || col.key == 'fechaSalida' || col.key == 'fechaEntrada'">
-          {{element[col.key]  | date:'dd/MM/yyyy'}}
-        </span>
-        <span *ngIf="col.key != 'fecha' && col.key != 'fechaReserva' && col.key != 'fechaSalida' && col.key != 'fechaEntrada'">
-          {{element[col.key]}}
-        </span>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
-  </table>
 </div>

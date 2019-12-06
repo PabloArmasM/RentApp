@@ -18,9 +18,8 @@ export class DatProviderService {
   //uri = 'http://192.168.1.44:3000';
   //uri = 'http://192.168.165.250:3000';
   //printUri = 'http://localhost:8000';
-  //printUri = '192.168.165.251';
-  printUri = 'http://localhost';
-  portPrint = 8000;
+  printUri = 'http://192.168.165.251';
+  //printUri = 'http://localhost';
 
 
 

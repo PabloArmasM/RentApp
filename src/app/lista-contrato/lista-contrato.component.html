@@ -1,224 +1,226 @@
-<div *ngIf="prolongar">
-  <br/>
-  <br/>
-  <div class="btn-group btn-group-toggle d-flex justify-content-center" data-toggle="buttons">
-  <label class="btn btn-secondary active" (click)="changeTable('contratos')">
-    <input type="radio" name="options" checked (click)="changeTable('contratos')"> Contratos
-  </label>
-  <label class="btn btn-secondary" (click)="changeTable('clientes')">
-    <input type="radio" name="options" (click)="changeTable('clientes')"> Clientes
-  </label>
-</div>
-</div>
-
-<div *ngIf="search == 'clientes'">
-  <br/>
-  <br/>
-  <form [formGroup]="login" class="d-flex justify-content-center">
-
-    <div class="row">
-    <div class="col-sm">
-      <input matInput placeholder="Código" lass="form-control" formControlName="_id">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Licencia" lass="form-control" formControlName="license">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Nombre" lass="form-control" formControlName="nombre">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Apellidos" lass="form-control" formControlName="apellidos">
-    </div>
-    <div class="col-sm">
-      <input matInput type="date" placeholder="Fecha de nacimiento" lass="form-control" formControlName="fecha">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Teléfono" lass="form-control" formControlName="telefono">
-    </div>
+<div class="full">
+  <div *ngIf="prolongar">
+    <br/>
+    <br/>
+    <div class="btn-group btn-group-toggle d-flex justify-content-center" data-toggle="buttons">
+    <label class="btn btn-secondary active" (click)="changeTable('contratos')">
+      <input type="radio" name="options" checked (click)="changeTable('contratos')"> Contratos
+    </label>
+    <label class="btn btn-secondary" (click)="changeTable('clientes')">
+      <input type="radio" name="options" (click)="changeTable('clientes')"> Clientes
+    </label>
   </div>
-  </form>
-
-  <br/>
-  <div class="d-flex justify-content-center">
-    <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
   </div>
-</div>
 
-<div *ngIf="search == 'operadores'">
-  <br/>
-  <br/>
-  <form [formGroup]="login" class="d-flex justify-content-center">
+  <div *ngIf="search == 'clientes'">
+    <br/>
+    <br/>
+    <form [formGroup]="login" class="d-flex justify-content-center">
 
-    <div class="row">
+      <div class="row">
       <div class="col-sm">
         <input matInput placeholder="Código" lass="form-control" formControlName="_id">
       </div>
       <div class="col-sm">
+        <input matInput placeholder="Licencia" lass="form-control" formControlName="license">
+      </div>
+      <div class="col-sm">
         <input matInput placeholder="Nombre" lass="form-control" formControlName="nombre">
       </div>
+      <div class="col-sm">
+        <input matInput placeholder="Apellidos" lass="form-control" formControlName="apellidos">
+      </div>
+      <div class="col-sm">
+        <input matInput type="date" placeholder="Fecha de nacimiento" lass="form-control" formControlName="fecha">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Teléfono" lass="form-control" formControlName="telefono">
+      </div>
     </div>
-  </form>
+    </form>
 
-  <br/>
-  <div class="d-flex justify-content-center">
-    <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
-  </div>
-</div>
-
-<div *ngIf="search == 'intermediarios'">
-  <br/>
-  <br/>
-  <form [formGroup]="login" class="d-flex justify-content-center">
-
-    <div class="row">
-    <div class="col-sm">
-      <input matInput placeholder="Código" class="form-control" formControlName="_id">
-    </div>
-    <div  class="col-sm">
-      <input matInput placeholder="Nombre" class="form-control" formControlName="nombre">
-    </div>
-    <div  class="col-sm">
-      <input matInput placeholder="Direccion" class="form-control" formControlName="direccion">
-    </div>
-    <div  class="col-sm">
-      <input matInput placeholder="Empresa" class="form-control" formControlName="bisni">
-    </div>
-    <div  class="col-sm">
-      <input matInput placeholder="Comisión" class="form-control" formControlName="comision">
-    </div>
-
-    <div  class="col-sm">
-      <input matInput placeholder="Teléfono" class="form-control" formControlName="telefono">
-    </div>
-
-    <div  class="col-sm">
-      <input matInput placeholder="Observaciones" class="form-control" formControlName="observaciones">
-    </div>
-
-    <div  class="col-sm">
-      <input matInput placeholder="Operaciones anuales" class="form-control" formControlName="operacionesAnuales">
-    </div>
-  </div>
-  </form>
-
-  <br/>
-  <div class="d-flex justify-content-center">
-    <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
-  </div>
-</div>
-
-<div *ngIf="search == 'contratos' || search == 'reservas'">
-  <br/>
-  <br/>
-  <form [formGroup]="login" class="d-flex justify-content-center">
-
-    <div class="row">
-    <div class="col-sm">
-      <input matInput placeholder="Código" class="form-control" formControlName="_id">
-    </div>
-
-    <div class="col-sm">
-      <input matInput placeholder="Código del cliente" class="form-control" formControlName="clientCode">
-    </div>
-    <div  class="col-sm">
-      <input matInput placeholder="Grupo vehículo" class="form-control" formControlName="grupo">
-    </div>
-    <div class="col-sm">
-      <label>Fecha reserva</label>
-      <input matInput type="date" placeholder="Fecha de la reserva" lass="form-control" formControlName="fechaReserva">
-    </div>
-    <div class="col-sm">
-      <label>Fecha entrada</label>
-      <input matInput type="date" placeholder="Fecha entrada" lass="form-control" formControlName="fechaEntrada">
-    </div>
-    <div class="col-sm">
-      <label>Fecha salida</label>
-      <input matInput type="date" placeholder="Fecha salida" lass="form-control" formControlName="fechaSalida">
+    <br/>
+    <div class="d-flex justify-content-center">
+      <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
     </div>
   </div>
 
-  </form>
+  <div *ngIf="search == 'operadores'">
+    <br/>
+    <br/>
+    <form [formGroup]="login" class="d-flex justify-content-center">
 
-  <br/>
-  <div class="d-flex justify-content-center">
-    <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
-  </div>
-</div>
+      <div class="row">
+        <div class="col-sm">
+          <input matInput placeholder="Código" lass="form-control" formControlName="_id">
+        </div>
+        <div class="col-sm">
+          <input matInput placeholder="Nombre" lass="form-control" formControlName="nombre">
+        </div>
+      </div>
+    </form>
 
-
-<div *ngIf="search == 'vehiculos'">
-  <br/>
-  <br/>
-  <form [formGroup]="login" class="d-flex justify-content-center">
-
-    <div class="row">
-    <div class="col-sm">
-      <input matInput placeholder="Código" lass="form-control" formControlName="_id">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Matrícula" lass="form-control" formControlName="matricula">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Grupo" lass="form-control" formControlName="grupo">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Modelo" lass="form-control" formControlName="modelo">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Bastidor" lass="form-control" formControlName="Bastidor">
-    </div>
-
-    <div class="w-100"></div>
-
-    <div class="col-sm">
-      <input matInput placeholder="Propietario" lass="form-control" formControlName="propietario">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Situacion" lass="form-control" formControlName="situacion">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Fecha"  type="date" lass="form-control" formControlName="fecha">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Estado tanque" lass="form-control" formControlName="gasolina">
-    </div>
-    <div class="col-sm">
-      <input matInput placeholder="Caja de cambio" lass="form-control" formControlName="tipo">
+    <br/>
+    <div class="d-flex justify-content-center">
+      <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
     </div>
   </div>
-  </form>
 
-  <br/>
-  <div class="d-flex justify-content-center">
-    <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
+  <div *ngIf="search == 'intermediarios'">
+    <br/>
+    <br/>
+    <form [formGroup]="login" class="d-flex justify-content-center">
+
+      <div class="row">
+      <div class="col-sm">
+        <input matInput placeholder="Código" class="form-control" formControlName="_id">
+      </div>
+      <div  class="col-sm">
+        <input matInput placeholder="Nombre" class="form-control" formControlName="nombre">
+      </div>
+      <div  class="col-sm">
+        <input matInput placeholder="Direccion" class="form-control" formControlName="direccion">
+      </div>
+      <div  class="col-sm">
+        <input matInput placeholder="Empresa" class="form-control" formControlName="bisni">
+      </div>
+      <div  class="col-sm">
+        <input matInput placeholder="Comisión" class="form-control" formControlName="comision">
+      </div>
+
+      <div  class="col-sm">
+        <input matInput placeholder="Teléfono" class="form-control" formControlName="telefono">
+      </div>
+
+      <div  class="col-sm">
+        <input matInput placeholder="Observaciones" class="form-control" formControlName="observaciones">
+      </div>
+
+      <div  class="col-sm">
+        <input matInput placeholder="Operaciones anuales" class="form-control" formControlName="operacionesAnuales">
+      </div>
+    </div>
+    </form>
+
+    <br/>
+    <div class="d-flex justify-content-center">
+      <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
+    </div>
   </div>
-</div>
+
+  <div *ngIf="search == 'contratos' || search == 'reservas'">
+    <br/>
+    <br/>
+    <form [formGroup]="login" class="d-flex justify-content-center">
+
+      <div class="row">
+      <div class="col-sm">
+        <input matInput placeholder="Código" class="form-control" formControlName="_id">
+      </div>
+
+      <div class="col-sm">
+        <input matInput placeholder="Código del cliente" class="form-control" formControlName="clientCode">
+      </div>
+      <div  class="col-sm">
+        <input matInput placeholder="Grupo vehículo" class="form-control" formControlName="grupo">
+      </div>
+      <div class="col-sm">
+        <label>Fecha reserva</label>
+        <input matInput type="date" placeholder="Fecha de la reserva" lass="form-control" formControlName="fechaReserva">
+      </div>
+      <div class="col-sm">
+        <label>Fecha entrada</label>
+        <input matInput type="date" placeholder="Fecha entrada" lass="form-control" formControlName="fechaEntrada">
+      </div>
+      <div class="col-sm">
+        <label>Fecha salida</label>
+        <input matInput type="date" placeholder="Fecha salida" lass="form-control" formControlName="fechaSalida">
+      </div>
+    </div>
+
+    </form>
+
+    <br/>
+    <div class="d-flex justify-content-center">
+      <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
+    </div>
+  </div>
 
 
-<mat-form-field *ngIf="ready">
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
+  <div *ngIf="search == 'vehiculos'">
+    <br/>
+    <br/>
+    <form [formGroup]="login" class="d-flex justify-content-center">
 
-<div class="example-container mat-elevation-z8" *ngIf="ready">
+      <div class="row">
+      <div class="col-sm">
+        <input matInput placeholder="Código" lass="form-control" formControlName="_id">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Matrícula" lass="form-control" formControlName="matricula">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Grupo" lass="form-control" formControlName="grupo">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Modelo" lass="form-control" formControlName="modelo">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Bastidor" lass="form-control" formControlName="Bastidor">
+      </div>
+
+      <div class="w-100"></div>
+
+      <div class="col-sm">
+        <input matInput placeholder="Propietario" lass="form-control" formControlName="propietario">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Situacion" lass="form-control" formControlName="situacion">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Fecha"  type="date" lass="form-control" formControlName="fecha">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Estado tanque" lass="form-control" formControlName="gasolina">
+      </div>
+      <div class="col-sm">
+        <input matInput placeholder="Caja de cambio" lass="form-control" formControlName="tipo">
+      </div>
+    </div>
+    </form>
+
+    <br/>
+    <div class="d-flex justify-content-center">
+      <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
+    </div>
+  </div>
 
 
-  <!--<div *ngFor="let col of head | keyvalue">Holaaa y tal capullo {{col.key}} {{col.value}}</div>-->
+  <mat-form-field *ngIf="ready">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
 
-  <table mat-table [dataSource]="print">
+  <div class="example-container mat-elevation-z8" *ngIf="ready">
 
-    <ng-container *ngFor="let col of head | keyvalue" [matColumnDef]="col.key">
-      <th class="header" mat-header-cell *matHeaderCellDef> {{col.value}} </th>
-      <td mat-cell *matCellDef="let element; let i = index" (click)="caca(i)">
-        <span *ngIf="col.key == 'fecha' || col.key == 'fechaReserva' || col.key == 'fechaSalida' || col.key == 'fechaEntrada'">
-          {{element[col.key]  | date:'dd/MM/yyyy'}}
-        </span>
-        <span *ngIf="col.key != 'fecha' && col.key != 'fechaReserva' && col.key != 'fechaSalida' && col.key != 'fechaEntrada'">
-          {{element[col.key]}}
-        </span>
-      </td>
-    </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
-  </table>
+    <!--<div *ngFor="let col of head | keyvalue">Holaaa y tal capullo {{col.key}} {{col.value}}</div>-->
+
+    <table mat-table [dataSource]="print">
+
+      <ng-container *ngFor="let col of head | keyvalue" [matColumnDef]="col.key">
+        <th class="header" mat-header-cell *matHeaderCellDef> {{col.value}} </th>
+        <td mat-cell *matCellDef="let element; let i = index" (click)="caca(i)">
+          <span *ngIf="col.key == 'fecha' || col.key == 'fechaReserva' || col.key == 'fechaSalida' || col.key == 'fechaEntrada'">
+            {{element[col.key]  | date:'dd/MM/yyyy'}}
+          </span>
+          <span *ngIf="col.key != 'fecha' && col.key != 'fechaReserva' && col.key != 'fechaSalida' && col.key != 'fechaEntrada'">
+            {{element[col.key]}}
+          </span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+    </table>
+  </div>
 </div>

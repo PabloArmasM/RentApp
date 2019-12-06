@@ -1,0 +1,27 @@
+.full{
+  background: #003C77;
+  height: 100%;
+}
+
+label{
+  color: white;
+}
+
+input{
+  color: white;
+  background: #003C77;
+  border : 0px;
+  font-weight: bold;
+}
+
+
+.form-control:disabled, .form-control[readonly]{
+  color: white;
+  background: #003CBB;
+  border : 0px;
+  font-weight: bold;
+}
+
+h2{
+  color: white;
+}

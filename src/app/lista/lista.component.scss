@@ -24,3 +24,58 @@ mat-cell, .mat-cell {
 th.mat-sort-header-sorted {
   color: black;
 }
+
+.full{
+  height: 100%;
+  background: #003C77;
+}
+
+label{
+  color: white;
+}
+
+input{
+  color: white;
+  background: #003C77;
+  border : 0px;
+  font-weight: bold;
+}
+
+
+.form-control:disabled, .form-control[readonly]{
+  color: white;
+  background: #003CBB;
+  border : 0px;
+  font-weight: bold;
+}
+
+h2{
+  color: white;
+}
+
+table{
+  background: #003C77;
+}
+
+th{
+  font-weight: bold;
+  color: white;
+}
+
+td{
+  color: white;
+}
+
+
+mat-form-field{
+  font-size: 20px;
+}
+
+::placeholder{
+  color: white;
+}
+
+div{
+  font-size: 20px;
+  color: white;
+}

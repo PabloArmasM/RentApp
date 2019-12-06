@@ -1,95 +1,97 @@
-<div class="container py-5">
+<div class="full">
+  <div class="container py-5">
 
-  <div class="row justify-content-center">
-    <h2> Reservas </h2>
-  </div>
-
-    <div class="row">
-        <div class="col-md-10 mx-auto">
-
-          <form  [formGroup]="login"  (ngSubmit) = "onClickSubmit()" >
-            <div class="form-group row">
-
-
-              <div class="col-sm-6">
-                <label>IGIC</label>
-                <input #inputs class="form-control" type="number" formControlName="igic" placeholder="IGIC" ngModel  (keyup.enter)="keytab(1)">
-              </div>
-
-              <div class="col-sm-6">
-                <label>Seguro coche</label>
-                <input #inputs class="form-control" type="number" formControlName="seguroCoche" placeholder="Seguro coche" ngModel  (keyup.enter)="keytab(2)">
-              </div>
-
-              <div class="col-sm-6">
-                <label>Seguro personal</label>
-                <input #inputs class="form-control" type="number" formControlName="seguroPersonal" placeholder="Seguro personal" ngModel  (keyup.enter)="keytab(2)">
-              </div>
-
-              <div class="col-sm-6">
-                <label>Tarifa grupo A</label>
-                <input #inputs class="form-control" type="number" formControlName="A" placeholder="Tarifa grupo A" (keyup.enter)="keytab(3)" ngModel>
-              </div>
-
-              <div class="col-sm-6">
-                <label>Tarifa grupo B</label>
-                <input #inputs class="form-control" type="number" formControlName="B" placeholder="Tarifa grupo B" (keyup.enter)="keytab(4)" ngModel>
-              </div>
-
-
-              <div class="col-sm-6">
-                <label>Tarifa grupo C</label>
-                <input #inputs class="form-control" type="number" formControlName="C" placeholder="Tarifa grupo C" (keyup.enter)="keytab(5)" ngModel>
-              </div>
-
-
-              <div class="col-sm-6">
-                <label>Tarifa grupo D</label>
-                <input #inputs class="form-control" type="number" formControlName="D" placeholder="Tarifa grupo D" (keyup.enter)="keytab(6)" ngModel>
-              </div>
-
-
-              <div class="col-sm-6">
-                <label>Tarifa grupo E</label>
-                <input #inputs class="form-control" type="number" formControlName="E" placeholder="Tarifa grupo E" (keyup.enter)="keytab(7)" ngModel>
-              </div>
-
-              <div class="col-sm-6">
-                <label>Tarifa grupo F</label>
-                <input #inputs class="form-control" type="number" formControlName="F" placeholder="Tarifa grupo A" (keyup.enter)="keytab(8)" ngModel>
-              </div>
-
-              <div class="col-sm-6">
-                <label>Tarifa grupo G</label>
-                <input #inputs class="form-control" type="number" formControlName="G" placeholder="Tarifa grupo G" (keyup.enter)="keytab(9)" ngModel>
-              </div>
-
-              <div class="col-sm-6">
-                <label>Tarifa grupo H</label>
-                <input #inputs class="form-control" type="number" formControlName="H" placeholder="Tarifa grupo H" (keyup.enter)="keytab(10)" ngModel>
-              </div>
-
-
-              <div class="col-sm-6">
-                <label>Tarifa grupo I</label>
-                <input #inputs class="form-control" type="number" formControlName="I" placeholder="Tarifa grupo I" ngModel (keyup.enter)="onClickSubmit()">
-              </div>
-
-          </div>
-
-          </form>
-
-          <!-- Botones Guardar - limpar-->
-          <div class="row">
-            <div class="col-sm-6">
-              <button type = "submit" class="btn btn-primary btn-block" (click)="onClickSubmit()"> Guardar </button>
-            </div>
-            <div class="col-sm-6">
-              <button type = "submit" class="btn btn-secondary btn-block" (click)="login.reset()"> Limpiar </button>
-            </div>
-          </div>
-          <!-- FIN Botones Guardar - limpar-->
-
-        </div>
-      </div>
+    <div class="row justify-content-center">
+      <h2> Reservas </h2>
     </div>
+
+      <div class="row">
+          <div class="col-md-10 mx-auto">
+
+            <form  [formGroup]="login"  (ngSubmit) = "onClickSubmit()" >
+              <div class="form-group row">
+
+
+                <div class="col-sm-6">
+                  <label>IGIC</label>
+                  <input #inputs class="form-control" type="number" formControlName="igic" placeholder="IGIC" ngModel  (keyup.enter)="keytab(1)">
+                </div>
+
+                <div class="col-sm-6">
+                  <label>Seguro coche</label>
+                  <input #inputs class="form-control" type="number" formControlName="seguroCoche" placeholder="Seguro coche" ngModel  (keyup.enter)="keytab(2)">
+                </div>
+
+                <div class="col-sm-6">
+                  <label>Seguro personal</label>
+                  <input #inputs class="form-control" type="number" formControlName="seguroPersonal" placeholder="Seguro personal" ngModel  (keyup.enter)="keytab(2)">
+                </div>
+
+                <div class="col-sm-6">
+                  <label>Tarifa grupo A</label>
+                  <input #inputs class="form-control" type="number" formControlName="A" placeholder="Tarifa grupo A" (keyup.enter)="keytab(3)" ngModel>
+                </div>
+
+                <div class="col-sm-6">
+                  <label>Tarifa grupo B</label>
+                  <input #inputs class="form-control" type="number" formControlName="B" placeholder="Tarifa grupo B" (keyup.enter)="keytab(4)" ngModel>
+                </div>
+
+
+                <div class="col-sm-6">
+                  <label>Tarifa grupo C</label>
+                  <input #inputs class="form-control" type="number" formControlName="C" placeholder="Tarifa grupo C" (keyup.enter)="keytab(5)" ngModel>
+                </div>
+
+
+                <div class="col-sm-6">
+                  <label>Tarifa grupo D</label>
+                  <input #inputs class="form-control" type="number" formControlName="D" placeholder="Tarifa grupo D" (keyup.enter)="keytab(6)" ngModel>
+                </div>
+
+
+                <div class="col-sm-6">
+                  <label>Tarifa grupo E</label>
+                  <input #inputs class="form-control" type="number" formControlName="E" placeholder="Tarifa grupo E" (keyup.enter)="keytab(7)" ngModel>
+                </div>
+
+                <div class="col-sm-6">
+                  <label>Tarifa grupo F</label>
+                  <input #inputs class="form-control" type="number" formControlName="F" placeholder="Tarifa grupo A" (keyup.enter)="keytab(8)" ngModel>
+                </div>
+
+                <div class="col-sm-6">
+                  <label>Tarifa grupo G</label>
+                  <input #inputs class="form-control" type="number" formControlName="G" placeholder="Tarifa grupo G" (keyup.enter)="keytab(9)" ngModel>
+                </div>
+
+                <div class="col-sm-6">
+                  <label>Tarifa grupo H</label>
+                  <input #inputs class="form-control" type="number" formControlName="H" placeholder="Tarifa grupo H" (keyup.enter)="keytab(10)" ngModel>
+                </div>
+
+
+                <div class="col-sm-6">
+                  <label>Tarifa grupo I</label>
+                  <input #inputs class="form-control" type="number" formControlName="I" placeholder="Tarifa grupo I" ngModel (keyup.enter)="onClickSubmit()">
+                </div>
+
+            </div>
+
+            </form>
+
+            <!-- Botones Guardar - limpar-->
+            <div class="row">
+              <div class="col-sm-6">
+                <button type = "submit" class="btn btn-primary btn-block" (click)="onClickSubmit()"> Guardar </button>
+              </div>
+              <div class="col-sm-6">
+                <button type = "submit" class="btn btn-secondary btn-block" (click)="login.reset()"> Limpiar </button>
+              </div>
+            </div>
+            <!-- FIN Botones Guardar - limpar-->
+
+          </div>
+        </div>
+  </div>
+</div>
