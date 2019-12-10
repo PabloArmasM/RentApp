@@ -170,6 +170,14 @@ export class ListaComponent implements OnInit {
     this.print = new MatTableDataSource();
     this.displayColumns = Object.keys(this.allHeads[data.tabla]);
     this.head = this.allHeads[data.tabla];
+    if(data.hasOwnProperty('fecha'))
+      data['fecha'] = new Date(data['fecha']).getTime();
+    if(data.hasOwnProperty('fechaReserva'))
+      data['fecha'] = new Date(data['fechaReserva']).getTime();
+    if(data.hasOwnProperty('fechaEntrada'))
+      data['fecha'] = new Date(data['fechaEntrada']).getTime();
+    if(data.hasOwnProperty('fechaSalida'))
+      data['fecha'] = new Date(data['fechaSalida']).getTime();
     this.dat.getData(data).subscribe(res => {
       console.log(res);
       this.setTable(res);

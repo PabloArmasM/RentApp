@@ -5,7 +5,7 @@
 
 table {
   margin: auto;
-  width: 75%;
+  height: 100%;
 }
 
 
@@ -56,14 +56,17 @@ h2{
 
 table{
   background: #003C77;
+  width: 100%;
 }
 
 th{
   font-weight: bold;
+  font-size: 20px;
   color: white;
 }
 
 td{
+  font-size: 20px;
   color: white;
 }
 

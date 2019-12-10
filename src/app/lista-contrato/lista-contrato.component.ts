@@ -103,7 +103,6 @@ export class ListaContratoComponent implements OnInit {
             email: [''],
             dni: [''],
             nacionalidad: [''],
-            fecha: [''],
             telefono: [''],
             sucursal: [''],
             operador: [''],
@@ -113,6 +112,7 @@ export class ListaContratoComponent implements OnInit {
             operacionesAnuales : [''],
             clientCode : [''],
             grupo : [''],
+            fecha: [''],
             fechaReserva: [''],
             fechaEntrada: [''],
             fechaSalida: [''],
@@ -187,6 +187,17 @@ export class ListaContratoComponent implements OnInit {
   searchData(){
     var data = this.cache.clean(this.login.value);
     data.tabla = this.search;
+
+    if(data.hasOwnProperty('fecha'))
+      data['fecha'] = new Date(data['fecha']).getTime();
+    if(data.hasOwnProperty('fechaReserva'))
+      data['fecha'] = new Date(data['fechaReserva']).getTime();
+    if(data.hasOwnProperty('fechaEntrada'))
+      data['fecha'] = new Date(data['fechaEntrada']).getTime();
+    if(data.hasOwnProperty('fechaSalida'))
+      data['fecha'] = new Date(data['fechaSalida']).getTime();
+
+      
     this.print = new MatTableDataSource();
     this.displayColumns = Object.keys(this.allHeads[this.search]);
     this.head = this.allHeads[this.search];

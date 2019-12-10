@@ -57,6 +57,11 @@ table{
   background: #003C77;
 }
 
+table {
+  margin: auto;
+  width: 100%;
+}
+
 th{
   font-weight: bold;
   color: white;
@@ -73,4 +78,19 @@ mat-form-field{
 
 ::placeholder{
   color: white;
+}
+
+input, button, label{
+  font-size: 20px;
+}
+
+th{
+  font-weight: bold;
+  color: white;
+  font-size: 20px;
+}
+
+td{
+  color: white;
+  font-size: 20px;
 }
