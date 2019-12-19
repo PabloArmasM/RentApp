@@ -63,7 +63,8 @@ export class ClientesComponent implements OnInit {
             fecha: [''],
             telefono: [''],
             sucursal: [''],
-            operador: ['']
+            operador: [''],
+            fechaExp: ['']
         });
       this.searchForm = this.formBuilder.group({
         _id: [''],
@@ -126,6 +127,7 @@ export class ClientesComponent implements OnInit {
     var formData = this.login.value;
     formData.tabla = "clientes";
     formData.fecha = new Date(formData.fecha).getTime();
+    formData.fechaExp = new Date(formData.fechaExp).getTime();
     console.log(formData.fecha);
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
       console.log("Se supone que esta vacio");
@@ -155,14 +157,14 @@ export class ClientesComponent implements OnInit {
 
 
 
-    return (year + "-" + month + "-" + day +"T"+hours+":"+minutes);
+    return (year + "-" + month + "-" + day);
   }
 
   showSearch(){
     if(!this.search || this.guindol.closed){
       this.search = true;
-      this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
-      //this.guindol = window.open('http://localhost:4200/#/listaContrato');
+      //this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
+      this.guindol = window.open('http://localhost:4200/#/listaContrato');
       var info = {tabla : 'clientes'};
       this.guindol.postMessage(info, "*");
 
@@ -210,7 +212,9 @@ export class ClientesComponent implements OnInit {
     //info.fechaSalida = this.formatDate(new Date(info.fechaSalida));
     //info.fechaEntrada = this.formatDate(new Date(info.fechaEntrada));
     info.fecha = this.formatDate(new Date(info.fecha));
+    info.fechaExp = this.formatDate(new Date(info.fechaExp));
 
+    debugger;
     this.login.patchValue(info);
   }
 

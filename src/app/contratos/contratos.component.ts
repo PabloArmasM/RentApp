@@ -50,6 +50,11 @@ export class ContratosComponent implements OnInit {
 
   allPrices : any;
 
+  datoVehiculo : any;
+  datosClientes: any;
+
+  diasPrint: number;
+
   constructor(private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
     window.addEventListener("message", this.receiveMessage.bind(this), false);
   }
@@ -75,6 +80,9 @@ export class ContratosComponent implements OnInit {
             tarifa: ['', Validators.required],
             seguroCoche: ['', Validators.required],
             seguroPersonal: ['',Validators.required],
+            observaciones: ['', Validators.required],
+            estado: ['', Validators.required],
+            conexion : [''],
             inputs: new FormArray([])
         });
         this.searchForm = this.formBuilder.group({
@@ -125,6 +133,33 @@ export class ContratosComponent implements OnInit {
     elements[pos].nativeElement.focus();
   }
 
+  searchMatricula(){
+    var matricula = this.login.value.matricula;
+    var data = {tabla : "vehiculos", matricula: matricula};
+    debugger;
+    this.data.getData(data).subscribe(rest =>{
+      debugger;
+      var res = rest[0];
+      if(res == '' || res == undefined){
+        confirm("No existe ningún vehículo para esta matrícula");
+      }else
+        this.datoVehiculo = res;
+    });
+  }
+
+  searchClient(){
+    var matricula = this.login.value.clientCode;
+    var data = {tabla : "clientes", _id: matricula};
+    debugger;
+    this.data.getData(data).subscribe(rest =>{
+      debugger;
+      var res = rest[0];
+      if( res == undefined || res == '' ){
+        confirm("No existe ningún cliente con ese ID");
+      }else
+        this.datosClientes = res;
+    });
+  }
 
   formatDate(date){
     var year = date.getFullYear();
@@ -138,6 +173,28 @@ export class ContratosComponent implements OnInit {
 
     return (year + "-" + month + "-" + day +"T"+hours+":"+minutes);
   }
+
+  firstPart(date){
+    var year = date.getFullYear();
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+
+
+
+    return (day + "-" + month + "-" + year);
+  }
+
+
+  secondPart(date){
+    var hours = ("0" + date.getHours()).slice(-2);
+    var minutes = ("0" + date.getMinutes()).slice(-2);
+    var seconds = ("0" + date.getSeconds()).slice(-2);
+
+
+
+    return (hours+":"+minutes);
+  }
+
 
   get f() { return this.login.controls; }
   get t() { return this.f.inputs as FormArray; }
@@ -202,6 +259,9 @@ export class ContratosComponent implements OnInit {
     if(dias == 0){
       dias = 1;
     }
+
+    this.diasPrint = dias;
+
     var aCobrar = dias*this.login.value.tarifa;
     aCobrar = aCobrar + (aCobrar * (this.login.value.igic/100));
     aCobrar = aCobrar + (dias * this.login.value.seguroCoche) + (dias * this.login.value.seguroPersonal);
@@ -209,6 +269,52 @@ export class ContratosComponent implements OnInit {
     //var aCobrar = Math.round(Math.abs(salida - entrada)/dias)*this.login.value.tarifa + this.login.value.seguro ;
     //aCobrar = aCobrar + (aCobrar * (this.login.value.igic/100));
     this.login.patchValue({precio : aCobrar});
+  }
+
+
+  calculateOnlyDays(){
+    var dias = (1000*60*60*24);
+    var entrada = new Date(this.login.value.fechaSalida).getTime();
+    var salida = new Date(this.login.value.fechaEntrada).getTime();
+    dias = Math.round(Math.abs(salida - entrada)/dias)
+    if(dias == 0){
+      dias = 1;
+    }
+
+    this.diasPrint = dias;
+  }
+
+  getSubtotal(){
+    var dias = (1000*60*60*24);
+    var entrada = new Date(this.login.value.fechaSalida).getTime();
+    var salida = new Date(this.login.value.fechaEntrada).getTime();
+    dias = Math.round(Math.abs(salida - entrada)/dias)
+    if(dias == 0){
+      dias = 1;
+    }
+
+    this.diasPrint = dias;
+
+    var aCobrar = dias*this.login.value.tarifa;
+    //aCobrar = aCobrar + (aCobrar * (this.login.value.igic/100));
+    aCobrar = aCobrar + (dias * this.login.value.seguroCoche) + (dias * this.login.value.seguroPersonal);
+    return aCobrar;
+  }
+
+  getImpuesto(){
+    var dias = (1000*60*60*24);
+    var entrada = new Date(this.login.value.fechaSalida).getTime();
+    var salida = new Date(this.login.value.fechaEntrada).getTime();
+    dias = Math.round(Math.abs(salida - entrada)/dias)
+    if(dias == 0){
+      dias = 1;
+    }
+
+    this.diasPrint = dias;
+
+    var aCobrar = dias*this.login.value.tarifa;
+    aCobrar = (aCobrar * (this.login.value.igic/100));
+    return aCobrar;
   }
 
   updateTerms(){
@@ -277,18 +383,71 @@ export class ContratosComponent implements OnInit {
     }else{
       console.log(formData);
       this.data.updateData(formData).subscribe(res =>{
-        this.login.patchValue({_id : res._id});
+        //this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
       });
     }
   }
 
 
+  preapreInput(data){
+    var result = [];
+    data.forEach(element =>{
+      result.push(element.name + " - "+ element.license);
+    });
+    return result;
+  }
+
   printData(){
     // epson LQ 590 ESC/P 2 Ver 2.0
     //this.printer.requestUsb();
     //this.printer.print();
-    this.data.printContrato(this.login.value).subscribe(res =>{
+    var precio = this.diasPrint * this.login.value.tarifa;
+
+    var data = {
+      numFactura : this.login.value._id,
+      modelo : this.datoVehiculo.modelo,
+      matricula : this.datoVehiculo.matricula,
+      color : this.datoVehiculo.color,
+      bastidor: this.datoVehiculo.bastidor,
+      propietario: this.datoVehiculo.propietario,
+      devolver: this.login.value.posFinalVehiculo,
+      salida: this.login.value.posVehiculo,
+      fecha: this.firstPart(new Date(this.login.value.fechaSalida)),
+      hora: this.secondPart(new Date(this.login.value.fechaSalida)),
+      gas: this.login.value.gasolina,
+      fechaDev: this.firstPart(new Date(this.login.value.fechaEntrada)),
+      horaDev: this.secondPart(new Date(this.login.value.fechaEntrada)),
+      grupo: this.datoVehiculo.grupo,
+      dirPerm: this.datosClientes.direccion,
+      dias: this.diasPrint,
+      tarifa: this.login.value.tarifa,
+      precio: precio,
+      dirLocal: this.login.value.lugar,
+      nacionalidad: this.datosClientes.nacionalidad,
+      subtotales: precio,
+      menos: "?",
+      permiso: this.datosClientes.license,
+      clase: "B",
+      fechaExp: this.firstPart(this.datosClientes.fechaExp),
+      danos : this.login.value.seguroCoche,
+      personal: this.login.value.seguroPersonal,
+      fechaNa: this.firstPart(this.datosClientes.fecha),
+      conductores: this.preapreInput(this.login.value.inputs),
+      subtotal: this.getSubtotal(),
+      impuesto: this.getImpuesto(),
+      total: this.login.value.precio,
+      estado: this.login.value.estado,
+      observaciones: this.login.value.observaciones,
+      pago: this.tipoPago,
+      operador: this.login.value.operador,
+      nombre: this.datosClientes.nombre,
+      conexion: this.login.value.conexion
+
+    };
+    debugger;
+
+    this.data.printContrato(data).subscribe(res =>{
       console.log(res);
     });
   }
@@ -334,7 +493,9 @@ export class ContratosComponent implements OnInit {
     info.fechaEntrada = this.formatDate(new Date(info.fechaEntrada));
 
     this.login.patchValue(info);
-
+    this.searchMatricula();
+    this.searchClient();
+    this.calculateOnlyDays();
     var inputs = info.inputs;
     info.inputs.forEach(elementos => {
       this.t.push(this.formBuilder.group({
@@ -361,6 +522,7 @@ export class ContratosComponent implements OnInit {
       this.login.patchValue({
         clientCode : event.data["_id"]
       });
+      this.datosClientes = event.data;
     }else{
       this.prepareData(event.data);
     }

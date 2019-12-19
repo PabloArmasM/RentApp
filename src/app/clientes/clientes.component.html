@@ -103,6 +103,11 @@
                 </div>
 
                 <div class="col-sm-6">
+                  <label>Fecha de expedición</label>
+                  <input #inputs class="form-control" type = "date" formControlName="fechaExp" placeholder = "Fecha de nacimiento" (keyup.enter)="keytab(9)">
+                </div>
+
+                <div class="col-sm-6">
                   <label>Nombre</label>
                   <input #inputs class="form-control" #name type = "text" formControlName="nombre" placeholder = "Nombre" (keyup.enter)="keytab(3)">
                 </div>
@@ -136,6 +141,7 @@
                   <label>Fecha de nacimiento</label>
                   <input #inputs class="form-control" type = "date" formControlName="fecha" placeholder = "Fecha de nacimiento" (keyup.enter)="keytab(9)">
                 </div>
+
 
                 <div class="col-sm-6">
                   <label>Teléfono</label>
