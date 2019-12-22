@@ -1,10 +1,18 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild, Inject} from '@angular/core';
 import { DatProviderService } from '../dat-provider.service';
 import { CacheDataService } from '../cache-data.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatRadioModule} from '@angular/material/radio';
+
+
+export interface DialogData {
+  matricula: string;
+  situacion: number;
+}
 
 @Component({
   selector: 'app-flota',
@@ -89,41 +97,46 @@ export class FlotaComponent implements OnInit {
 
 
 
-  constructor(private formBuilder: FormBuilder, private dat : DatProviderService,  private cache: CacheDataService) {
+  constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private dat : DatProviderService,  private cache: CacheDataService) {
     this.login = this.formBuilder.group({
-            _id: [''],
-            license: [''],
-            nombre: [''],
-            apellidos: [''],
-            direccion: [''],
-            email: [''],
-            dni: [''],
-            nacionalidad: [''],
-            fecha: [''],
-            telefono: [''],
-            sucursal: [''],
-            operador: [''],
-            bisni : [''],
-            comision : [''],
-            observaciones : [''],
-            operacionesAnuales : [''],
-            clientCode : [''],
-            grupo : [''],
-            fechaReserva: [''],
-            fechaEntrada: [''],
-            fechaSalida: [''],
-            posVehiculo: [''],
-            matricula : [''],
-            modelo : [''],
-            color : [''],
-            bastidor : [''],
-            propietario : [''],
-            situacion : [''],
-            gasolina : [''],
-            tipo : ['']
+          _id: [''],
+          matricula: [''],
+          grupo : [''],
+          modelo: [''],
+          color: [''],
+          bastidor: [''],
+          propietario: [''],
+          situacion: [''],
+          fecha: [''],
+          gasolina: [''],
+          tipo: ['']
         });
   }
 
+
+  openDialog(i): void {
+    const dialogRef = this.dialog.open(FlotaDialog, {
+      width: '250px',
+      data: {matricula: this.print.data[i].matricula, situacion: this.print.data[i].situacion}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+
+      if(result != undefined){
+        console.log(result.situacion);
+        this.print.data[i].situacion = result.situacion;
+        var formData = {tabla:"vehiculos", _id : this.print.data[i]._id, situacion : result.situacion};
+        this.dat.updateData(formData).subscribe(res =>{
+          //CacheDataService.setClientId(this.print.data[i]._id);
+          //this.login.patchValue({_id : res._id});
+          //this.addAlert(res.message);
+          console.log(res);
+        });
+      }
+      //this.animal = result;
+    });
+  }
 
   ngOnInit() {
     this.print.sort = this.sort;
@@ -135,7 +148,7 @@ export class FlotaComponent implements OnInit {
   }
 
   setTable(print){
-    debugger;
+
     this.print = new MatTableDataSource(print);
     //this.head = header;
     this.ready = true;
@@ -149,15 +162,6 @@ export class FlotaComponent implements OnInit {
     this.head = this.allHeads[data.tabla];
     this.dat.getData(data).subscribe(res => {
       console.log(res);
-      if(this.search == "vehiculos"){
-        debugger;
-        res.forEach(element =>{
-          if(element.situacion != 0){
-            element.situacion = "Activo";
-          }else
-            element.situacion = "Fuera de servicio";
-        });
-      }
       this.setTable(res);
       this.ready = true;
     });
@@ -199,4 +203,25 @@ export class FlotaComponent implements OnInit {
   applyFilter(filterValue: string) {
       this.print.filter = filterValue.trim().toLowerCase();
     }
+}
+
+
+@Component({
+  selector: 'flota-dialog',
+  templateUrl: 'flota-dialog.html',
+})
+export class FlotaDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<FlotaDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    }
+
+  chanje(value){
+    this.data.situacion = value;
+  }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }

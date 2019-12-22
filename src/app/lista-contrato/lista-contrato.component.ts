@@ -172,10 +172,13 @@ export class ListaContratoComponent implements OnInit {
       if(this.search == "vehiculos"){
         debugger;
         res.forEach(element =>{
-          if(element.situacion != 0){
+          if(element.situacion == 1){
             element.situacion = "Activo";
-          }else
-            element.situacion = "Fuera de servicio";
+          }else if(element.situacion == -1){
+            element.situacion = "Reparándose";
+          }else if(element.situacion == -2){
+            element.situacion = "En venta";
+          }
         });
       }
       this.setTable(res);
@@ -197,7 +200,7 @@ export class ListaContratoComponent implements OnInit {
     if(data.hasOwnProperty('fechaSalida'))
       data['fecha'] = new Date(data['fechaSalida']).getTime();
 
-      
+
     this.print = new MatTableDataSource();
     this.displayColumns = Object.keys(this.allHeads[this.search]);
     this.head = this.allHeads[this.search];

@@ -33,3 +33,33 @@ table{
   border-left: 1px black solid;
   border-right:  1px black solid;
 }
+
+label{
+  color: white;
+  font-size: 20px;
+}
+
+input{
+  color: white;
+  background: #003C77;
+  border : 0px;
+  font-weight: bold;
+}
+
+
+.form-control:disabled, .form-control[readonly]{
+  color: white;
+  background: #003CBB;
+  border : 0px;
+  font-weight: bold;
+}
+
+h2{
+  color: white;
+}
+
+span, div, table{
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}

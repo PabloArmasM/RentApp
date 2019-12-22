@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Vehículo:  {{data.matricula}}</h1>
+<div mat-dialog-content>
+  <p>Cambio de situación</p>
+  <mat-radio-group>
+    <mat-radio-button [checked]="data.situacion == 1" value="1" (change)="chanje(1)">Activo</mat-radio-button>
+    <br/>
+    <mat-radio-button [checked]="data.situacion == -1" value="2" (change)="chanje(-1)">Reparación</mat-radio-button>
+    <br/>
+    <mat-radio-button [checked]="data.situacion == -2" value="3" (change)="chanje(-2)">Venta</mat-radio-button>
+  </mat-radio-group>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Guardar</button>
+</div>

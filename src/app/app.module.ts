@@ -49,6 +49,10 @@ import { CalendarioComponent } from './calendario/calendario.component';
 import { TarifasComponent } from './tarifas/tarifas.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FlotaDialog } from './flota/flota.component';
+import {MatRadioModule} from '@angular/material/radio';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -57,7 +61,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 
 @NgModule({
-  declarations: [AppComponent, ClientesComponent, MultasComponent, IntermediariosComponent, OperadoresComponent, ContratosComponent, VehiculosComponent, FlotaComponent, ContabilidadComponent, ListaComponent, ReservasComponent, ProlongarComponent, ListaContratoComponent, CalendarioComponent, TarifasComponent],
+  declarations: [AppComponent, FlotaDialog, ClientesComponent, MultasComponent, IntermediariosComponent, OperadoresComponent, ContratosComponent, VehiculosComponent, FlotaComponent, ContabilidadComponent, ListaComponent, ReservasComponent, ProlongarComponent, ListaContratoComponent, CalendarioComponent, TarifasComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -87,6 +91,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgbModule,
     NgbPaginationModule,
     NgbAlertModule,
+    MatDialogModule,
+    MatRadioModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -101,6 +107,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatDatepickerModule,
    ],
   bootstrap: [AppComponent],
-  schemas: [ NO_ERRORS_SCHEMA ]
+  schemas: [ NO_ERRORS_SCHEMA ],
+  entryComponents: [
+    FlotaDialog
+  ],
 })
 export class AppModule {}

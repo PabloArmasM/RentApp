@@ -20,7 +20,7 @@ export class ListaComponent implements OnInit {
 
   ready = false;
 
-  allHeads = {
+  allHeads: any = {
     contratos : {
       _id:'Código', clientCode:'Código del cliente',	/*grupo,	numHotel,	bono,	precio,*/	numFactura:'Número de la factura',	/*operador,	intermediario,*/	matricula: 'Matrícula',	/*lugar,	*/	fechaSalida : "Fecha de salida", fechaEntrada:"Fecha de entrada",	/*posVehiculo,	posFinalVehiculo,*/	telefono : "Teléfono",	/*gasolina,	inputs*/
     },
@@ -169,10 +169,13 @@ export class ListaComponent implements OnInit {
       if(this.search == "vehiculos"){
 
         res.forEach(element =>{
-          if(element.situacion != 0){
+          if(element.situacion == 1){
             element.situacion = "Activo";
-          }else
-            element.situacion = "Fuera de servicio";
+          }else if(element.situacion == -1){
+            element.situacion = "Reparándose";
+          }else if(element.situacion == -2){
+            element.situacion = "En venta";
+          }
         });
       }
       this.setTable(res);
@@ -211,28 +214,25 @@ export class ListaComponent implements OnInit {
     phrase = this.putWord(phrase, "Fecha salida", 19); //Palabra, hueco, pos
     phrase = this.putWord(phrase, "Fecha Entrada", 19);
     phrase = this.putWord(phrase, "Fecha Reserva", 19);
-    phrase = this.putWord(phrase, "Grupo", 6, 1);
+    phrase = this.putWord(phrase, "Grupo", 6);
     phrase = this.putWord(phrase, "Lugar", 16);
     phrase = this.putWord(phrase, "A devolver", 16);
     phrase = this.putWord(phrase, "Observaciones", 16);
-
-     ;
      console.log(phrase);
      print.push(phrase);
 
-     var aux = this.print.data;
+     var aux : any = this.print.data;
      for(var i = 0; i < aux.length; i++){
         phrase = "|";
         phrase = this.putWord(phrase, this.formatForPrint(new Date (aux[i].fechaReserva)), 19); //Palabra, hueco, pos
         phrase = this.putWord(phrase, this.formatForPrint(new Date (aux[i].fechaEntrada)), 19);
         phrase = this.putWord(phrase, this.formatForPrint(new Date(aux[i].fechaReserva)), 19);
-        phrase = this.putWord(phrase, aux[i].grupo, 6, 1);
+        phrase = this.putWord(phrase, aux[i].grupo.substring(aux[i].grupo.length - 1), 6);
         phrase = this.putWord(phrase, aux[i].posVehiculo, 16);
         phrase = this.putWord(phrase, aux[i].posFinalVehiculo, 16);
         phrase = this.putWord(phrase, aux[i].observaciones, 16);
         print.push(phrase);
      }
-     ;
 
 
    this.dat.printReservas({query:print}).subscribe(res =>{
@@ -242,7 +242,7 @@ export class ListaComponent implements OnInit {
 
   searchData(){
 
-    var data = {};
+    var data : any = {};
     data = this.cache.clean(this.login.value);
     //data.tabla = this.search;
     this.print = new MatTableDataSource();
@@ -289,8 +289,9 @@ export class ListaComponent implements OnInit {
     }
 
     data.tabla = this.search;
-    this.displayColumns = Object.keys(this.allHeads[this.search]);
-    this.head = this.allHeads[this.search];
+    this.head = this.allHeads[data.tabla];
+    this.displayColumns = Object.keys(this.head);
+
     this.login.reset();
     this.dat.getData(data).subscribe(res => {
       console.log(res);

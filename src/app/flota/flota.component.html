@@ -1,5 +1,5 @@
 <div class="full">
-  <div *ngIf="search == 'vehiculos'">
+  <div>
     <br/>
     <br/>
     <form [formGroup]="login" class="d-flex justify-content-center">
@@ -18,7 +18,7 @@
         <input matInput placeholder="Modelo" lass="form-control" formControlName="modelo">
       </div>
       <div class="col-sm">
-        <input matInput placeholder="Bastidor" lass="form-control" formControlName="Bastidor">
+        <input matInput placeholder="Bastidor" lass="form-control" formControlName="bastidor">
       </div>
 
       <div class="w-100"></div>
@@ -47,11 +47,11 @@
     </div>
   </div>
 
-  <mat-form-field *ngIf="ready">
+  <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
 
-  <div class="example-container mat-elevation-z8" *ngIf="ready">
+  <div class="example-container mat-elevation-z8">
 
 
     <!--<div *ngFor="let col of head | keyvalue">Holaaa y tal capullo {{col.key}} {{col.value}}</div>-->
@@ -60,13 +60,29 @@
 
       <ng-container *ngFor="let col of head | keyvalue" [matColumnDef]="col.key">
         <th class="header" mat-header-cell *matHeaderCellDef> {{col.value}} </th>
-        <td mat-cell *matCellDef="let element; let i = index" (click)="caca(i)">
+        <td mat-cell *matCellDef="let element; let i = index" (click)="openDialog(i)">
           <span *ngIf="col.key == 'fecha' || col.key == 'fechaReserva' || col.key == 'fechaSalida' || col.key == 'fechaEntrada'">
             {{element[col.key]  | date:'dd/MM/yyyy'}}
           </span>
-          <span *ngIf="col.key != 'fecha' && col.key != 'fechaReserva' && col.key != 'fechaSalida' && col.key != 'fechaEntrada'">
+
+          <span *ngIf="col.key == 'situacion'">
+            <span *ngIf="element[col.key] == 1">
+              Activo
+            </span>
+            <span *ngIf="element[col.key] == -1">
+              Reparándose
+            </span>
+
+            <span *ngIf="element[col.key] == -2">
+              En venta
+            </span>
+          </span>
+
+          <span *ngIf="col.key != 'fecha' && col.key != 'fechaReserva' && col.key != 'fechaSalida' && col.key != 'fechaEntrada' && col.key != 'situacion'">
             {{element[col.key]}}
           </span>
+
+
         </td>
       </ng-container>
 
