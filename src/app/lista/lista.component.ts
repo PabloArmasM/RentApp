@@ -275,8 +275,9 @@ export class ListaComponent implements OnInit {
     }
 
 
-    if(data != {}){
+    if(data != {} && fechasForQuery.length > 0){
       var alter = {};
+
       Object.keys(data).forEach(key => {
 
         alter = {};
@@ -284,13 +285,12 @@ export class ListaComponent implements OnInit {
         delete data[key];
         fechasForQuery.push(alter);
       });
-
+      data.query = {$and : fechasForQuery};
     }
 
     data.tabla = this.search;
-    data.query = fechasForQuery;
-    this.displayColumns = Object.keys(this.allHeads[data.tabla]);
-    this.head = this.allHeads[data.tabla];
+    this.displayColumns = Object.keys(this.allHeads[this.search]);
+    this.head = this.allHeads[this.search];
     this.login.reset();
     this.dat.getData(data).subscribe(res => {
       console.log(res);
