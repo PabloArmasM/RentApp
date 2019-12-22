@@ -29,7 +29,7 @@ export class DatProviderService {
     capitalizar(data){
       var keys = Object.keys(data);
       keys.forEach(key =>{
-        if(typeof data[key] === "string" && key != 'tabla'){
+        if(typeof data[key] === "string" && key != 'tabla' && key != 'query'){
           data[key] = data[key].toUpperCase();
         }
       });

@@ -39,7 +39,7 @@
 
       <div class="row">
       <div class="col-sm">
-        <input matInput placeholder="Código" lass="form-control" formControlName="_id">
+        <input matInput placeholder="Código" lass="form-control" type="number" formControlName="_id">
       </div>
       <div class="col-sm">
         <input matInput placeholder="Licencia" lass="form-control" formControlName="license">
@@ -73,7 +73,7 @@
 
       <div class="row">
         <div class="col-sm">
-          <input matInput placeholder="Código" lass="form-control" formControlName="_id">
+          <input matInput placeholder="Código" lass="form-control" type="number" formControlName="_id">
         </div>
         <div class="col-sm">
           <input matInput placeholder="Nombre" lass="form-control" formControlName="nombre">
@@ -94,7 +94,7 @@
 
       <div class="row">
       <div class="col-sm">
-        <input matInput placeholder="Código" class="form-control" formControlName="_id">
+        <input matInput placeholder="Código" class="form-control" type="number" formControlName="_id">
       </div>
       <div  class="col-sm">
         <input matInput placeholder="Nombre" class="form-control" formControlName="nombre">
@@ -136,22 +136,25 @@
 
       <div class="row">
       <div class="col-sm">
-        <input matInput placeholder="Código" class="form-control" formControlName="_id">
+        <input matInput placeholder="Código" class="form-control" type="number" formControlName="_id">
       </div>
 
       <div class="col-sm">
-        <input matInput placeholder="Código del cliente" class="form-control" formControlName="clientCode">
+        <input matInput placeholder="Código del cliente" class="form-control" type="number" formControlName="clientCode">
       </div>
       <div  class="col-sm">
         <input matInput placeholder="Grupo vehículo" class="form-control" formControlName="grupo">
       </div>
       <div class="col-sm">
+        <label> Fecha de la reserva</label>
         <input matInput type="date" placeholder="Fecha de la reserva" lass="form-control" formControlName="fechaReserva">
       </div>
       <div class="col-sm">
+        <label>Fecha entrada</label>
         <input matInput type="date" placeholder="Fecha entrada" lass="form-control" formControlName="fechaEntrada">
       </div>
       <div class="col-sm">
+        <label>Fecha salida</label>
         <input matInput type="date" placeholder="Fecha salida" lass="form-control" formControlName="fechaSalida">
       </div>
     </div>
@@ -160,7 +163,7 @@
     <br/>
     <div class="d-flex justify-content-center">
       <button  type="button" class="btn btn-secondary" (click)="toPrint()">Imprimir</button>
-
+      <span class="chachoSeparate"></span>
       <button  type="button" class="btn btn-secondary" (click)="searchData()">Buscar</button>
     </div>
   </div>
@@ -173,7 +176,7 @@
 
       <div class="row">
       <div class="col-sm">
-        <input matInput placeholder="Código" lass="form-control" formControlName="_id">
+        <input matInput placeholder="Código" lass="form-control" type="number" formControlName="_id">
       </div>
       <div class="col-sm">
         <input matInput placeholder="Matrícula" lass="form-control" formControlName="matricula">

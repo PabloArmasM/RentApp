@@ -214,6 +214,7 @@ export class ReservasComponent implements OnInit {
     formData.tabla = "reservas";
     formData.fechaEntrada = new Date(formData.fechaEntrada).getTime();
     formData.fechaSalida = new Date(formData.fechaSalida).getTime();
+    formData.fechaReserva = new Date(formatDate.fechaReserva).getTime();
 
     if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
       this.data.addData(formData).subscribe(res =>{

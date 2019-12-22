@@ -130,8 +130,28 @@ export class ListaComponent implements OnInit {
     //this.activate("clientes");
   }
 
+  formatDate(date, hour, min){
+    var year = date.getFullYear();
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+    var hours = ("0" + date.getHours()).slice(-2);
+
+    return new Date(year + "-" + month + "-" + day +"T"+hour+":"+min);
+  }
+
+  formatForPrint(date){
+    var year = date.getFullYear();
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+    var hours = ("0" + date.getHours()).slice(-2);
+    var minutes = ("0" + date.getMinutes()).slice(-2);
+    var seconds = ("0" + date.getSeconds()).slice(-2);
+
+    return (year + "-" + month + "-" + day +"T"+hours+":"+minutes);
+  }
+
   setTable(print){
-    debugger;
+
     this.print = new MatTableDataSource(print);
     //this.head = header;
     this.ready = true;
@@ -142,10 +162,12 @@ export class ListaComponent implements OnInit {
     this.print = new MatTableDataSource();
     this.displayColumns = Object.keys(this.allHeads[data.tabla]);
     this.head = this.allHeads[data.tabla];
+
     this.dat.getData(data).subscribe(res => {
       console.log(res);
+
       if(this.search == "vehiculos"){
-        debugger;
+
         res.forEach(element =>{
           if(element.situacion != 0){
             element.situacion = "Activo";
@@ -158,32 +180,125 @@ export class ListaComponent implements OnInit {
     });
   }
 
+  putWord(frase, palabra, hueco){
+    var start = 0;
+    hueco = hueco -1;
+    if(hueco > palabra.length){
+      start = Math.round((hueco - palabra.length)/2);
+    }
+
+    for(var i = 0; i < start; i++)
+      frase = frase + " ";
+    frase = frase + palabra;
+    hueco = hueco - start - palabra.length;
+    if(hueco > 0){
+      for(var i = 0; i < hueco; i++){
+        frase = frase + " ";
+      }
+    }
+    frase +="|";
+    return frase;
+  }
+
  toPrint(){
-   this.dat.printReservas(this.print.data).subscribe(res =>{
+   var limit = 120;
+   //Fecha entrada, fecha salida, fecha reserva, grupo, Lugar, A devolver, Observaciones
+   //17 ~ 15
+   var print = [];
+   var phrase = "|";
+   var quei = Object.keys(this.print.data);
+
+    phrase = this.putWord(phrase, "Fecha salida", 19); //Palabra, hueco, pos
+    phrase = this.putWord(phrase, "Fecha Entrada", 19);
+    phrase = this.putWord(phrase, "Fecha Reserva", 19);
+    phrase = this.putWord(phrase, "Grupo", 6, 1);
+    phrase = this.putWord(phrase, "Lugar", 16);
+    phrase = this.putWord(phrase, "A devolver", 16);
+    phrase = this.putWord(phrase, "Observaciones", 16);
+
+     ;
+     console.log(phrase);
+     print.push(phrase);
+
+     var aux = this.print.data;
+     for(var i = 0; i < aux.length; i++){
+        phrase = "|";
+        phrase = this.putWord(phrase, this.formatForPrint(new Date (aux[i].fechaReserva)), 19); //Palabra, hueco, pos
+        phrase = this.putWord(phrase, this.formatForPrint(new Date (aux[i].fechaEntrada)), 19);
+        phrase = this.putWord(phrase, this.formatForPrint(new Date(aux[i].fechaReserva)), 19);
+        phrase = this.putWord(phrase, aux[i].grupo, 6, 1);
+        phrase = this.putWord(phrase, aux[i].posVehiculo, 16);
+        phrase = this.putWord(phrase, aux[i].posFinalVehiculo, 16);
+        phrase = this.putWord(phrase, aux[i].observaciones, 16);
+        print.push(phrase);
+     }
+     ;
+
+
+   this.dat.printReservas({query:print}).subscribe(res =>{
      console.log(res);
    });
  }
 
   searchData(){
-    var data = this.cache.clean(this.login.value);
-    data.tabla = this.search;
+
+    var data = {};
+    data = this.cache.clean(this.login.value);
+    //data.tabla = this.search;
     this.print = new MatTableDataSource();
+    var fechasForQuery = [];
+
+    var day : Date;
+    if(data.hasOwnProperty('fecha')){
+      day = new Date(data['fecha']);
+      fechasForQuery.push({fecha : {$gte: this.formatDate(day, "00", "00").getTime()}});
+      fechasForQuery.push({fecha : {$lte: this.formatDate(day, "23", "59").getTime()}});
+      delete data['fecha'];
+    }
+    if(data.hasOwnProperty('fechaReserva')){
+      day = new Date(data['fechaReserva']);
+      fechasForQuery.push({fechaReserva : {$gte: this.formatDate(day, "00", "00").getTime()}});
+      fechasForQuery.push({fechaReserva : {$lte: this.formatDate(day, "23", "59").getTime()}});
+      delete data['fechaReserva'];
+    }
+    if(data.hasOwnProperty('fechaEntrada')){
+      day = new Date(data['fechaEntrada']);
+      fechasForQuery.push({fechaEntrada : {$gte: this.formatDate(day, "00", "00").getTime()}});
+      fechasForQuery.push({fechaEntrada : {$lte: this.formatDate(day, "23", "59").getTime()}});
+      delete data['fechaEntrada'];
+    }
+    if(data.hasOwnProperty('fechaSalida')){
+      day = new Date(data['fechaSalida']);
+      fechasForQuery.push({fechaSalida : {$gte: this.formatDate(day, "00", "00").getTime()}});
+      fechasForQuery.push({fechaSalida : {$lte: this.formatDate(day, "23", "59").getTime()}});
+      delete data['fechaSalida'];
+    }
+
+
+    if(data != {}){
+      var alter = {};
+      Object.keys(data).forEach(key => {
+
+        alter = {};
+        alter[key]= typeof data[key] == "string" ? {$eq: data[key].toUpperCase()} : {$eq: data[key]};
+        delete data[key];
+        fechasForQuery.push(alter);
+      });
+
+    }
+
+    data.tabla = this.search;
+    data.query = fechasForQuery;
     this.displayColumns = Object.keys(this.allHeads[data.tabla]);
     this.head = this.allHeads[data.tabla];
-    if(data.hasOwnProperty('fecha'))
-      data['fecha'] = new Date(data['fecha']).getTime();
-    if(data.hasOwnProperty('fechaReserva'))
-      data['fecha'] = new Date(data['fechaReserva']).getTime();
-    if(data.hasOwnProperty('fechaEntrada'))
-      data['fecha'] = new Date(data['fechaEntrada']).getTime();
-    if(data.hasOwnProperty('fechaSalida'))
-      data['fecha'] = new Date(data['fechaSalida']).getTime();
+    this.login.reset();
     this.dat.getData(data).subscribe(res => {
       console.log(res);
       this.setTable(res);
       this.ready = true;
     });
   }
+
 
   activate(search){
     this.search = search;
@@ -193,7 +308,10 @@ export class ListaComponent implements OnInit {
     if(search === "contratos" || search === "reservas"){
       var time = new Date();
       var day = new Date(time.getFullYear(), time.getMonth(), time.getDate());
-      toSearch = {tabla : search, fechaEntrada : day.getTime()};
+      //toSearch = {tabla : search, fechaSalida : day.getTime()};
+      //{ $and: [{ fechaEntrada: { $gte : fecha}} , { fechaSalida: {$lte: fecha}}, { matricula: {$eq: matricula}}] }
+      toSearch = {tabla: search, query:[{fechaSalida : {$gte: this.formatDate(day, "00", "00").getTime()}}, {fechaSalida : {$lte: this.formatDate(day, "23", "59").getTime()}}]};
+
       this.chargeData(toSearch);
     }else{
       toSearch = {tabla : search};
