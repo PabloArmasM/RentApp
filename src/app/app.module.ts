@@ -51,6 +51,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FlotaDialog } from './flota/flota.component';
+import { ContratoDialog } from './contratos/contratos.component';
 import {MatRadioModule} from '@angular/material/radio';
 
 
@@ -61,7 +62,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 
 @NgModule({
-  declarations: [AppComponent, FlotaDialog, ClientesComponent, MultasComponent, IntermediariosComponent, OperadoresComponent, ContratosComponent, VehiculosComponent, FlotaComponent, ContabilidadComponent, ListaComponent, ReservasComponent, ProlongarComponent, ListaContratoComponent, CalendarioComponent, TarifasComponent],
+  declarations: [AppComponent, ContratoDialog, FlotaDialog, ClientesComponent, MultasComponent, IntermediariosComponent, OperadoresComponent, ContratosComponent, VehiculosComponent, FlotaComponent, ContabilidadComponent, ListaComponent, ReservasComponent, ProlongarComponent, ListaContratoComponent, CalendarioComponent, TarifasComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -109,7 +110,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
   entryComponents: [
-    FlotaDialog
+    FlotaDialog,
+    ContratoDialog
   ],
 })
 export class AppModule {}

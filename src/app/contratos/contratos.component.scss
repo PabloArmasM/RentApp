@@ -31,3 +31,37 @@ button{
 h2{
   color: white;
 }
+
+.example-container {
+  height: 80%;
+  overflow: auto;
+}
+
+table {
+  margin: auto;
+  width: 100%;
+}
+
+
+mat-cell, .mat-cell {
+  padding-right: 5%;
+}
+
+.posEso{
+  background: #003C77;
+}
+
+table{
+  background: #003C77;
+}
+
+th{
+  font-weight: bold;
+  color: white;
+  font-size: 20px;
+}
+
+td{
+  color: white;
+  font-size: 20px;
+}

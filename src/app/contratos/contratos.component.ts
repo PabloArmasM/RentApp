@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewChildren,  QueryList  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren,  QueryList, Inject  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, FormArray } from '@angular/forms';
 import { DatProviderService } from '../dat-provider.service';
@@ -6,7 +6,15 @@ import { CacheDataService } from '../cache-data.service';
 import { ThermalPrinterService } from '../thermal-printer.service';
 import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatTableDataSource} from '@angular/material/table';
 
+
+
+export interface DialogData {
+  data : MatTableDataSource;
+  cabeceras : any;
+}
 
 
 @Component({
@@ -55,7 +63,9 @@ export class ContratosComponent implements OnInit {
 
   diasPrint: number;
 
-  constructor(private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
+
+
+  constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
     window.addEventListener("message", this.receiveMessage.bind(this), false);
   }
 
@@ -505,6 +515,100 @@ export class ContratosComponent implements OnInit {
     });
   }
 
+
+  openDialog(res, pos): void {
+    var print = new MatTableDataSource(res);
+    var head ={license: 'Licencia', nombre: 'Nombre', apellidos: 'Apellidos'}
+    var displayColumns = Object.keys(head);
+    const dialogRef = this.dialog.open(ContratoDialog, {
+      width: '900px',
+      height: '500px',
+      data: {print, head, displayColumns}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.noMezclemos(result, pos);
+
+      //this.animal = result;
+    });
+  }
+
+
+  queChungoBro(res, pos){
+    debugger;
+    var inputa = this.login.value;
+    inputa.inputs[pos].name = res[0].nombre + " " + res[0].apellidos;
+
+    //var inputa:any = {};
+    //inputa[pos] =  res[0].nombre + " " + res[0].apellidos;
+    this.login.patchValue(inputa);
+  }
+
+  niPaTanto(res, pos){
+    debugger;
+    var inputa = this.login.value;
+    inputa.inputs[pos].license = res[0].license;
+    //var inputa:any = {};
+    //inputa[pos] =  res[0].nombre + " " + res[0].apellidos;
+    this.login.patchValue(inputa);
+  }
+
+  noMezclemos(res, pos){
+    var inputa = this.login.value;
+    inputa.inputs[pos].name = res.nombre + " " + res.apellidos;
+    inputa.inputs[pos].license = res.license;
+
+    //var inputa:any = {};
+    //inputa[pos] =  res[0].nombre + " " + res[0].apellidos;
+    this.login.patchValue(inputa);
+  }
+
+  searchName($event, pos){
+    var data = {tabla : "clientes", nombre : $event.currentTarget.value};
+
+    this.data.getData(data).subscribe(res => {
+      if(res.length ==1){
+        debugger;
+
+        this.niPaTanto(res, pos);
+      }else if(res.length > 1){
+        console.log("Yuop");
+        this.openDialog(res, pos);
+
+      }
+      else{
+        console.log("bandido");
+        this.addAlert({type: 'warning',
+                          message: 'No se ha encontrado ningún cliente'});
+
+      }
+    });
+    debugger;
+  }
+
+  searchLicense($event, pos){
+    //$event.currentTarget.value;
+    var data = {tabla : "clientes", license : $event.currentTarget.value};
+
+    this.data.getData(data).subscribe(res => {
+      if(res.length ==1){
+        debugger;
+
+        this.queChungoBro(res, pos);
+      }else if(res.length > 1){
+        this.openDialog(res, pos);
+
+      }
+      else{
+        console.log("bandido");
+        this.addAlert({type: 'warning',
+                          message: 'No se ha encontrado ningún cliente'});
+      }
+    });
+    debugger;
+
+  }
+
   addAlert(message){
     this.activate = true;
     this.message = message;
@@ -535,5 +639,31 @@ export class ContratosComponent implements OnInit {
   // event.source is popup
   // event.data is "hi there yourself!  the secret response is: rheeeeet!"
 }
+
+}
+
+
+@Component({
+  selector: 'contrato-dialog',
+  templateUrl: 'contrato-dialog.html',
+  styleUrls: ['./contratos.component.scss']
+})
+export class ContratoDialog {
+
+  res:any;
+
+  constructor(
+    public dialogRef: MatDialogRef<ContratoDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+  caca(i){
+
+    this.dialogRef.close(this.data.print.data[i]);
+    debugger;
+  }
 
 }
