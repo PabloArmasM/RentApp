@@ -95,8 +95,13 @@
                 </div>
 
                 <div class="col-sm-6">
+                  <label>Conexión</label>
+                  <input  class="form-control" type="text" formControlName="conexion" placeholder="Conexión" ngModel (keyup.enter)="keytab(1)" (change)="searchDocument()">
+                </div>
+
+                <div class="col-sm-6">
                   <label>ID cliente</label>
-                  <input #inputs class="form-control" type="number" formControlName="clientCode" placeholder="Código cliente" ngModel (keyup.enter)="keytab(2)">
+                  <input #inputs class="form-control" type="number" formControlName="clientCode" placeholder="Código cliente" ngModel (keyup.enter)="keytab(2)" (change)="searchClient()">
                 </div>
 
 
@@ -107,7 +112,7 @@
 
                 <div class="col-sm-6">
                   <label>Matrícula</label>
-                  <input #inputs class="form-control" type="text" formControlName="matricula" placeholder="Matrícula" (keyup.enter)="keytab(4)" ngModel>
+                  <input #inputs class="form-control" type="text" formControlName="matricula" placeholder="Matrícula" (keyup.enter)="keytab(4)" ngModel (change)="searchMatricula()">
                 </div>
 
                 <div class="col-sm-6">
@@ -127,72 +132,67 @@
 
                 <div class="col-sm-6">
                   <label>Operador</label>
-                  <input #inputs class="form-control" type="text" formControlName="operador" placeholder="Operador" (keyup.enter)="keytab(9)" ngModel>
+                  <input #inputs class="form-control" type="text" formControlName="operador" placeholder="Operador" (keyup.enter)="keytab(8)" ngModel>
                 </div>
 
 
                 <div class="col-sm-6">
                   <label>Dirección local</label>
-                  <input #inputs class="form-control" type="text" formControlName="lugar" placeholder="Dirección local" (keyup.enter)="keytab(10)" ngModel>
+                  <input #inputs class="form-control" type="text" formControlName="lugar" placeholder="Dirección local" (keyup.enter)="keytab(9)" ngModel>
                 </div>
 
                 <div class="col-sm-6">
                   <label>Teléfono</label>
-                  <input #inputs class="form-control" type="number" formControlName="telefono" placeholder="Teléfono" (keyup.enter)="keytab(11)" ngModel>
+                  <input #inputs class="form-control" type="number" formControlName="telefono" placeholder="Teléfono" (keyup.enter)="keytab(10)" ngModel>
                 </div>
 
                 <div class="col-sm-6">
                   <label>Salida del vehículo</label>
-                  <input #inputs class="form-control" type="text" formControlName="posVehiculo" placeholder="Salida del vehículo" (keyup.enter)="keytab(12)" ngModel>
+                  <input #inputs class="form-control" type="text" formControlName="posVehiculo" placeholder="Salida del vehículo" (keyup.enter)="keytab(11)" ngModel>
                 </div>
 
                 <div class="col-sm-6">
                   <label>Lugar de entrega</label>
-                  <input #inputs class="form-control" type="text" formControlName="posFinalVehiculo" placeholder="Lugar de entrega" (keyup.enter)="keytab(13)" ngModel>
+                  <input #inputs class="form-control" type="text" formControlName="posFinalVehiculo" placeholder="Lugar de entrega" (keyup.enter)="keytab(12)" ngModel>
                 </div>
 
 
 
                 <div class="col-sm-6">
                   <label>Fecha salida</label>
-                  <input #inputs class="form-control" type="datetime-local" formControlName="fechaSalida" placeholder="Fecha salida" (keyup.enter)="keytab(14)" ngModel>
+                  <input #inputs class="form-control" type="datetime-local" formControlName="fechaSalida" placeholder="Fecha salida" (keyup.enter)="keytab(13)" ngModel>
                 </div>
 
 
                 <div class="col-sm-6">
                   <label>Fecha entrada</label>
-                  <input #inputs class="form-control" type="datetime-local" formControlName="fechaEntrada" placeholder="Fecha entrada" ngModel (keyup.enter)="keytab(15)" (change)="calculatePrice()">
+                  <input #inputs class="form-control" type="datetime-local" formControlName="fechaEntrada" placeholder="Fecha entrada" (keyup.enter)="keytab(14)" (change)="calculatePrice()" ngModel>
                 </div>
 
                 <div class="col-sm-6">
                   <label>IGIC</label>
-                  <input  class="form-control" type="number" formControlName="igic" placeholder="IGIC" ngModel (change)="calculatePrice()" (keyup.enter)="keytab(16)">
+                  <input #inputs  class="form-control" type="number" formControlName="igic" placeholder="IGIC" (change)="calculatePrice()" (keyup.enter)="keytab(15)" ngModel>
                 </div>
 
                 <div class="col-sm-6">
                   <label>Tarifa</label>
-                  <input  class="form-control" type="number" formControlName="tarifa" placeholder="Tarifa" ngModel (change)="calculatePrice()" (keyup.enter)="keytab(17)">
+                  <input #inputs  class="form-control" type="number" formControlName="tarifa" placeholder="Tarifa" (change)="calculatePrice()" (keyup.enter)="keytab(16)" ngModel>
                 </div>
 
 
                 <div class="col-sm-6">
                   <label>Seguro vehículo</label>
-                  <input  class="form-control" type="number" formControlName="seguroCoche" placeholder="Tasa seguro" ngModel (change)="calculatePrice()" (keyup.enter)="keytab(18)">
+                  <input #inputs  class="form-control" type="number" formControlName="seguroCoche" placeholder="Tasa seguro" (change)="calculatePrice()" (keyup.enter)="keytab(17)" ngModel>
                 </div>
 
                 <div class="col-sm-6">
                   <label>Seguro personal</label>
-                  <input  class="form-control" type="number" formControlName="seguroPersonal" placeholder="Tasa seguro" ngModel (change)="calculatePrice()" (keyup.enter)="keytab(19)">
+                  <input #inputs  class="form-control" type="number" formControlName="seguroPersonal" placeholder="Tasa seguro" (change)="calculatePrice()" (keyup.enter)="keytab(18)" ngModel>
                 </div>
 
                 <div class="col-sm-6">
                   <label>Precio</label>
                   <input  class="form-control" type="number" formControlName="precio" placeholder="Precio" ngModel>
-                </div>
-
-                <div class="col-sm-6">
-                  <label>Conexión</label>
-                  <input  class="form-control" type="text" formControlName="conexion" placeholder="Conexión" ngModel disabled>
                 </div>
 
             </div>
@@ -202,12 +202,12 @@
                 <div [formGroup]="input" class="form-row">
                     <div class="form-group col-6">
                         <label>Nombre</label>
-                        <input #inputs type="text" formControlName="name" class="form-control" (keyup.enter)="keytab(20, i)"/>
+                        <input #inputs type="text" formControlName="name" class="form-control" (keyup.enter)="keytab(19, i)"/>
                     </div>
 
                     <div class="form-group col-6">
                         <label>Licencia</label>
-                        <input #inputs type="text" formControlName="license" class="form-control" (keyup.enter)="keytab(20, i)"/>
+                        <input #inputs type="text" formControlName="license" class="form-control" (keyup.enter)="keytab(19, i)"/>
                     </div>
                 </div>
             </div>

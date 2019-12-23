@@ -11,10 +11,6 @@ import {MatTableDataSource} from '@angular/material/table';
 
 
 
-export interface DialogData {
-  data : MatTableDataSource;
-  cabeceras : any;
-}
 
 
 @Component({
@@ -90,9 +86,10 @@ export class ContratosComponent implements OnInit {
             tarifa: ['', Validators.required],
             seguroCoche: ['', Validators.required],
             seguroPersonal: ['',Validators.required],
-            observaciones: ['', Validators.required],
-            estado: ['', Validators.required],
+            observaciones: [''],
             conexion : [''],
+            observaciones2:[''],
+            imprt:['', Validators.required],
             inputs: new FormArray([])
         });
         this.searchForm = this.formBuilder.group({
@@ -143,26 +140,56 @@ export class ContratosComponent implements OnInit {
     elements[pos].nativeElement.focus();
   }
 
+  searchSucursal(pos){
+    var sucursal: String;
+    if(pos == 1){
+      sucursal = this.login.value.posVehiculo.toUpperCase();
+    }else
+      sucursal = this.login.value.posFinalVehiculo.toUpperCase();
+
+    this.data.searchSp({tabla : "sucursal", _id: sucursal}).subscribe(res =>{
+      var rest = res[0].name.toUpperCase();
+      if(pos == 1)
+        this.login.patchValue({
+          posVehiculo : rest
+        });
+      else
+      this.login.patchValue({
+        posFinalVehiculo : rest
+      });
+    });
+  }
+
+  searchOperador(pos){
+
+    this.data.searchSp({tabla : "operadores", _id: this.login.value.operador}).subscribe(res =>{
+      var rest = res[0].name.toUpperCase();
+      this.login.patchValue({ operador : rest});
+    });
+  }
+
   searchMatricula(){
-    var matricula = this.login.value.matricula;
+    var matricula = this.login.value.matricula.toUpperCase();
     var data = {tabla : "vehiculos", matricula: matricula};
-    debugger;
+
     this.data.getData(data).subscribe(rest =>{
-      debugger;
+
       var res = rest[0];
       if(res == '' || res == undefined){
         confirm("No existe ningún vehículo para esta matrícula");
-      }else
+      }else{
         this.datoVehiculo = res;
+        this.login.patchValue({gasolina : res.gasolina});
+      }
     });
   }
 
   searchClient(){
-    var matricula = this.login.value.clientCode;
+    var matricula = this.login.value.clientCode.toUpperCase();
     var data = {tabla : "clientes", _id: matricula};
-    debugger;
+
     this.data.getData(data).subscribe(rest =>{
-      debugger;
+
       var res = rest[0];
       if( res == undefined || res == '' ){
         confirm("No existe ningún cliente con ese ID");
@@ -358,6 +385,7 @@ export class ContratosComponent implements OnInit {
   onClickSubmit(){
     //this.printData();
     if(!this.login.valid || this.login.value.fechaSalida == ''){
+      debugger;
       this.addAlert({type: 'warning',
                         message: 'Alguno de los campos esta vacio'});
       return;
@@ -375,12 +403,12 @@ export class ContratosComponent implements OnInit {
       /*var inputs = this.login.value.inputs;
       delete formData.inputs;
       var element: any;
-      debugger;
+
       for(var i = 0; i < inputs.length; i++){
         element.push(inputs[i]);
       }
       formData.inputs = element;*/
-      debugger;
+
       this.data.addData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
@@ -389,6 +417,13 @@ export class ContratosComponent implements OnInit {
                               fechaEntrada : formData.fechaEntrada, grupo: this.login.value.grupo, status: 1}).subscribe(res=>{
           console.log(res);
         });
+
+        var dataCoche = {
+          tabla : "vehiculos",
+          _id : this.datoVehiculo._id,
+          situacion : 0
+        }
+        this.data.updateData(dataCoche).subscribe(res =>{});
       });
     }else{
       console.log(formData);
@@ -455,7 +490,7 @@ export class ContratosComponent implements OnInit {
       conexion: this.login.value.conexion
 
     };
-    debugger;
+
 
     this.data.printContrato(data).subscribe(res =>{
       console.log(res);
@@ -535,7 +570,7 @@ export class ContratosComponent implements OnInit {
 
 
   queChungoBro(res, pos){
-    debugger;
+
     var inputa = this.login.value;
     inputa.inputs[pos].name = res[0].nombre + " " + res[0].apellidos;
 
@@ -545,7 +580,7 @@ export class ContratosComponent implements OnInit {
   }
 
   niPaTanto(res, pos){
-    debugger;
+
     var inputa = this.login.value;
     inputa.inputs[pos].license = res[0].license;
     //var inputa:any = {};
@@ -568,7 +603,7 @@ export class ContratosComponent implements OnInit {
 
     this.data.getData(data).subscribe(res => {
       if(res.length ==1){
-        debugger;
+
 
         this.niPaTanto(res, pos);
       }else if(res.length > 1){
@@ -583,7 +618,7 @@ export class ContratosComponent implements OnInit {
 
       }
     });
-    debugger;
+
   }
 
   searchLicense($event, pos){
@@ -592,7 +627,7 @@ export class ContratosComponent implements OnInit {
 
     this.data.getData(data).subscribe(res => {
       if(res.length ==1){
-        debugger;
+
 
         this.queChungoBro(res, pos);
       }else if(res.length > 1){
@@ -605,7 +640,7 @@ export class ContratosComponent implements OnInit {
                           message: 'No se ha encontrado ningún cliente'});
       }
     });
-    debugger;
+
 
   }
 
@@ -654,7 +689,7 @@ export class ContratoDialog {
 
   constructor(
     public dialogRef: MatDialogRef<ContratoDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
   onNoClick(): void {
@@ -663,7 +698,7 @@ export class ContratoDialog {
   caca(i){
 
     this.dialogRef.close(this.data.print.data[i]);
-    debugger;
+
   }
 
 }

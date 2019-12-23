@@ -16,6 +16,7 @@ import { ProlongarComponent } from './prolongar/prolongar.component';
 import { ListaContratoComponent } from './lista-contrato/lista-contrato.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { TarifasComponent } from './tarifas/tarifas.component';
+import { SucursalComponent } from './sucursal/sucursal.component';
 
 
 const routes: Routes = [
@@ -90,6 +91,10 @@ const routes: Routes = [
     path:'tarifas',
     pathMatch: 'full',
     component: TarifasComponent
+  },{
+    path:'sucursal',
+    pathMatch: 'full',
+    component: SucursalComponent
   },
   {
     path: '**',

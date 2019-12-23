@@ -24,7 +24,7 @@ export class FlotaComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   search : String;
-  print = new MatTableDataSource();
+  print:any;
 
   ready = false;
 

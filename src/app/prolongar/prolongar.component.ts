@@ -48,6 +48,11 @@ export class ProlongarComponent implements OnInit {
 
   allPrices : any;
 
+  datoVehiculo : any;
+  datosClientes: any;
+
+  diasPrint: number;
+
   constructor(private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
     window.addEventListener("message", this.receiveMessage.bind(this), false);
   }
@@ -102,6 +107,61 @@ export class ProlongarComponent implements OnInit {
         //this.guindol = window.open('file://'+__dirname+'/index.html#/listas');
   }
 
+  searchDocument(){
+    var document = this.login.value.conexion;
+    var data = {tabla : "contratos", _id: document};
+    debugger;
+    this.data.getData(data).subscribe(rest =>{
+      debugger;
+      var res = rest[0];
+      if( res == undefined || res == '' ){
+        confirm("No existe ningún contrato con ese codigo");
+      }else
+        this.login.patchValue({
+          clientCode : res.clientCode,
+          grupo : res.grupo,
+          fechaSalida: this.formatDate(res.fechaSalida),
+          intermediario: res.intermediario,
+          matricula: res.matricula,
+          dirLocal: res.dirLocal,
+          telefono : res.telefono,
+          gasolina : res.gasolina,
+          posVehiculo: res.posVehiculo,
+          posFinalVehiculo: res.posFinalVehiculo
+        });
+    });
+  }
+
+  searchMatricula(){
+    var matricula = this.login.value.matricula;
+    var data = {tabla : "vehiculos", matricula: matricula};
+
+    this.data.getData(data).subscribe(rest =>{
+
+      var res = rest[0];
+      if(res == '' || res == undefined){
+        confirm("No existe ningún vehículo para esta matrícula");
+      }else{
+        this.datoVehiculo = res;
+        this.login.patchValue({gasolina : res.gasolina});
+      }
+    });
+  }
+
+  searchClient(){
+    var matricula = this.login.value.clientCode;
+    var data = {tabla : "clientes", _id: matricula};
+
+    this.data.getData(data).subscribe(rest =>{
+
+      var res = rest[0];
+      if( res == undefined || res == '' ){
+        confirm("No existe ningún cliente con ese ID");
+      }else
+        this.datosClientes = res;
+    });
+  }
+
   addAlert(message){
     this.activate = true;
     this.message = message;
@@ -119,6 +179,15 @@ export class ProlongarComponent implements OnInit {
 
     console.log(fecha);
     this.login.patchValue({clientCode : CacheDataService.getClientId()});
+    this.data.getData({tabla : 'tarifas'}).subscribe(res => {
+      console.log(res);
+      this.allPrices = res[0];
+      this.login.patchValue(
+        {seguroCoche: res[0].seguroCoche,
+          seguroPersonal : res[0].seguroPersonal,
+        igic : res[0].igic}
+      );
+    });
 
 
   }
@@ -185,7 +254,8 @@ export class ProlongarComponent implements OnInit {
     info.fechaEntrada = this.formatDate(new Date(info.fechaEntrada));
 
     this.login.patchValue(info);
-
+    this.searchMatricula();
+    this.searchClient();
     var inputs = info.inputs;
     info.inputs.forEach(elementos => {
       this.t.push(this.formBuilder.group({
@@ -282,12 +352,133 @@ export class ProlongarComponent implements OnInit {
   }
 
 
+  firstPart(date){
+    var year = date.getFullYear();
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+
+
+
+    return (day + "-" + month + "-" + year);
+  }
+
+
+  secondPart(date){
+    var hours = ("0" + date.getHours()).slice(-2);
+    var minutes = ("0" + date.getMinutes()).slice(-2);
+    var seconds = ("0" + date.getSeconds()).slice(-2);
+
+
+
+    return (hours+":"+minutes);
+  }
+
+
+  calculateOnlyDays(){
+    var dias = (1000*60*60*24);
+    var entrada = new Date(this.login.value.fechaSalida).getTime();
+    var salida = new Date(this.login.value.fechaEntrada).getTime();
+    dias = Math.round(Math.abs(salida - entrada)/dias)
+    if(dias == 0){
+      dias = 1;
+    }
+
+    this.diasPrint = dias;
+  }
+
+  getSubtotal(){
+    var dias = (1000*60*60*24);
+    var entrada = new Date(this.login.value.fechaSalida).getTime();
+    var salida = new Date(this.login.value.fechaEntrada).getTime();
+    dias = Math.round(Math.abs(salida - entrada)/dias)
+    if(dias == 0){
+      dias = 1;
+    }
+
+    this.diasPrint = dias;
+
+    var aCobrar = dias*this.login.value.tarifa;
+    //aCobrar = aCobrar + (aCobrar * (this.login.value.igic/100));
+    aCobrar = aCobrar + (dias * this.login.value.seguroCoche) + (dias * this.login.value.seguroPersonal);
+    return aCobrar;
+  }
+
+  getImpuesto(){
+    var dias = (1000*60*60*24);
+    var entrada = new Date(this.login.value.fechaSalida).getTime();
+    var salida = new Date(this.login.value.fechaEntrada).getTime();
+    dias = Math.round(Math.abs(salida - entrada)/dias)
+    if(dias == 0){
+      dias = 1;
+    }
+
+    this.diasPrint = dias;
+
+    var aCobrar = dias*this.login.value.tarifa;
+    aCobrar = (aCobrar * (this.login.value.igic/100));
+    return aCobrar;
+  }
+
+  preapreInput(data){
+    var result = [];
+    data.forEach(element =>{
+      result.push(element.name + " - "+ element.license);
+    });
+    return result;
+  }
+
   printData(){
-    // epson LQ 500 ESC/P 2 Ver 2.0
+    // epson LQ 590 ESC/P 2 Ver 2.0
     //this.printer.requestUsb();
     //this.printer.print();
-    this.data.printContrato(this.login.value);
+    var precio = this.diasPrint * this.login.value.tarifa;
 
+    var data = {
+      numFactura : this.login.value._id,
+      modelo : this.datoVehiculo.modelo,
+      matricula : this.datoVehiculo.matricula,
+      color : this.datoVehiculo.color,
+      bastidor: this.datoVehiculo.bastidor,
+      propietario: this.datoVehiculo.propietario,
+      devolver: this.login.value.posFinalVehiculo,
+      salida: this.login.value.posVehiculo,
+      fecha: this.firstPart(new Date(this.login.value.fechaSalida)),
+      hora: this.secondPart(new Date(this.login.value.fechaSalida)),
+      gas: this.login.value.gasolina,
+      fechaDev: this.firstPart(new Date(this.login.value.fechaEntrada)),
+      horaDev: this.secondPart(new Date(this.login.value.fechaEntrada)),
+      grupo: this.datoVehiculo.grupo,
+      dirPerm: this.datosClientes.direccion,
+      dias: this.diasPrint,
+      tarifa: this.login.value.tarifa,
+      precio: precio,
+      dirLocal: this.login.value.lugar,
+      nacionalidad: this.datosClientes.nacionalidad,
+      subtotales: precio,
+      menos: "?",
+      permiso: this.datosClientes.license,
+      clase: "B",
+      fechaExp: this.firstPart(this.datosClientes.fechaExp),
+      danos : this.login.value.seguroCoche,
+      personal: this.login.value.seguroPersonal,
+      fechaNa: this.firstPart(this.datosClientes.fecha),
+      conductores: this.preapreInput(this.login.value.inputs),
+      subtotal: this.getSubtotal(),
+      impuesto: this.getImpuesto(),
+      total: this.login.value.precio,
+      estado: this.login.value.estado,
+      observaciones: this.login.value.observaciones,
+      pago: this.tipoPago,
+      operador: this.login.value.operador,
+      nombre: this.datosClientes.nombre,
+      conexion: this.login.value.conexion
+
+    };
+    debugger;
+
+    this.data.printContrato(data).subscribe(res =>{
+      console.log(res);
+    });
   }
 
   ngOnDestroy() {

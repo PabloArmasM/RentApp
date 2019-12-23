@@ -102,4 +102,12 @@ export class DatProviderService {
     printReservas(data){
       return this.http.post<any>(this.printUri+":8002", JSON.stringify(data), httpOptions);
     }
+
+    createOrUpdate(data){
+      return this.http.post<any>(this.uri+'/createOrUpdate/', JSON.stringify(this.capitalizar(data)), httpOptions);
+    }
+
+    searchSp(data){
+      return this.http.post<any>(this.uri+'/searchString/', JSON.stringify(this.capitalizar(data)), httpOptions);
+    }
 }

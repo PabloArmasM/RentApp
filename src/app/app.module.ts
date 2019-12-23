@@ -53,6 +53,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FlotaDialog } from './flota/flota.component';
 import { ContratoDialog } from './contratos/contratos.component';
 import {MatRadioModule} from '@angular/material/radio';
+import { SucursalComponent } from './sucursal/sucursal.component';
 
 
 // AoT requires an exported function for factories
@@ -62,7 +63,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 
 @NgModule({
-  declarations: [AppComponent, ContratoDialog, FlotaDialog, ClientesComponent, MultasComponent, IntermediariosComponent, OperadoresComponent, ContratosComponent, VehiculosComponent, FlotaComponent, ContabilidadComponent, ListaComponent, ReservasComponent, ProlongarComponent, ListaContratoComponent, CalendarioComponent, TarifasComponent],
+  declarations: [AppComponent, ContratoDialog, FlotaDialog, ClientesComponent, MultasComponent, IntermediariosComponent, OperadoresComponent, ContratosComponent, VehiculosComponent, FlotaComponent, ContabilidadComponent, ListaComponent, ReservasComponent, ProlongarComponent, ListaContratoComponent, CalendarioComponent, TarifasComponent, SucursalComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

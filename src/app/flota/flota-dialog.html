@@ -4,9 +4,11 @@
   <mat-radio-group>
     <mat-radio-button [checked]="data.situacion == 1" value="1" (change)="chanje(1)">Activo</mat-radio-button>
     <br/>
-    <mat-radio-button [checked]="data.situacion == -1" value="2" (change)="chanje(-1)">Reparación</mat-radio-button>
+    <mat-radio-button [checked]="data.situacion == 0" value="2" (change)="chanje(0)">Alquilado</mat-radio-button>
     <br/>
-    <mat-radio-button [checked]="data.situacion == -2" value="3" (change)="chanje(-2)">Venta</mat-radio-button>
+    <mat-radio-button [checked]="data.situacion == -1" value="3" (change)="chanje(-1)">Reparación</mat-radio-button>
+    <br/>
+    <mat-radio-button [checked]="data.situacion == -2" value="4" (change)="chanje(-2)">Venta</mat-radio-button>
   </mat-radio-group>
 
 </div>

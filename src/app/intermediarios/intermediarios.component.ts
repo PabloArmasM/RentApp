@@ -112,18 +112,18 @@ export class IntermediariosComponent implements OnInit {
     var formData = this.login.value;
     formData.tabla = "intermediarios";
 
-    if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
+    /*if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
       this.data.addData(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
       });
-    }else{
-      console.log(formData);
-      this.data.updateData(formData).subscribe(res =>{
+    }else{*/
+      console.log(formData); //Crear la funcion
+      this.data.createOrUpdate(formData).subscribe(res =>{
         this.login.patchValue({_id : res._id});
         this.addAlert(res.message);
       });
-    }
+    //}
   }
 
 

@@ -171,6 +171,8 @@ export class ListaComponent implements OnInit {
         res.forEach(element =>{
           if(element.situacion == 1){
             element.situacion = "Activo";
+          }else if(element.situacion == 0){
+            element.situacion = "Alquilado";
           }else if(element.situacion == -1){
             element.situacion = "Reparándose";
           }else if(element.situacion == -2){

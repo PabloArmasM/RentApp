@@ -6,11 +6,11 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 
 @Component({
-  selector: 'app-operadores',
-  templateUrl: './operadores.component.html',
-  styleUrls: ['./operadores.component.scss']
+  selector: 'app-sucursal',
+  templateUrl: './sucursal.component.html',
+  styleUrls: ['./sucursal.component.scss']
 })
-export class OperadoresComponent implements OnInit {
+export class SucursalComponent implements OnInit {
 
   @ViewChildren('inputs') questions: QueryList<'inputs'>;
 
@@ -47,7 +47,7 @@ export class OperadoresComponent implements OnInit {
   }
 
   refresh(){
-    var toSearch = {tabla : "operadores"};
+    var toSearch = {tabla : "sucursal"};
     this.data.getData(toSearch).subscribe(res => {
       this.print = new MatTableDataSource(res);
     });
@@ -73,7 +73,7 @@ export class OperadoresComponent implements OnInit {
     if(!confirm("¿Está seguro de que desea eliminarlo?"))
       return;
     this.delete = false;
-    var info = { tabla : "operadores",
+    var info = { tabla : "sucursal",
       _id : this.login.value._id};
     this.data.delete(info).subscribe(res =>{
       this.addAlert(res);
@@ -83,7 +83,7 @@ export class OperadoresComponent implements OnInit {
 
   onClickSubmit(){//Editar
     var formData = this.login.value;
-    formData.tabla = "operadores";
+    formData.tabla = "sucursal";
     this.data.createOrUpdate(formData).subscribe(res =>{
       this.login.patchValue({_id : res._id});
       this.addAlert(res.message);

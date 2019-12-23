@@ -30,6 +30,7 @@
         <input matInput placeholder="Situacion" lass="form-control" formControlName="situacion">
       </div>
       <div class="col-sm">
+        <label>Fecha de alta</label>
         <input matInput placeholder="Fecha"  type="date" lass="form-control" formControlName="fecha">
       </div>
       <div class="col-sm">
@@ -68,6 +69,9 @@
           <span *ngIf="col.key == 'situacion'">
             <span *ngIf="element[col.key] == 1">
               Activo
+            </span>
+            <span *ngIf="element[col.key] == 0">
+              Alquilado
             </span>
             <span *ngIf="element[col.key] == -1">
               Reparándose
