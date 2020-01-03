@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-10 mx-auto">
+
+      <form  [formGroup]="login"  >
+        <div class="form-group row">
+
+          <div class="col-sm-6">
+            <label>Lugar de devolución</label>
+            <input #inputs class="form-control" type="text" formControlName="lugar" placeholder="Lugar de devolución"  (change)=searchSucursal() ngModel>
+          </div>
+
+          <div class="col-sm-6">
+            <label>Fecha</label>
+            <input #inputs class="form-control" type="datetime-local" formControlName="fecha" placeholder="Fecha salida" ngModel>
+          </div>
+
+          <div class="col-sm-6">
+            <label>Gasolina</label>
+            <input #inputs class="form-control" type="text" formControlName="gasolina" placeholder="Gasolina" ngModel>
+          </div>
+
+          <div class="col-sm-6">
+            <label>Operador</label>
+            <input #inputs class="form-control" type="text" formControlName="operador" placeholder="Operador" (change)="searchOperador()" ngModel>
+          </div>
+        </div>
+      </form>
+
+      <!-- Botones Guardar - limpar-->
+      <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cancelar</button>
+        <button mat-button (click)="submit()">Guardar</button>
+      </div>
+  </div>
+</div>

@@ -8,6 +8,9 @@ import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
+import { MessageService } from '../message.service';
+import { MovingService } from '../moving.service';
+import { FormatingService } from '../formating.service';
 
 
 
@@ -22,7 +25,6 @@ import {MatTableDataSource} from '@angular/material/table';
 export class ContratosComponent implements OnInit {
 
   @ViewChildren('inputs') questions: QueryList<'inputs'>;
-  @ViewChildren('searchs') searchsInputs: QueryList<'searchs'>;
 
 
   login: FormGroup;
@@ -37,14 +39,13 @@ export class ContratosComponent implements OnInit {
   updateCar = false;
   delete = false;
   readyToPrint = false;
-  activate = false;
-  message = {type: 'success',
-                    message: 'La información se ha actualizado satisfactoriamente'};
 
   secondsCounter = interval(1000);
   takeFourNumbers = this.secondsCounter.pipe(take(100));
   counterSub : any;
 
+  activate = false;
+  message : any;
 
 
   guindol : any;
@@ -61,7 +62,8 @@ export class ContratosComponent implements OnInit {
 
 
 
-  constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
+  constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService,
+    private printer: ThermalPrinterService, private mess : MessageService, private move : MovingService, private format: FormatingService) {
     window.addEventListener("message", this.receiveMessage.bind(this), false);
   }
 
@@ -106,7 +108,7 @@ export class ContratosComponent implements OnInit {
   ngAfterViewInit(){
 
     var date = new Date();
-    var fecha = this.formatDate(date);
+    var fecha = this.format.formatDate(date);
     this.login.patchValue({fechaSalida : fecha});
 
     console.log(fecha);
@@ -135,10 +137,6 @@ export class ContratosComponent implements OnInit {
     }
   }
 
-  keytabSearch(pos){
-    var elements : Array<any> = this.searchsInputs.toArray();
-    elements[pos].nativeElement.focus();
-  }
 
   searchSucursal(pos){
     var sucursal: String;
@@ -160,7 +158,7 @@ export class ContratosComponent implements OnInit {
     });
   }
 
-  searchOperador(pos){
+  searchOperador(){
 
     this.data.searchSp({tabla : "operadores", _id: this.login.value.operador}).subscribe(res =>{
       var rest = res[0].name.toUpperCase();
@@ -246,8 +244,8 @@ export class ContratosComponent implements OnInit {
   showSearch(){
     if(!this.search || this.guindol.closed){
       this.search = true;
-      //this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
-      this.guindol = window.open('http://localhost:4200/#/listaContrato');
+      this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
+      //this.guindol = window.open('http://localhost:4200/#/listaContrato');
       this.guindol.postMessage("hello baby", "*");
 
       this.counterSub = this.takeFourNumbers.subscribe(n =>{
@@ -471,7 +469,6 @@ export class ContratosComponent implements OnInit {
       dirLocal: this.login.value.lugar,
       nacionalidad: this.datosClientes.nacionalidad,
       subtotales: precio,
-      menos: "?",
       permiso: this.datosClientes.license,
       clase: "B",
       fechaExp: this.firstPart(this.datosClientes.fechaExp),
@@ -564,6 +561,20 @@ export class ContratosComponent implements OnInit {
       console.log('The dialog was closed');
       this.noMezclemos(result, pos);
 
+      //this.animal = result;
+    });
+  }
+
+
+  cerrar(): void {
+    var aux = this.login.value.matricula;
+    const dialogRef = this.dialog.open(CierreContrato, {
+      width: '900px',
+      height: '500px',
+      data: {matricula : aux}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
       //this.animal = result;
     });
   }
@@ -700,5 +711,154 @@ export class ContratoDialog {
     this.dialogRef.close(this.data.print.data[i]);
 
   }
+
+}
+
+/*@Component({
+  selector: 'cierre-contrato',
+  templateUrl: 'cierre-contrato.html',
+  styleUrls: ['./contratos.component.scss']
+})
+export class CierreContrato {
+
+  res:any;
+
+  constructor(
+    public dialogRef: MatDialogRef<CierreContrato>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+  caca(i){
+
+    this.dialogRef.close(this.data.print.data[i]);
+
+  }
+
+}*/
+
+
+@Component({
+  selector: 'cierre-contrato',
+  templateUrl: 'cierre-contrato.html',
+  styleUrls: ['./contratos.component.scss']
+})
+export class CierreContrato {
+
+  res:any;
+  login: FormGroup;
+
+
+  constructor(
+    public dialogRef: MatDialogRef<CierreContrato>,
+    @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, private dat: DatProviderService) {
+    }
+
+    ngOnInit() {
+      this.login = this.formBuilder.group({
+            lugar:[''],
+            fecha:[''],
+            gasolina:[''],
+            operador:['']
+          });
+    }
+
+
+    searchSucursal(){
+      var sucursal = this.login.value.lugar.toUpperCase();
+
+      this.dat.searchSp({tabla : "sucursal", _id: sucursal}).subscribe(res =>{
+        var rest = res[0].name.toUpperCase();
+        this.login.patchValue({
+          lugar : rest
+        });
+      });
+    }
+
+    searchOperador(){
+
+      this.dat.searchSp({tabla : "operadores", _id: this.login.value.operador}).subscribe(res =>{
+        var rest = res[0].name.toUpperCase();
+        this.login.patchValue({ operador : rest});
+      });
+    }
+
+    formatDate(date){
+      var year = date.getFullYear();
+      var month = ("0" + (date.getMonth() + 1)).slice(-2);
+      var day = ("0" + date.getDate()).slice(-2);
+      var hours = ("0" + date.getHours()).slice(-2);
+      var minutes = ("0" + date.getMinutes()).slice(-2);
+      var seconds = ("0" + date.getSeconds()).slice(-2);
+
+
+
+      return (year + "-" + month + "-" + day +"T"+hours+":"+minutes);
+    }
+
+    ngAfterViewInit(){
+      var date = new Date();
+      var fecha = this.formatDate(date);
+      this.login.patchValue({fecha : fecha});
+    }
+
+    firstPart(date){
+      var year = date.getFullYear();
+      var month = ("0" + (date.getMonth() + 1)).slice(-2);
+      var day = ("0" + date.getDate()).slice(-2);
+
+
+
+      return (day + "-" + month + "-" + year);
+    }
+
+
+    secondPart(date){
+      var hours = ("0" + date.getHours()).slice(-2);
+      var minutes = ("0" + date.getMinutes()).slice(-2);
+      var seconds = ("0" + date.getSeconds()).slice(-2);
+
+
+
+      return (hours+":"+minutes);
+    }
+
+
+    submit(){
+        var data = {tabla : "vehiculos", matricula: this.data.matricula};
+        this.dat.getData(data).subscribe(res => {
+          var aux = res[0];
+          this.dat.updateData({tabla:"vehiculos", _id:aux._id, gasolina:aux.gasolina, situacion:1}).subscribe(res =>{
+            console.log("ready");
+          });
+        });
+        if(confirm("¿Desea imprimir el cierre?")){
+          this.printData(this.login.value.lugar, this.firstPart(new Date(this.login.value.fecha)), this.secondPart(new Date(this.login.value.fecha)), this.login.value.gasolina);
+        }
+    }
+
+    printData(entrada, fecha, hora, gas){
+      // epson LQ 590 ESC/P 2 Ver 2.0
+      //this.printer.requestUsb();
+      //this.printer.print();
+
+      var data = {
+        entrada: entrada,
+        fecha: fecha,
+        hora: hora,
+        gas: gas
+      };
+
+
+      this.dat.printCierre(data).subscribe(res =>{
+        console.log(res);
+      });
+    }
+
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewChildren,  QueryList  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren,  QueryList, Inject  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, FormArray } from '@angular/forms';
 import { DatProviderService } from '../dat-provider.service';
@@ -6,6 +6,8 @@ import { CacheDataService } from '../cache-data.service';
 import { ThermalPrinterService } from '../thermal-printer.service';
 import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+
 
 
 
@@ -53,7 +55,7 @@ export class ProlongarComponent implements OnInit {
 
   diasPrint: number;
 
-  constructor(private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
+  constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private cache : CacheDataService, private data: DatProviderService, private printer: ThermalPrinterService) {
     window.addEventListener("message", this.receiveMessage.bind(this), false);
   }
 
@@ -512,6 +514,18 @@ export class ProlongarComponent implements OnInit {
     }
   }
 
+  cerrar(): void {
+    var aux = this.login.value.matricula;
+    const dialogRef = this.dialog.open(CierreProlongar, {
+      width: '900px',
+      height: '500px',
+      data: {matricula : aux}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      //this.animal = result;
+    });
+  }
 
 
   receiveMessage(event)
@@ -537,5 +551,130 @@ export class ProlongarComponent implements OnInit {
   // event.source is popup
   // event.data is "hi there yourself!  the secret response is: rheeeeet!"
 }
+
+}
+
+
+
+@Component({
+  selector: 'cierre-prolongar',
+  templateUrl: 'cierre-prolongar.html',
+  styleUrls: ['./prolongar.component.scss']
+})
+export class CierreProlongar {
+
+  res:any;
+  login: FormGroup;
+
+
+  constructor(
+    public dialogRef: MatDialogRef<CierreProlongar>,
+    @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, private dat: DatProviderService) {
+    }
+
+    ngOnInit() {
+      this.login = this.formBuilder.group({
+            lugar:[''],
+            fecha:[''],
+            gasolina:[''],
+            operador:['']
+          });
+    }
+
+
+    searchSucursal(){
+      var sucursal = this.login.value.lugar.toUpperCase();
+
+      this.dat.searchSp({tabla : "sucursal", _id: sucursal}).subscribe(res =>{
+        var rest = res[0].name.toUpperCase();
+        this.login.patchValue({
+          lugar : rest
+        });
+      });
+    }
+
+    searchOperador(){
+
+      this.dat.searchSp({tabla : "operadores", _id: this.login.value.operador}).subscribe(res =>{
+        var rest = res[0].name.toUpperCase();
+        this.login.patchValue({ operador : rest});
+      });
+    }
+
+    formatDate(date){
+      var year = date.getFullYear();
+      var month = ("0" + (date.getMonth() + 1)).slice(-2);
+      var day = ("0" + date.getDate()).slice(-2);
+      var hours = ("0" + date.getHours()).slice(-2);
+      var minutes = ("0" + date.getMinutes()).slice(-2);
+      var seconds = ("0" + date.getSeconds()).slice(-2);
+
+
+
+      return (year + "-" + month + "-" + day +"T"+hours+":"+minutes);
+    }
+
+    ngAfterViewInit(){
+      var date = new Date();
+      var fecha = this.formatDate(date);
+      this.login.patchValue({fecha : fecha});
+    }
+
+    firstPart(date){
+      var year = date.getFullYear();
+      var month = ("0" + (date.getMonth() + 1)).slice(-2);
+      var day = ("0" + date.getDate()).slice(-2);
+
+
+
+      return (day + "-" + month + "-" + year);
+    }
+
+
+    secondPart(date){
+      var hours = ("0" + date.getHours()).slice(-2);
+      var minutes = ("0" + date.getMinutes()).slice(-2);
+      var seconds = ("0" + date.getSeconds()).slice(-2);
+
+
+
+      return (hours+":"+minutes);
+    }
+
+
+    submit(){
+        var data = {tabla : "vehiculos", matricula: this.data.matricula};
+        this.dat.getData(data).subscribe(res => {
+          var aux = res[0];
+          this.dat.updateData({tabla:"vehiculos", _id:aux._id, gasolina:aux.gasolina, situacion:1}).subscribe(res =>{
+            console.log("ready");
+          });
+        });
+        if(confirm("¿Desea imprimir el cierre?")){
+          this.printData(this.login.value.lugar, this.firstPart(new Date(this.login.value.fecha)), this.secondPart(new Date(this.login.value.fecha)), this.login.value.gasolina);
+        }
+    }
+
+    printData(entrada, fecha, hora, gas){
+      // epson LQ 590 ESC/P 2 Ver 2.0
+      //this.printer.requestUsb();
+      //this.printer.print();
+
+      var data = {
+        entrada: entrada,
+        fecha: fecha,
+        hora: hora,
+        gas: gas
+      };
+
+
+      this.dat.printCierre(data).subscribe(res =>{
+        console.log(res);
+      });
+    }
+
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
 
 }

@@ -68,11 +68,13 @@
 
 
             <!-- Bloque de botones -->
-          <button (click)=onClickAdd() class="btn btn-secondary btn-block">Añadir conductor</button>
+            <button (click)=onClickAdd() class="btn btn-secondary btn-block">Añadir conductor</button>
           <br/>
 
           <div *ngIf="delete">
                 <button type="button" class="btn btn-danger btn-block" (click)="deleteElement()">Borrar</button>
+                <br/>
+                <button type="button" class="btn btn-secondary btn-block" (click)="cerrar()">Cerrar</button>
                 <br/>
           </div>
           <div *ngIf="readyToPrint">
@@ -208,7 +210,7 @@
 
               <div class="col-sm-6">
                 <label>Número de imprenta</label>
-                <input  class="form-control" type="number" formControlName="imprt" placeholder="Número de imprenta" ngModel (keyup.enter)="keytab(21)">
+                <input #inputs  class="form-control" type="number" formControlName="imprt" placeholder="Número de imprenta" ngModel (keyup.enter)="keytab(21)">
               </div>
 
           </div>

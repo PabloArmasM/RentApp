@@ -39,6 +39,8 @@ export class VehiculosComponent implements OnInit {
   secondsCounter = interval(1000);
   takeFourNumbers = this.secondsCounter.pipe(take(100));
   counterSub : any;
+  situacion : String;
+  name : String;
 
   constructor(private formBuilder: FormBuilder, private data: DatProviderService, private cache: CacheDataService) {
     window.addEventListener("message", this.receiveMessage.bind(this), false);
@@ -109,6 +111,51 @@ export class VehiculosComponent implements OnInit {
     this.login.patchValue(this.db[index]);
   }
 
+  searchMatricula(){
+    var matricula = this.login.value.matricula.toUpperCase();
+    var data = {tabla : "vehiculos", matricula: matricula};
+
+    this.data.getData(data).subscribe(rest =>{
+
+      var res = rest[0];
+      if(res == '' || res == undefined){
+        console.log("No existe ningún vehículo para esta matrícula");
+      }else{
+        //this.datoVehiculo = res;
+        if(res.situacion == 1){
+          this.situacion = "Activo";
+        }else if(res.situacion == 0){
+          this.situacion = "Alquilado";
+        }else if(res.situacion == -1){
+          this.situacion = "En reparación";
+        }else if(res.situacion == -2){
+          this.situacion = "En venta";
+        }
+        this.login.patchValue(res);
+        if(res.situacion == 0){
+          var formData = {
+            matricula : res.matricula,
+            fecha : new Date().getTime()
+          };
+
+          this.data.searchMulta(formData).subscribe(res =>{
+            if(res.hasOwnProperty('type')){
+              this.addAlert(res);
+              //this.inputs = res;
+              return;
+            }else{
+              this.data.getData({ tabla : "clientes", _id : res.clientCode }).subscribe(rez => {
+                var info = rez[0];
+                this.name = info.nombre +" "+info.apellidos;
+              });
+              console.log(res);
+            }
+          });
+        }
+      }
+    });
+  }
+
   onClickSubmit(){
     var formData = this.login.value;
     formData.tabla = "vehiculos";
@@ -147,9 +194,9 @@ export class VehiculosComponent implements OnInit {
   showSearch(){
     if(!this.search || this.guindol.closed){
       this.search = true;
-      //this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
+      this.guindol = window.open('file://'+__dirname+'/index.html#/listaContrato');
 
-      this.guindol = window.open('http://localhost:4200/#/listaContrato');
+      //this.guindol = window.open('http://localhost:4200/#/listaContrato');
       var info = {tabla : 'vehiculos'};
       this.guindol.postMessage(info, "*");
 

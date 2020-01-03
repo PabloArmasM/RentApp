@@ -22,7 +22,19 @@ export class ListaComponent implements OnInit {
 
   allHeads: any = {
     contratos : {
-      _id:'Código', clientCode:'Código del cliente',	/*grupo,	numHotel,	bono,	precio,*/	numFactura:'Número de la factura',	/*operador,	intermediario,*/	matricula: 'Matrícula',	/*lugar,	*/	fechaSalida : "Fecha de salida", fechaEntrada:"Fecha de entrada",	/*posVehiculo,	posFinalVehiculo,*/	telefono : "Teléfono",	/*gasolina,	inputs*/
+      _id:'Num. Fac.',
+      clientCode:'Nombre del cliente',
+      	/*grupo,	numHotel,	bono,	precio,*/
+        	/*operador,	intermediario,*/
+      matricula: 'Matrícula',
+    	/*lugar,	*/
+      nan: "Nacionalidad",
+      fechaSalida : "Fecha de salida",
+      fechaEntrada:"Fecha de entrada",	/*posVehiculo,	posFinalVehiculo,*/
+      gasolina: "Deposito",
+      precio : "Total €",
+      observaciones: "observaciones",
+      observaciones2: ""
     },
     clientes :
     {
@@ -179,6 +191,13 @@ export class ListaComponent implements OnInit {
             element.situacion = "En venta";
           }
         });
+      }else if(this.search == "contratos" || this.search == "entradas"){
+        res.forEach(element =>{
+          this.dat.getData({tabla:"clientes", _id:element.clientCode}).subscribe(res=>{
+            element.clientCode = res[0].nombre + " " + res[0].apellidos;
+            element.nan = res[0].nacionalidad;
+          });
+        })
       }
       this.setTable(res);
       this.ready = true;
@@ -313,7 +332,15 @@ export class ListaComponent implements OnInit {
       var day = new Date(time.getFullYear(), time.getMonth(), time.getDate());
       //toSearch = {tabla : search, fechaSalida : day.getTime()};
       //{ $and: [{ fechaEntrada: { $gte : fecha}} , { fechaSalida: {$lte: fecha}}, { matricula: {$eq: matricula}}] }
-      toSearch = {tabla: search, query:[{fechaSalida : {$gte: this.formatDate(day, "00", "00").getTime()}}, {fechaSalida : {$lte: this.formatDate(day, "23", "59").getTime()}}]};
+      toSearch = {tabla: search, query:{$and:[{fechaSalida : {$gte: this.formatDate(day, "00", "00").getTime()}}, {fechaSalida : {$lte: this.formatDate(day, "23", "59").getTime()}}]}};
+
+      this.chargeData(toSearch);
+    }else if(search === "entradas"){
+      var time = new Date();
+      var day = new Date(time.getFullYear(), time.getMonth(), time.getDate());
+      //toSearch = {tabla : search, fechaSalida : day.getTime()};
+      //{ $and: [{ fechaEntrada: { $gte : fecha}} , { fechaSalida: {$lte: fecha}}, { matricula: {$eq: matricula}}] }
+      toSearch = {tabla: "contratos", query:{$and:[{fechaEntrada : {$gte: this.formatDate(day, "00", "00").getTime()}}, {fechaEntrada : {$lte: this.formatDate(day, "23", "59").getTime()}}]}};
 
       this.chargeData(toSearch);
     }else{

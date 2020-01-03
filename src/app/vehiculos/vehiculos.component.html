@@ -7,8 +7,9 @@
   <p *ngIf="activate">
     <ngb-alert [type]="message.type" (close)="close(alert)">{{ message.message }}</ngb-alert>
   </p>
-
-    <div class="row">
+  <div class="row">
+    <div class="col">
+      <div class="row">
         <div class="col-md-10 mx-auto">
 
           <!--BLOQUE DE BUSQUEDA-->
@@ -74,7 +75,7 @@
 
               <div class="col-sm-6">
                 <label>Matrícula</label>
-              <input #inputs class="form-control" type="text" formControlName="matricula" placeholder="Matrícula" (keyup.enter)="keytab(2)" ngModel>
+              <input #inputs class="form-control" type="text" formControlName="matricula" placeholder="Matrícula" (keyup.enter)="keytab(2)" (change)="searchMatricula()" ngModel>
               </div>
 
               <div class="col-sm-6">
@@ -141,7 +142,18 @@
           <!-- FIN Botones Guardar - limpar-->
 
       </div>
-</div>
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <div>
+
+          Situacion: {{situacion}}
+      </div>
+      <div>
+          Cliente: {{name}}
+      </div>
+    </div>
+ </div>
 
 <div *ngIf="recibe">
   <div *ngFor="let inputs of db; let i = index" class="list-group list-group-flush">

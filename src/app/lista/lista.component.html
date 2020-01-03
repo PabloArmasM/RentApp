@@ -14,6 +14,7 @@
       <div class="col" (click)="activate('operadores')">
         Operadores
       </div>
+
       <div class="w-100">  </div>
 
       <div class="col" (click)="activate('contratos')">
@@ -22,6 +23,10 @@
 
       <div class="col" (click)="activate('reservas')">
         Reservas
+      </div>
+
+      <div class="col" (click)="activate('entradas')">
+        Entradas
       </div>
 
       <div class="col" (click)="activate('vehiculos')">
@@ -233,7 +238,7 @@
         <th class="header" mat-header-cell *matHeaderCellDef> {{col.value}} </th>
         <td mat-cell *matCellDef="let element; let i = index" (click)="caca(i)">
           <span *ngIf="col.key == 'fecha' || col.key == 'fechaReserva' || col.key == 'fechaSalida' || col.key == 'fechaEntrada'">
-            {{element[col.key]  | date:'dd/MM/yyyy'}}
+            {{element[col.key]  | date:'dd/MM/yyyy hh:mm'}}
           </span>
           <span *ngIf="col.key != 'fecha' && col.key != 'fechaReserva' && col.key != 'fechaSalida' && col.key != 'fechaEntrada'">
             {{element[col.key]}}

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CacheDataService } from './cache-data.service';
+
 
 
 
@@ -99,6 +101,11 @@ export class DatProviderService {
       return this.http.post<any>(this.printUri+":8001",JSON.stringify(this.capitalizar(data)), httpOptions);
     }
 
+    printCierre(data){
+      debugger;
+      return this.http.post<any>(this.printUri+":8003",JSON.stringify(this.capitalizar(data)), httpOptions);
+    }
+
     printReservas(data){
       return this.http.post<any>(this.printUri+":8002", JSON.stringify(data), httpOptions);
     }
@@ -109,5 +116,22 @@ export class DatProviderService {
 
     searchSp(data){
       return this.http.post<any>(this.uri+'/searchString/', JSON.stringify(this.capitalizar(data)), httpOptions);
+    }
+
+    submit(formData, message){
+      if(!("_id" in formData) || formData._id == '' || formData._id == undefined){
+        console.log("Se supone que esta vacio");
+        this.addData(formData).subscribe(res =>{
+          //console.log(res._id);
+          CacheDataService.setClientId(res._id);
+          message.addAlert(res.message);
+        });
+      }else{
+        console.log(formData);
+        this.updateData(formData).subscribe(res =>{
+          CacheDataService.setClientId(res._id);
+          message.addAlert(res.message);
+        });
+      }
     }
 }
